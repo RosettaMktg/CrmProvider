@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
+using System.Web.Configuration;
+using System.Collections.Specialized;
 
 public class CRMMembershipProvider : MembershipProvider
 {
@@ -11,11 +14,11 @@ public class CRMMembershipProvider : MembershipProvider
     {
         get
         {
-            throw new NotImplementedException();
+            return _ApplicationName;
         }
         set
         {
-            throw new NotImplementedException();
+            _ApplicationName = value;
         }
     }
 
@@ -26,7 +29,7 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
     {
-        throw new NotImplementedException();
+        return false;
     }
 
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
@@ -41,12 +44,12 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override bool EnablePasswordReset
     {
-        get { throw new NotImplementedException(); }
+        get { return _EnablePasswordReset; }
     }
 
     public override bool EnablePasswordRetrieval
     {
-        get { throw new NotImplementedException(); }
+        get { return _EnablePasswordRetrieval; }
     }
 
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
@@ -91,42 +94,41 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override int MaxInvalidPasswordAttempts
     {
-        get { throw new NotImplementedException(); }
+        get { return _MaxInvalidPasswordAttempts; }
     }
 
     public override int MinRequiredNonAlphanumericCharacters
     {
-        get { throw new NotImplementedException(); }
+        get { return _MinRequiredNonalphanumericCharacters; }
     }
-
     public override int MinRequiredPasswordLength
     {
-        get { throw new NotImplementedException(); }
+        get { return _MinRequiredPasswordLength; } 
     }
 
     public override int PasswordAttemptWindow
     {
-        get { throw new NotImplementedException(); }
+        get { return _PasswordAttemptWindow; }
     }
 
     public override MembershipPasswordFormat PasswordFormat
     {
-        get { throw new NotImplementedException(); }
+        get { return _PasswordFormat; }
     }
 
     public override string PasswordStrengthRegularExpression
     {
-        get { throw new NotImplementedException(); }
+        get { return _PasswordStrengthRegularExpression; }
     }
 
     public override bool RequiresQuestionAndAnswer
     {
-        get { throw new NotImplementedException(); }
+        get { return _RequiresQuestionAndAnswer; }
     }
 
     public override bool RequiresUniqueEmail
     {
-        get { throw new NotImplementedException(); }
+        get { return _RequireUniqueEmail; }
     }
 
     public override string ResetPassword(string username, string answer)
@@ -147,5 +149,57 @@ public class CRMMembershipProvider : MembershipProvider
     public override bool ValidateUser(string username, string password)
     {
         throw new NotImplementedException();
+    }
+    /*Start of Initialize method*/
+    private string GetConfigValue(string configValue, string defaultValue)
+    {
+        if (string.IsNullOrEmpty(configValue))
+            return defaultValue;
+        return configValue;
+    }
+    private string _ApplicationName;
+    private bool _EnablePasswordReset;
+    private bool _EnablePasswordRetrieval = false;
+    private bool _RequiresQuestionAndAnswer = false;
+    private bool _RequireUniqueEmail = true;
+    private int _MaxInvalidPasswordAttempts;
+    private int _PasswordAttemptWindow;
+    private int _MinRequiredPasswordLength;
+    private int _MinRequiredNonalphanumericCharacters;
+    private string _PasswordStrengthRegularExpression;
+    private MembershipPasswordFormat _PasswordFormat = MembershipPasswordFormat.Hashed;
+
+
+    public override void Initialize(string name, NameValueCollection config)
+    {
+        if (config == null)
+            throw new ArgumentNullException("config");
+
+        if (name == null || name.Length == 0)
+            name = "CustomMembershipProvider";
+
+        if (String.IsNullOrEmpty(config["description"]))
+        {
+            config.Remove("description");
+            config.Add("description", "Custom Membership Provider");
+        }
+
+        base.Initialize(name, config);
+
+        _ApplicationName = GetConfigValue(config["applicationName"],
+                      System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath);
+        _MaxInvalidPasswordAttempts = Convert.ToInt32(
+                      GetConfigValue(config["maxInvalidPasswordAttempts"], "5"));
+        _PasswordAttemptWindow = Convert.ToInt32(
+                      GetConfigValue(config["passwordAttemptWindow"], "10"));
+        _MinRequiredNonalphanumericCharacters = Convert.ToInt32(
+                      GetConfigValue(config["minRequiredNonalphanumericCharacters"], "1"));
+        _MinRequiredPasswordLength = Convert.ToInt32(
+                      GetConfigValue(config["minRequiredPasswordLength"], "6"));
+        _EnablePasswordReset = Convert.ToBoolean(
+                      GetConfigValue(config["enablePasswordReset"], "true"));
+        _PasswordStrengthRegularExpression = Convert.ToString(
+                       GetConfigValue(config["passwordStrengthRegularExpression"], ""));
+
     }
 }
