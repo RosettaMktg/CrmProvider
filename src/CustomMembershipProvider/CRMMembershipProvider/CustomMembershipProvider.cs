@@ -6,9 +6,26 @@ using System.Web;
 using System.Web.Security;
 using System.Web.Configuration;
 using System.Collections.Specialized;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Client;
+using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Sdk.Discovery;
 
 public class CRMMembershipProvider : MembershipProvider
 {
+    private string _passwordN;
+    private string _usernameN;
+    private string _securityQuestionN;
+    private string _securityAnswerN;
+    private string _emailN;
+    private bool _onlineN;
+    private bool _lockN;
+    private DateTime _timeLockedN;
+    private int _loginAttemptsN;
+    private DateTime _firstFailedN;
+    private DateTime _lastLoginTimeN;
+    private DateTime _accountCreationN;
+
 
     public override string ApplicationName
     {
@@ -74,6 +91,33 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override string GetPassword(string username, string answer)
     {
+        /*
+        if (EnablePasswordRetrieval)
+        {
+            if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+            {
+                throw new NotSupportedException("Cannot retrieve hashed passwords.");
+            }
+            else
+            {
+                //using direct from help file on Update using Entity Class
+
+                OrganizationServiceProxy _proxyService;
+                IOrganizationService _orgService;
+
+                Guid _accountId;
+
+
+                Entity account = new Entity("account");
+
+                account = 
+            }
+        }
+        else
+        {
+            throw new NotSupportedException("The current settings do not allow the password to be retrieved.");
+        }
+         */
         throw new NotImplementedException();
     }
 
@@ -169,6 +213,9 @@ public class CRMMembershipProvider : MembershipProvider
     private string _PasswordStrengthRegularExpression;
     private MembershipPasswordFormat _PasswordFormat = MembershipPasswordFormat.Hashed;
 
+    private string _ConnectionStringName;
+    private string _ConnectionString;
+
 
     public override void Initialize(string name, NameValueCollection config)
     {
@@ -200,6 +247,12 @@ public class CRMMembershipProvider : MembershipProvider
                       GetConfigValue(config["enablePasswordReset"], "true"));
         _PasswordStrengthRegularExpression = Convert.ToString(
                        GetConfigValue(config["passwordStrengthRegularExpression"], ""));
+
+        _ConnectionStringName = Convert.ToString(
+                       GetConfigValue(config["connectionStringName"], ""));
+
+        //An idea on how to use the connection string to dynamically connect our Library to the connection
+        //_ConnectionString = ConfigurationManager.ConnectionStrings[_ConnectionStringName].ConnectionString;
 
     }
 }
