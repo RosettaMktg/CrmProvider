@@ -6,6 +6,9 @@ using System.Web;
 using System.Web.Security;
 using System.Web.Configuration;
 using System.Collections.Specialized;
+using Microsoft.Xrm.Sdk;
+using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Client;
 
 public class CRMMembershipProvider : MembershipProvider
 {
@@ -32,9 +35,45 @@ public class CRMMembershipProvider : MembershipProvider
         return false;
     }
 
-    public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
+    public MembershipUser CreateUser(string username, string password, string email)
     {
-        throw new NotImplementedException();
+        Entity rosetta_useraccount = new Entity("rosett_useraccount");
+        rosetta_useraccount["rosetta_name"] = "";
+        var connection = new Microsoft.Xrm.Client.CrmConnection("Xrm");
+        var service = new Microsoft.Xrm.Client.Services.OrganizationService(connection);
+        var context = new Microsoft.Xrm.Client.CrmOrganizationServiceContext(connection);
+
+
+        ColumnSet attributes = new ColumnSet(new string[] { "name", "ownerid" });
+        
+        // Retrieve the account and its name and ownerid attributes.
+        rosetta_useraccount = _orgService.Retrieve(rosetta_useraccount.LogicalName, _accountId, attributes);
+
+        // Update the postal code attribute.
+        rosetta_useraccount["address1_postalcode"] = "98052";
+
+        // Update the account.
+        _orgService.Update(rosetta_useraccount);
+
+        using (CustomMembershipDB db = new CustomMembershipDB())
+        {
+            User user = new User();
+
+            user.UserName = username;
+            user.Email = email;
+            user.Password = password;
+            user.PasswordSalt = "1234";
+            user.CreatedDate = DateTime.Now;
+            user.IsActivated = false;
+            user.IsLockedOut = false;
+            user.LastLockedOutDate = DateTime.Now;
+            user.LastLoginDate = DateTime.Now;
+
+            db.AddToUsers(user);
+            db.SaveChanges();
+
+            return GetUser(username);
+        }
     }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
