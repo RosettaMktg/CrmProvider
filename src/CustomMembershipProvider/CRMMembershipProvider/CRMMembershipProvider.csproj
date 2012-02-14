@@ -41,6 +41,9 @@
     <Compile Include="CustomMembershipProvider.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Reference Include="microsoft.xrm.client">
+      <HintPath>..\..\..\..\..\Desktop\sdk\bin\microsoft.xrm.client.dll</HintPath>
+    </Reference>
     <Reference Include="microsoft.xrm.sdk, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>bin\Debug\microsoft.xrm.sdk.dll</HintPath>

@@ -10,9 +10,15 @@ using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Sdk.Discovery;
+using Microsoft.Xrm.Client;
+using Microsoft.Xrm.Client.Services;
 
 public class CRMMembershipProvider : MembershipProvider
 {
+    //private OrganizationServiceProxy _serviceProxy;
+    //private IOrganizationService _iService;
+    //private Guid _accountId;
+
     private string _passwordN;
     private string _usernameN;
     private string _securityQuestionN;
@@ -91,6 +97,11 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override string GetPassword(string username, string answer)
     {
+        var connection = new CrmConnection(_ConnectionString);
+        var service = new OrganizationService(connection);
+        var context = new CrmOrganizationServiceContext(connection);
+
+        //service.RetrieveEntity(
         /*
         if (EnablePasswordRetrieval)
         {
@@ -253,6 +264,7 @@ public class CRMMembershipProvider : MembershipProvider
 
         //An idea on how to use the connection string to dynamically connect our Library to the connection
         //_ConnectionString = ConfigurationManager.ConnectionStrings[_ConnectionStringName].ConnectionString;
+
 
     }
 }
