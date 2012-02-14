@@ -1,23 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Services;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Security;
 using System.Web.Configuration;
 using System.Collections.Specialized;
+
 using Microsoft.Xrm.Sdk;
-<<<<<<< HEAD
-using Microsoft.Xrm.Sdk.Query;
 using Microsoft.Xrm.Client;
-=======
-using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Sdk.Client;
 using Microsoft.Xrm.Sdk.Discovery;
->>>>>>> 7f79e2439678b66617a455a5e64737d32ffacbe5
+using Microsoft.Xrm.Client.Services;
+using Microsoft.Xrm.Sdk.Metadata;
+
 
 public class CRMMembershipProvider : MembershipProvider
 {
+    private Guid _accountId;
     private string _passwordN;
     private string _usernameN;
     private string _securityQuestionN;
@@ -25,12 +28,11 @@ public class CRMMembershipProvider : MembershipProvider
     private string _emailN;
     private bool _onlineN;
     private bool _lockN;
-    private DateTime _timeLockedN;
     private int _loginAttemptsN;
+    private DateTime _timeLockedN;
     private DateTime _firstFailedN;
     private DateTime _lastLoginTimeN;
     private DateTime _accountCreationN;
-
 
     public override string ApplicationName
     {
@@ -54,45 +56,9 @@ public class CRMMembershipProvider : MembershipProvider
         return false;
     }
 
-    public MembershipUser CreateUser(string username, string password, string email)
+    public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
     {
-        Entity rosetta_useraccount = new Entity("rosett_useraccount");
-        rosetta_useraccount["rosetta_name"] = "";
-        var connection = new Microsoft.Xrm.Client.CrmConnection("Xrm");
-        var service = new Microsoft.Xrm.Client.Services.OrganizationService(connection);
-        var context = new Microsoft.Xrm.Client.CrmOrganizationServiceContext(connection);
-
-
-        ColumnSet attributes = new ColumnSet(new string[] { "name", "ownerid" });
-        
-        // Retrieve the account and its name and ownerid attributes.
-        rosetta_useraccount = _orgService.Retrieve(rosetta_useraccount.LogicalName, _accountId, attributes);
-
-        // Update the postal code attribute.
-        rosetta_useraccount["address1_postalcode"] = "98052";
-
-        // Update the account.
-        _orgService.Update(rosetta_useraccount);
-
-        using (CustomMembershipDB db = new CustomMembershipDB())
-        {
-            User user = new User();
-
-            user.UserName = username;
-            user.Email = email;
-            user.Password = password;
-            user.PasswordSalt = "1234";
-            user.CreatedDate = DateTime.Now;
-            user.IsActivated = false;
-            user.IsLockedOut = false;
-            user.LastLockedOutDate = DateTime.Now;
-            user.LastLoginDate = DateTime.Now;
-
-            db.AddToUsers(user);
-            db.SaveChanges();
-
-            return GetUser(username);
-        }
+        throw new NotImplementedException();
     }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
@@ -255,7 +221,7 @@ public class CRMMembershipProvider : MembershipProvider
     private MembershipPasswordFormat _PasswordFormat = MembershipPasswordFormat.Hashed;
 
     private string _ConnectionStringName;
-    private string _ConnectionString;
+   // private string _ConnectionString;
 
 
     public override void Initialize(string name, NameValueCollection config)
@@ -288,9 +254,23 @@ public class CRMMembershipProvider : MembershipProvider
                       GetConfigValue(config["enablePasswordReset"], "true"));
         _PasswordStrengthRegularExpression = Convert.ToString(
                        GetConfigValue(config["passwordStrengthRegularExpression"], ""));
-
         _ConnectionStringName = Convert.ToString(
                        GetConfigValue(config["connectionStringName"], ""));
+
+        var connection = new CrmConnection(_ConnectionStringName);
+        var service = new OrganizationService(connection);
+        var context = new CrmOrganizationServiceContext(connection);
+        
+        ColumnSet attributes = new ColumnSet(new string[] { "firstname", "lastname" });
+
+        // Retrieve the account and its name and ownerid attributes.
+        Entity useraccount = new Entity();
+
+        useraccount = service.Retrieve("contact", _accountId, attributes);
+
+        string fname = useraccount.GetAttributeValue<string>("firstname");
+
+        throw new NotImplementedException(fname);
 
         //An idea on how to use the connection string to dynamically connect our Library to the connection
         //_ConnectionString = ConfigurationManager.ConnectionStrings[_ConnectionStringName].ConnectionString;
