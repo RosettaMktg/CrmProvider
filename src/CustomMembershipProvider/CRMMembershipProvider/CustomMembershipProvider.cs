@@ -120,6 +120,11 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override string GetPassword(string username, string answer)
     {
+        var connection = new CrmConnection(_ConnectionString);
+        var service = new OrganizationService(connection);
+        var context = new CrmOrganizationServiceContext(connection);
+
+        //service.RetrieveEntity(
         /*
         if (EnablePasswordRetrieval)
         {
@@ -281,6 +286,7 @@ public class CRMMembershipProvider : MembershipProvider
 
         //An idea on how to use the connection string to dynamically connect our Library to the connection
         //_ConnectionString = ConfigurationManager.ConnectionStrings[_ConnectionStringName].ConnectionString;
+
 
     }
 }
