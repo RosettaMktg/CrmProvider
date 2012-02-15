@@ -58,6 +58,29 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
     {
+        var connection = new CrmConnection(_ConnectionStringName);
+        var service = new OrganizationService(connection);
+        var context = new CrmOrganizationServiceContext(connection);
+
+        QueryExpression qe = new QueryExpression();
+        qe.EntityName = "account";
+        qe.ColumnSet = new ColumnSet();
+        qe.ColumnSet.Columns.Add("name");
+
+        qe.LinkEntities.Add(new LinkEntity("account", "contact", "primarycontactid", "contactid", JoinOperator.Inner));
+        qe.LinkEntities[0].Columns.AddColumns("firstname", "lastname");
+        qe.LinkEntities[0].EntityAlias = "primarycontact";
+
+        EntityCollection ec = service.RetrieveMultiple(qe);
+
+        Console.WriteLine("Retrieved {0} entities", ec.Entities.Count);
+        foreach (Entity act in ec.Entities)
+        {
+            Console.WriteLine("account name:" + act["name"]);
+            Console.WriteLine("primary contact first name:" + act["primarycontact.firstname"]);
+            Console.WriteLine("primary contact last name:" + act["primarycontact.lastname"]);
+        }
+
         throw new NotImplementedException();
     }
 
@@ -256,21 +279,6 @@ public class CRMMembershipProvider : MembershipProvider
                        GetConfigValue(config["passwordStrengthRegularExpression"], ""));
         _ConnectionStringName = Convert.ToString(
                        GetConfigValue(config["connectionStringName"], ""));
-
-        var connection = new CrmConnection(_ConnectionStringName);
-        var service = new OrganizationService(connection);
-        var context = new CrmOrganizationServiceContext(connection);
-        
-        ColumnSet attributes = new ColumnSet(new string[] { "firstname", "lastname" });
-
-        // Retrieve the account and its name and ownerid attributes.
-        Entity useraccount = new Entity();
-
-        useraccount = service.Retrieve("contact", _accountId, attributes);
-
-        string fname = useraccount.GetAttributeValue<string>("firstname");
-
-        throw new NotImplementedException(fname);
 
         //An idea on how to use the connection string to dynamically connect our Library to the connection
         //_ConnectionString = ConfigurationManager.ConnectionStrings[_ConnectionStringName].ConnectionString;
