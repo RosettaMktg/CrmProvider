@@ -1,24 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.Services;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 using System.Web.Security;
 using System.Web.Configuration;
 using System.Collections.Specialized;
+
 using Microsoft.Xrm.Sdk;
-using Microsoft.Xrm.Sdk.Client;
-using Microsoft.Xrm.Sdk.Query;
-using Microsoft.Xrm.Sdk.Discovery;
 using Microsoft.Xrm.Client;
+using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Sdk.Client;
+using Microsoft.Xrm.Sdk.Discovery;
 using Microsoft.Xrm.Client.Services;
+using Microsoft.Xrm.Sdk.Metadata;
+
 
 public class CRMMembershipProvider : MembershipProvider
 {
-    //private OrganizationServiceProxy _serviceProxy;
-    //private IOrganizationService _iService;
-    //private Guid _accountId;
-
+    private Guid _accountId;
     private string _passwordN;
     private string _usernameN;
     private string _securityQuestionN;
@@ -26,12 +28,11 @@ public class CRMMembershipProvider : MembershipProvider
     private string _emailN;
     private bool _onlineN;
     private bool _lockN;
-    private DateTime _timeLockedN;
     private int _loginAttemptsN;
+    private DateTime _timeLockedN;
     private DateTime _firstFailedN;
     private DateTime _lastLoginTimeN;
     private DateTime _accountCreationN;
-
 
     public override string ApplicationName
     {
@@ -57,6 +58,29 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
     {
+        var connection = new CrmConnection(_ConnectionStringName);
+        var service = new OrganizationService(connection);
+        var context = new CrmOrganizationServiceContext(connection);
+
+        QueryExpression qe = new QueryExpression();
+        qe.EntityName = "account";
+        qe.ColumnSet = new ColumnSet();
+        qe.ColumnSet.Columns.Add("name");
+
+        qe.LinkEntities.Add(new LinkEntity("account", "contact", "primarycontactid", "contactid", JoinOperator.Inner));
+        qe.LinkEntities[0].Columns.AddColumns("firstname", "lastname");
+        qe.LinkEntities[0].EntityAlias = "primarycontact";
+
+        EntityCollection ec = service.RetrieveMultiple(qe);
+
+        Console.WriteLine("Retrieved {0} entities", ec.Entities.Count);
+        foreach (Entity act in ec.Entities)
+        {
+            Console.WriteLine("account name:" + act["name"]);
+            Console.WriteLine("primary contact first name:" + act["primarycontact.firstname"]);
+            Console.WriteLine("primary contact last name:" + act["primarycontact.lastname"]);
+        }
+
         throw new NotImplementedException();
     }
 
@@ -225,7 +249,7 @@ public class CRMMembershipProvider : MembershipProvider
     private MembershipPasswordFormat _PasswordFormat = MembershipPasswordFormat.Hashed;
 
     private string _ConnectionStringName;
-    private string _ConnectionString;
+   // private string _ConnectionString;
 
 
     public override void Initialize(string name, NameValueCollection config)
@@ -258,7 +282,6 @@ public class CRMMembershipProvider : MembershipProvider
                       GetConfigValue(config["enablePasswordReset"], "true"));
         _PasswordStrengthRegularExpression = Convert.ToString(
                        GetConfigValue(config["passwordStrengthRegularExpression"], ""));
-
         _ConnectionStringName = Convert.ToString(
                        GetConfigValue(config["connectionStringName"], ""));
 
