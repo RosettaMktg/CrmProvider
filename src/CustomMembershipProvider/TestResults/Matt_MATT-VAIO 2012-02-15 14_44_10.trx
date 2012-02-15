@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="c4682889-0031-47d7-a61a-ec77479a993c" name="Matt@MATT-VAIO 2012-02-15 14:44:10" runUser="Matt-VAIO\Matt" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Default Test Settings" id="6fbac0ef-3317-4668-a5e1-9cdc3366a9a7">
+    <Deployment runDeploymentRoot="Matt_MATT-VAIO 2012-02-15 14_44_10">
+      <DeploymentItem filename="C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\CRMMembershipProvider.dll" />
+      <DeploymentItem filename="C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\bin\CustomMembershipProvider.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-02-15T14:44:10.1156857-05:00" queuing="2012-02-15T14:44:10.5397100-05:00" start="2012-02-15T14:44:10.6457160-05:00" finish="2012-02-15T17:29:31.8770215-05:00" />
+  <ResultSummary outcome="Error">
+    <Counters total="17" executed="9" passed="3" error="0" failed="6" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="8" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <RunInfos>
+      <RunInfo computerName="MATT-VAIO" outcome="Error" timestamp="2012-02-15T17:29:31.8530202-05:00">
+        <Text>The connection to the controller was lost.</Text>
+      </RunInfo>
+    </RunInfos>
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ChangePassword_Post_ReturnsViewIfModelStateIsInvalid" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="ead62016-4658-fa23-310b-7d888d6ad318">
+      <Execution id="9e3f433d-6d42-4a69-8a45-e26b1f681a65" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePassword_Post_ReturnsViewIfModelStateIsInvalid" />
+    </UnitTest>
+    <UnitTest name="Register_Post_ReturnsViewIfModelStateIsInvalid" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="cb9b00e4-4dea-8fcc-479e-b0c40855c2c6">
+      <Execution id="b3f09416-7ff9-46ba-931f-5ada04b8988c" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Register_Post_ReturnsViewIfModelStateIsInvalid" />
+    </UnitTest>
+    <UnitTest name="About" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="d8485814-0ff6-eb3a-a7b8-0d5b7a3052b8">
+      <Execution id="3b127b5e-2e3d-4af7-882b-07cf8fbd5100" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.HomeControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="About" />
+    </UnitTest>
+    <UnitTest name="LogOn_Get_ReturnsView" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="293df830-f478-7ce6-3e1e-9a13424d2e8e">
+      <Execution id="2eec6c2d-3a18-48c7-9d87-7feb76fd7a78" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Get_ReturnsView" />
+    </UnitTest>
+    <UnitTest name="Register_Get_ReturnsView" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="d69ff632-4965-4a16-39e8-6abe6af8017a">
+      <Execution id="23d82fb0-0ad8-47b0-a29e-00f06f1eded4" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Register_Get_ReturnsView" />
+    </UnitTest>
+    <UnitTest name="LogOff_LogsOutAndRedirects" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="54237a11-5f26-544e-2fba-6461295bae8c">
+      <Execution id="5143fad8-47d2-4fe9-baf2-4787606a2040" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOff_LogsOutAndRedirects" />
+    </UnitTest>
+    <UnitTest name="Register_Post_ReturnsViewIfRegistrationFails" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="4ad61c0c-b2ab-abd8-e132-a3768e04917d">
+      <Execution id="ee8b9a76-65d1-447e-a080-c48c6924f37c" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Register_Post_ReturnsViewIfRegistrationFails" />
+    </UnitTest>
+    <UnitTest name="LogOn_Post_ReturnsViewIfValidateUserFails" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="ebaa96b3-e2e8-23ad-8fdc-3ce70060d916">
+      <Execution id="d41ec6c1-2043-421c-85f5-b32cef902977" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Post_ReturnsViewIfValidateUserFails" />
+    </UnitTest>
+    <UnitTest name="LogOn_Post_ReturnsRedirectOnSuccess_WithReturnUrl" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="3fa2a8c3-5491-9982-3379-8b2e60a45de9">
+      <Execution id="64eb75b3-a535-414f-803c-788f811edbb4" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Post_ReturnsRedirectOnSuccess_WithReturnUrl" />
+    </UnitTest>
+    <UnitTest name="Index" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="f7a4f6e4-c59f-b88d-3310-4dca0b83e38e">
+      <Execution id="071fae8f-684e-42ae-be3e-612eebdef6b2" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.HomeControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Index" />
+    </UnitTest>
+    <UnitTest name="ChangePassword_Post_ReturnsViewIfChangePasswordFails" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="5c83de2f-9c62-289b-f18e-54812365a857">
+      <Execution id="8faa1260-06d2-474f-a372-fd7560b01edc" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePassword_Post_ReturnsViewIfChangePasswordFails" />
+    </UnitTest>
+    <UnitTest name="LogOn_Post_ReturnsRedirectOnSuccess_WithoutReturnUrl" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="aff14354-dcb9-05de-d04b-9fc8afc77cf3">
+      <Execution id="60902698-deff-4148-abe5-d693e949c366" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Post_ReturnsRedirectOnSuccess_WithoutReturnUrl" />
+    </UnitTest>
+    <UnitTest name="ChangePassword_Post_ReturnsRedirectOnSuccess" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="1710224a-e060-e271-c3bd-05670cd644ed">
+      <Execution id="2ec1964c-0ffb-4349-ad36-fde6ad05283d" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePassword_Post_ReturnsRedirectOnSuccess" />
+    </UnitTest>
+    <UnitTest name="LogOn_Post_ReturnsViewIfModelStateIsInvalid" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="6938a69b-2d77-e799-1cf4-6bf6c9a09f5c">
+      <Execution id="b4fd0467-10f1-40f1-bfb9-501526c9267e" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Post_ReturnsViewIfModelStateIsInvalid" />
+    </UnitTest>
+    <UnitTest name="ChangePasswordSuccess_ReturnsView" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="e7654f50-a340-c44c-0462-6ac81d657d72">
+      <Execution id="f36be209-a964-4574-a04c-51059a2e31f9" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePasswordSuccess_ReturnsView" />
+    </UnitTest>
+    <UnitTest name="ChangePassword_Get_ReturnsView" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="550b9b41-f3e9-aeab-2e96-eeaa01081536">
+      <Execution id="8641089e-0a92-450a-8476-d1e0bdf82173" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePassword_Get_ReturnsView" />
+    </UnitTest>
+    <UnitTest name="Register_Post_ReturnsRedirectOnSuccess" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="5fb64f25-1491-d65a-42c2-401cae78567a">
+      <Execution id="8bbf1295-9223-419f-9ec5-3ff56a7376fc" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Register_Post_ReturnsRedirectOnSuccess" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="1710224a-e060-e271-c3bd-05670cd644ed" executionId="2ec1964c-0ffb-4349-ad36-fde6ad05283d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="293df830-f478-7ce6-3e1e-9a13424d2e8e" executionId="2eec6c2d-3a18-48c7-9d87-7feb76fd7a78" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3fa2a8c3-5491-9982-3379-8b2e60a45de9" executionId="64eb75b3-a535-414f-803c-788f811edbb4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ad61c0c-b2ab-abd8-e132-a3768e04917d" executionId="ee8b9a76-65d1-447e-a080-c48c6924f37c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54237a11-5f26-544e-2fba-6461295bae8c" executionId="5143fad8-47d2-4fe9-baf2-4787606a2040" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="550b9b41-f3e9-aeab-2e96-eeaa01081536" executionId="8641089e-0a92-450a-8476-d1e0bdf82173" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5c83de2f-9c62-289b-f18e-54812365a857" executionId="8faa1260-06d2-474f-a372-fd7560b01edc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5fb64f25-1491-d65a-42c2-401cae78567a" executionId="8bbf1295-9223-419f-9ec5-3ff56a7376fc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6938a69b-2d77-e799-1cf4-6bf6c9a09f5c" executionId="b4fd0467-10f1-40f1-bfb9-501526c9267e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aff14354-dcb9-05de-d04b-9fc8afc77cf3" executionId="60902698-deff-4148-abe5-d693e949c366" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cb9b00e4-4dea-8fcc-479e-b0c40855c2c6" executionId="b3f09416-7ff9-46ba-931f-5ada04b8988c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d69ff632-4965-4a16-39e8-6abe6af8017a" executionId="23d82fb0-0ad8-47b0-a29e-00f06f1eded4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d8485814-0ff6-eb3a-a7b8-0d5b7a3052b8" executionId="3b127b5e-2e3d-4af7-882b-07cf8fbd5100" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e7654f50-a340-c44c-0462-6ac81d657d72" executionId="f36be209-a964-4574-a04c-51059a2e31f9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ead62016-4658-fa23-310b-7d888d6ad318" executionId="9e3f433d-6d42-4a69-8a45-e26b1f681a65" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ebaa96b3-e2e8-23ad-8fdc-3ce70060d916" executionId="d41ec6c1-2043-421c-85f5-b32cef902977" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7a4f6e4-c59f-b88d-3310-4dca0b83e38e" executionId="071fae8f-684e-42ae-be3e-612eebdef6b2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="2ec1964c-0ffb-4349-ad36-fde6ad05283d" testId="1710224a-e060-e271-c3bd-05670cd644ed" testName="ChangePassword_Post_ReturnsRedirectOnSuccess" computerName="MATT-VAIO" duration="00:00:45.5017339" startTime="2012-02-15T14:44:10.6567167-05:00" endTime="2012-02-15T14:44:56.7023503-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ec1964c-0ffb-4349-ad36-fde6ad05283d">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method CustomMembershipProvider.Tests.Controllers.AccountControllerTest.ChangePassword_Post_ReturnsRedirectOnSuccess threw exception: 
+System.Web.HttpException: Unable to connect to SQL Server database. ---&gt; System.Data.SqlClient.SqlException: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Shared Memory Provider, error: 40 - Could not open a connection to SQL Server)</Message>
+          <StackTrace>    at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, Boolean encrypt, Boolean trustServerCert, Boolean integratedSecurity)
+   at System.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, SqlConnection owningObject)
+   at System.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, Boolean redirectedUserInstance, SqlConnection owningObject, SqlConnectionString connectionOptions, TimeoutTimer timeout)
+   at System.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(SqlConnection owningObject, TimeoutTimer timeout, SqlConnectionString connectionOptions, String newPassword, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, Object providerInfo, String newPassword, SqlConnection owningObject, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup)
+   at System.Data.ProviderBase.DbConnectionFactory.GetConnection(DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionClosed.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Web.Management.SqlServices.GetSqlConnection(String server, String user, String password, Boolean trusted, String connectionString)
+ --- End of inner exception stack trace ---
+    at System.Web.Management.SqlServices.GetSqlConnection(String server, String user, String password, Boolean trusted, String connectionString)
+   at System.Web.Management.SqlServices.SetupApplicationServices(String server, String user, String password, Boolean trusted, String connectionString, String database, String dbFileName, SqlFeatures features, Boolean install)
+   at System.Web.Management.SqlServices.Install(String database, String dbFileName, String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.CreateMdfFile(String fullFileName, String dataDir, String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.EnsureSqlExpressDBFile(String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.GetConnection(String connectionString, Boolean revertImpersonation)
+   at System.Web.Security.SqlMembershipProvider.GetUser(String username, Boolean userIsOnline)
+   at CustomMembershipProvider.Models.AccountMembershipService.ChangePassword(String userName, String oldPassword, String newPassword) in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\Models\AccountModels.cs:line 141
+   at CustomMembershipProvider.Controllers.AccountController.ChangePassword(ChangePasswordModel model) in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\Controllers\AccountController.cs:line 128
+   at CustomMembershipProvider.Tests.Controllers.AccountControllerTest.ChangePassword_Post_ReturnsRedirectOnSuccess() in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\Controllers\AccountControllerTest.cs:line 46
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2eec6c2d-3a18-48c7-9d87-7feb76fd7a78" testId="293df830-f478-7ce6-3e1e-9a13424d2e8e" testName="LogOn_Get_ReturnsView" computerName="MATT-VAIO" duration="00:00:00.0057421" startTime="2012-02-15T14:44:56.7043504-05:00" endTime="2012-02-15T14:44:56.7243516-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2eec6c2d-3a18-48c7-9d87-7feb76fd7a78">
+    </UnitTestResult>
+    <UnitTestResult executionId="64eb75b3-a535-414f-803c-788f811edbb4" testId="3fa2a8c3-5491-9982-3379-8b2e60a45de9" testName="LogOn_Post_ReturnsRedirectOnSuccess_WithReturnUrl" computerName="MATT-VAIO" duration="00:00:44.6525729" startTime="2012-02-15T14:44:56.7283518-05:00" endTime="2012-02-15T14:45:41.3939065-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="64eb75b3-a535-414f-803c-788f811edbb4">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method CustomMembershipProvider.Tests.Controllers.AccountControllerTest.LogOn_Post_ReturnsRedirectOnSuccess_WithReturnUrl threw exception: 
+System.Web.HttpException: Unable to connect to SQL Server database. ---&gt; System.Data.SqlClient.SqlException: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Shared Memory Provider, error: 40 - Could not open a connection to SQL Server)</Message>
+          <StackTrace>    at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, Boolean encrypt, Boolean trustServerCert, Boolean integratedSecurity)
+   at System.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, SqlConnection owningObject)
+   at System.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, Boolean redirectedUserInstance, SqlConnection owningObject, SqlConnectionString connectionOptions, TimeoutTimer timeout)
+   at System.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(SqlConnection owningObject, TimeoutTimer timeout, SqlConnectionString connectionOptions, String newPassword, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, Object providerInfo, String newPassword, SqlConnection owningObject, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup)
+   at System.Data.ProviderBase.DbConnectionFactory.GetConnection(DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionClosed.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Web.Management.SqlServices.GetSqlConnection(String server, String user, String password, Boolean trusted, String connectionString)
+ --- End of inner exception stack trace ---
+    at System.Web.Management.SqlServices.GetSqlConnection(String server, String user, String password, Boolean trusted, String connectionString)
+   at System.Web.Management.SqlServices.SetupApplicationServices(String server, String user, String password, Boolean trusted, String connectionString, String database, String dbFileName, SqlFeatures features, Boolean install)
+   at System.Web.Management.SqlServices.Install(String database, String dbFileName, String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.CreateMdfFile(String fullFileName, String dataDir, String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.EnsureSqlExpressDBFile(String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.GetConnection(String connectionString, Boolean revertImpersonation)
+   at System.Web.Security.SqlMembershipProvider.GetPasswordWithFormat(String username, Boolean updateLastLoginActivityDate, Int32&amp; status, String&amp; password, Int32&amp; passwordFormat, String&amp; passwordSalt, Int32&amp; failedPasswordAttemptCount, Int32&amp; failedPasswordAnswerAttemptCount, Boolean&amp; isApproved, DateTime&amp; lastLoginDate, DateTime&amp; lastActivityDate)
+   at System.Web.Security.SqlMembershipProvider.CheckPassword(String username, String password, Boolean updateLastLoginActivityDate, Boolean failIfNotApproved, String&amp; salt, Int32&amp; passwordFormat)
+   at System.Web.Security.SqlMembershipProvider.ValidateUser(String username, String password)
+   at CustomMembershipProvider.Models.AccountMembershipService.ValidateUser(String userName, String password) in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\Models\AccountModels.cs:line 117
+   at CustomMembershipProvider.Controllers.AccountController.LogOn(LogOnModel model, String returnUrl) in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\Controllers\AccountController.cs:line 44
+   at CustomMembershipProvider.Tests.Controllers.AccountControllerTest.LogOn_Post_ReturnsRedirectOnSuccess_WithReturnUrl() in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\Controllers\AccountControllerTest.cs:line 179
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ee8b9a76-65d1-447e-a080-c48c6924f37c" testId="4ad61c0c-b2ab-abd8-e132-a3768e04917d" testName="Register_Post_ReturnsViewIfRegistrationFails" computerName="MATT-VAIO" duration="00:00:00.0135358" startTime="2012-02-15T14:45:41.4099075-05:00" endTime="2012-02-15T14:45:41.4319087-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ee8b9a76-65d1-447e-a080-c48c6924f37c">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual failed. Expected:&lt;Username already exists. Please enter a different user name.&gt;. Actual:&lt;The password retrieval answer provided is invalid. Please check the value and try again.&gt;. </Message>
+          <StackTrace>   at CustomMembershipProvider.Tests.Controllers.AccountControllerTest.Register_Post_ReturnsViewIfRegistrationFails() in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\Controllers\AccountControllerTest.cs:line 289
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5143fad8-47d2-4fe9-baf2-4787606a2040" testId="54237a11-5f26-544e-2fba-6461295bae8c" testName="LogOff_LogsOutAndRedirects" computerName="MATT-VAIO" duration="00:00:00.0040465" startTime="2012-02-15T14:45:41.4439094-05:00" endTime="2012-02-15T14:45:41.4619104-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5143fad8-47d2-4fe9-baf2-4787606a2040">
+    </UnitTestResult>
+    <UnitTestResult executionId="8641089e-0a92-450a-8476-d1e0bdf82173" testId="550b9b41-f3e9-aeab-2e96-eeaa01081536" testName="ChangePassword_Get_ReturnsView" computerName="MATT-VAIO" duration="00:00:00.0039712" startTime="2012-02-15T14:45:41.4749112-05:00" endTime="2012-02-15T14:45:41.4979125-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8641089e-0a92-450a-8476-d1e0bdf82173">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual failed. Expected:&lt;10&gt;. Actual:&lt;7&gt;. </Message>
+          <StackTrace>   at CustomMembershipProvider.Tests.Controllers.AccountControllerTest.ChangePassword_Get_ReturnsView() in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\Controllers\AccountControllerTest.cs:line 30
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8faa1260-06d2-474f-a372-fd7560b01edc" testId="5c83de2f-9c62-289b-f18e-54812365a857" testName="ChangePassword_Post_ReturnsViewIfChangePasswordFails" computerName="MATT-VAIO" duration="00:00:44.6487871" startTime="2012-02-15T14:45:41.5139134-05:00" endTime="2012-02-15T14:46:26.1824683-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8faa1260-06d2-474f-a372-fd7560b01edc">
+      <Output>
+        <ErrorInfo>
+          <Message>Test method CustomMembershipProvider.Tests.Controllers.AccountControllerTest.ChangePassword_Post_ReturnsViewIfChangePasswordFails threw exception: 
+System.Web.HttpException: Unable to connect to SQL Server database. ---&gt; System.Data.SqlClient.SqlException: A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Shared Memory Provider, error: 40 - Could not open a connection to SQL Server)</Message>
+          <StackTrace>    at System.Data.SqlClient.SqlInternalConnection.OnError(SqlException exception, Boolean breakConnection)
+   at System.Data.SqlClient.TdsParser.ThrowExceptionAndWarning()
+   at System.Data.SqlClient.TdsParser.Connect(ServerInfo serverInfo, SqlInternalConnectionTds connHandler, Boolean ignoreSniOpenTimeout, Int64 timerExpire, Boolean encrypt, Boolean trustServerCert, Boolean integratedSecurity)
+   at System.Data.SqlClient.SqlInternalConnectionTds.AttemptOneLogin(ServerInfo serverInfo, String newPassword, Boolean ignoreSniOpenTimeout, TimeoutTimer timeout, SqlConnection owningObject)
+   at System.Data.SqlClient.SqlInternalConnectionTds.LoginNoFailover(ServerInfo serverInfo, String newPassword, Boolean redirectedUserInstance, SqlConnection owningObject, SqlConnectionString connectionOptions, TimeoutTimer timeout)
+   at System.Data.SqlClient.SqlInternalConnectionTds.OpenLoginEnlist(SqlConnection owningObject, TimeoutTimer timeout, SqlConnectionString connectionOptions, String newPassword, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlInternalConnectionTds..ctor(DbConnectionPoolIdentity identity, SqlConnectionString connectionOptions, Object providerInfo, String newPassword, SqlConnection owningObject, Boolean redirectedUserInstance)
+   at System.Data.SqlClient.SqlConnectionFactory.CreateConnection(DbConnectionOptions options, Object poolGroupProviderInfo, DbConnectionPool pool, DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionFactory.CreateNonPooledConnection(DbConnection owningConnection, DbConnectionPoolGroup poolGroup)
+   at System.Data.ProviderBase.DbConnectionFactory.GetConnection(DbConnection owningConnection)
+   at System.Data.ProviderBase.DbConnectionClosed.OpenConnection(DbConnection outerConnection, DbConnectionFactory connectionFactory)
+   at System.Data.SqlClient.SqlConnection.Open()
+   at System.Web.Management.SqlServices.GetSqlConnection(String server, String user, String password, Boolean trusted, String connectionString)
+ --- End of inner exception stack trace ---
+    at System.Web.Management.SqlServices.GetSqlConnection(String server, String user, String password, Boolean trusted, String connectionString)
+   at System.Web.Management.SqlServices.SetupApplicationServices(String server, String user, String password, Boolean trusted, String connectionString, String database, String dbFileName, SqlFeatures features, Boolean install)
+   at System.Web.Management.SqlServices.Install(String database, String dbFileName, String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.CreateMdfFile(String fullFileName, String dataDir, String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.EnsureSqlExpressDBFile(String connectionString)
+   at System.Web.DataAccess.SqlConnectionHelper.GetConnection(String connectionString, Boolean revertImpersonation)
+   at System.Web.Security.SqlMembershipProvider.GetUser(String username, Boolean userIsOnline)
+   at CustomMembershipProvider.Models.AccountMembershipService.ChangePassword(String userName, String oldPassword, String newPassword) in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\Models\AccountModels.cs:line 141
+   at CustomMembershipProvider.Controllers.AccountController.ChangePassword(ChangePasswordModel model) in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\Controllers\AccountController.cs:line 128
+   at CustomMembershipProvider.Tests.Controllers.AccountControllerTest.ChangePassword_Post_ReturnsViewIfChangePasswordFails() in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\Controllers\AccountControllerTest.cs:line 67
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="8bbf1295-9223-419f-9ec5-3ff56a7376fc" testId="5fb64f25-1491-d65a-42c2-401cae78567a" testName="Register_Post_ReturnsRedirectOnSuccess" computerName="MATT-VAIO" duration="00:00:00.0025207" startTime="2012-02-15T14:46:26.1974692-05:00" endTime="2012-02-15T14:46:26.2064697-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8bbf1295-9223-419f-9ec5-3ff56a7376fc">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsInstanceOfType failed.  Expected type:&lt;System.Web.Mvc.RedirectToRouteResult&gt;. Actual type:&lt;System.Web.Mvc.ViewResult&gt;.</Message>
+          <StackTrace>   at CustomMembershipProvider.Tests.Controllers.AccountControllerTest.Register_Post_ReturnsRedirectOnSuccess() in C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\Controllers\AccountControllerTest.cs:line 263
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b4fd0467-10f1-40f1-bfb9-501526c9267e" testId="6938a69b-2d77-e799-1cf4-6bf6c9a09f5c" testName="LogOn_Post_ReturnsViewIfModelStateIsInvalid" computerName="MATT-VAIO" duration="00:00:00.0007513" startTime="2012-02-15T14:46:26.2134701-05:00" endTime="2012-02-15T14:46:26.2244707-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b4fd0467-10f1-40f1-bfb9-501526c9267e">
+    </UnitTestResult>
+    <UnitTestResult executionId="60902698-deff-4148-abe5-d693e949c366" testId="aff14354-dcb9-05de-d04b-9fc8afc77cf3" testName="LogOn_Post_ReturnsRedirectOnSuccess_WithoutReturnUrl" computerName="MATT-VAIO" startTime="2012-02-15T14:46:26.2304710-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="60902698-deff-4148-abe5-d693e949c366">
+    </UnitTestResult>
+    <UnitTestResult executionId="b3f09416-7ff9-46ba-931f-5ada04b8988c" testId="cb9b00e4-4dea-8fcc-479e-b0c40855c2c6" testName="Register_Post_ReturnsViewIfModelStateIsInvalid" computerName="MATT-VAIO" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b3f09416-7ff9-46ba-931f-5ada04b8988c">
+    </UnitTestResult>
+    <UnitTestResult executionId="23d82fb0-0ad8-47b0-a29e-00f06f1eded4" testId="d69ff632-4965-4a16-39e8-6abe6af8017a" testName="Register_Get_ReturnsView" computerName="MATT-VAIO" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23d82fb0-0ad8-47b0-a29e-00f06f1eded4">
+    </UnitTestResult>
+    <UnitTestResult executionId="3b127b5e-2e3d-4af7-882b-07cf8fbd5100" testId="d8485814-0ff6-eb3a-a7b8-0d5b7a3052b8" testName="About" computerName="MATT-VAIO" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3b127b5e-2e3d-4af7-882b-07cf8fbd5100">
+    </UnitTestResult>
+    <UnitTestResult executionId="f36be209-a964-4574-a04c-51059a2e31f9" testId="e7654f50-a340-c44c-0462-6ac81d657d72" testName="ChangePasswordSuccess_ReturnsView" computerName="MATT-VAIO" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f36be209-a964-4574-a04c-51059a2e31f9">
+    </UnitTestResult>
+    <UnitTestResult executionId="9e3f433d-6d42-4a69-8a45-e26b1f681a65" testId="ead62016-4658-fa23-310b-7d888d6ad318" testName="ChangePassword_Post_ReturnsViewIfModelStateIsInvalid" computerName="MATT-VAIO" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9e3f433d-6d42-4a69-8a45-e26b1f681a65">
+    </UnitTestResult>
+    <UnitTestResult executionId="d41ec6c1-2043-421c-85f5-b32cef902977" testId="ebaa96b3-e2e8-23ad-8fdc-3ce70060d916" testName="LogOn_Post_ReturnsViewIfValidateUserFails" computerName="MATT-VAIO" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d41ec6c1-2043-421c-85f5-b32cef902977">
+    </UnitTestResult>
+    <UnitTestResult executionId="071fae8f-684e-42ae-be3e-612eebdef6b2" testId="f7a4f6e4-c59f-b88d-3310-4dca0b83e38e" testName="Index" computerName="MATT-VAIO" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="NotExecuted" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="071fae8f-684e-42ae-be3e-612eebdef6b2">
+    </UnitTestResult>
+  </Results>
+</TestRun>

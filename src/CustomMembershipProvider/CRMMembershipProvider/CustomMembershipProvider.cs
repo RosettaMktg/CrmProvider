@@ -60,7 +60,6 @@ public class CRMMembershipProvider : MembershipProvider
     {
         var connection = new CrmConnection(_ConnectionStringName);
         var service = new OrganizationService(connection);
-        var context = new CrmOrganizationServiceContext(connection);
 
         QueryExpression qe = new QueryExpression();
         qe.EntityName = "account";
@@ -278,7 +277,7 @@ public class CRMMembershipProvider : MembershipProvider
         _PasswordStrengthRegularExpression = Convert.ToString(
                        GetConfigValue(config["passwordStrengthRegularExpression"], ""));
         _ConnectionStringName = Convert.ToString(
-                       GetConfigValue(config["connectionStringName"], ""));
+            GetConfigValue(config["connectionStringName"], "")); //todo: default to exception
 
         //An idea on how to use the connection string to dynamically connect our Library to the connection
         //_ConnectionString = ConfigurationManager.ConnectionStrings[_ConnectionStringName].ConnectionString;
