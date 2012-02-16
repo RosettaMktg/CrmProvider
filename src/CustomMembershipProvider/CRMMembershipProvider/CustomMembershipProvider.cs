@@ -135,12 +135,30 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
-    {
+    {//JH
+
+        var service = OurConnect(); //intialize connection
+
+        ConditionExpression condition = new ConditionExpression(); //creates a new condition.
+        condition.AttributeName = "rosetta_email"; //column we want to check against
+        condition.Operator = ConditionOperator.Equal; //checking against equal values
+        condition.Values.Add(emailToMatch); //check username against rosetta_email in CRM
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.ColumnSet.AllColumns = true;
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for email
+        EntityCollection FoundRecordsByEmail = service.RetrieveMultiple(query); //retrieve all records with same email
+
+
+
+
         throw new NotImplementedException();
     }
 
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
     {
+
         throw new NotImplementedException();
     }
 
