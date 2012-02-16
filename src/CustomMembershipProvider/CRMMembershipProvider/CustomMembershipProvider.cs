@@ -33,6 +33,13 @@ public class CRMMembershipProvider : MembershipProvider
     private DateTime _firstFailedN;
     private DateTime _lastLoginTimeN;
     private DateTime _accountCreationN;
+    
+    //our connection method
+    public OrganizationService OurConnect() {
+        var connection = new CrmConnection(_ConnectionStringName);
+        var service = new OrganizationService(connection);
+        return service;
+    }
 
     public override string ApplicationName
     {
@@ -120,9 +127,9 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override string GetPassword(string username, string answer)
     {
-        var connection = new CrmConnection(_ConnectionString);
-        var service = new OrganizationService(connection);
-        var context = new CrmOrganizationServiceContext(connection);
+        //var connection = new CrmConnection(_ConnectionString);
+        //var service = new OrganizationService(connection);
+        //var context = new CrmOrganizationServiceContext(connection);
 
         //service.RetrieveEntity(
         /*
