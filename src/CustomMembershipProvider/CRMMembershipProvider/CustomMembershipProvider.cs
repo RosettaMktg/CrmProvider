@@ -65,17 +65,25 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
     {
-        var service = OurConnect();
+        var service = OurConnect(); //intialize connection
 
-        QueryExpression qe = new QueryExpression();
-        qe.EntityName = "rosetta_useraccount";
-        qe.ColumnSet = new ColumnSet();
-        qe.ColumnSet.Columns.Add("rosetta_username");
-        qe.Criteria = ;
+        ConditionExpression condition = new ConditionExpression(); //create new condition
+        condition.AttributeName = "rosetta_username"; //column we want to check against
+        condition.Operator = ConditionOperator.Equal; //checking against equal values
+        condition.Values.Add(username); //check username against rosetta_username in CRM
 
-        EntityCollection ec = service.RetrieveMultiple(qe);
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
 
-        if (ec.Entities.Count != 0)
+        //qe.EntityName = "rosetta_useraccount";
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        //query.ColumnSet.AddColumns("rosetta_username"); 
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for username
+
+        EntityCollection ec = service.RetrieveMultiple(qe); //retrieve all records with same username
+
+        if (ec.Entities.Count != 0) //if username is found, it's already taken!
         {
             throw new Exception("Found!");
         }
