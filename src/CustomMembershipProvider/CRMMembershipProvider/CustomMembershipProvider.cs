@@ -54,8 +54,33 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool ChangePassword(string username, string oldPassword, string newPassword)
-    {
-        throw new NotImplementedException();
+    {//tc
+        var service = OurConnect();
+        //find user by username
+        //create condition for query
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_username";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(username);
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AddColumn("rosetta_password");
+        q.Criteria.AddFilter(f);
+
+        EntityCollection result = service.RetrieveMultiple(q);
+        //compare oldPassword to the current pasword
+        if (oldPassword != (string)result.Entities[0]["rosetta_password"])//assuming that entities[0] is the only entity since i am only making onw with my query
+        {
+            throw new Exception("no user/pass match");
+        }
+        //if the same overwrite with new password
+        else {
+
+            return true;
+        }
     }
 
     public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
@@ -65,25 +90,17 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
     {
-        var service = OurConnect(); //intialize connection
+        var service = OurConnect();
 
-        ConditionExpression condition = new ConditionExpression(); //create new condition
-        condition.AttributeName = "rosetta_username"; //column we want to check against
-        condition.Operator = ConditionOperator.Equal; //checking against equal values
-        condition.Values.Add(username); //check username against rosetta_username in CRM
+        QueryExpression qe = new QueryExpression();
+        qe.EntityName = "rosetta_useraccount";
+        qe.ColumnSet = new ColumnSet();
+        qe.ColumnSet.Columns.Add("rosetta_username");
+        qe.Criteria = ;
 
-        FilterExpression filter = new FilterExpression(); //create new filter for the condition
-        filter.Conditions.Add(condition); //add condition to the filter
+        EntityCollection ec = service.RetrieveMultiple(qe);
 
-        //qe.EntityName = "rosetta_useraccount";
-
-        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
-        //query.ColumnSet.AddColumns("rosetta_username"); 
-        query.Criteria.AddFilter(filter); //query CRM with the new filter for username
-
-        EntityCollection ec = service.RetrieveMultiple(qe); //retrieve all records with same username
-
-        if (ec.Entities.Count != 0) //if username is found, it's already taken!
+        if (ec.Entities.Count != 0)
         {
             throw new Exception("Found!");
         }
