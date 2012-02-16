@@ -54,8 +54,33 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool ChangePassword(string username, string oldPassword, string newPassword)
-    {
-        throw new NotImplementedException();
+    {//tc
+        var service = OurConnect();
+        //find user by username
+        //create condition for query
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_username";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(username);
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AddColumn("rosetta_password");
+        q.Criteria.AddFilter(f);
+
+        EntityCollection result = service.RetrieveMultiple(q);
+        //compare oldPassword to the current pasword
+        if (oldPassword != (string)result.Entities[0]["rosetta_password"])//assuming that entities[0] is the only entity since i am only making onw with my query
+        {
+            throw new Exception("no user/pass match");
+        }
+        //if the same overwrite with new password
+        else {
+
+            return true;
+        }
     }
 
     public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
@@ -80,7 +105,7 @@ public class CRMMembershipProvider : MembershipProvider
         query.Criteria.AddFilter(filter); //query CRM with the new filter for username
         EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same username
 
-        if (ec.Entities.Count != 0) //if username is found, it's already taken!
+        if (ec.Entities.Count != 0)
         {
             throw new Exception("Found!");
         }
