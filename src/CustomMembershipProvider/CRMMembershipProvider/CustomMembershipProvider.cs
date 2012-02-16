@@ -150,10 +150,19 @@ public class CRMMembershipProvider : MembershipProvider
         query.Criteria.AddFilter(filter); //query CRM with the new filter for email
         EntityCollection FoundRecordsByEmail = service.RetrieveMultiple(query); //retrieve all records with same email
 
+        if (FoundRecordsByEmail.TotalRecordCount != 0)
+        {
+            MembershipUserCollection usersToReturn = new MembershipUserCollection();
+            //usersToReturn.
+            //return(//todo: need to figure out how to return the MembershipUserColletctions;
+        }
+        else
+        {
+            throw new NotImplementedException();
+        }
 
 
-
-        throw new NotImplementedException();
+        
     }
 
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
