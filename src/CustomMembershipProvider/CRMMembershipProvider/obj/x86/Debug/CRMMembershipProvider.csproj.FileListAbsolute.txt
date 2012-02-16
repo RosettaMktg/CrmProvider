@@ -1,0 +1,10 @@
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\CRMMembershipProvider.dll.config
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\CRMMembershipProvider.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\CRMMembershipProvider.pdb
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\microsoft.xrm.client.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\microsoft.xrm.sdk.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\microsoft.xrm.client.xml
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\microsoft.xrm.sdk.xml
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\obj\x86\Debug\CRMMembershipProvider.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\obj\x86\Debug\CRMMembershipProvider.pdb

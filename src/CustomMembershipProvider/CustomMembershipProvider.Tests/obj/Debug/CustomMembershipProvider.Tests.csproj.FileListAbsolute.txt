@@ -1,0 +1,14 @@
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.Tests.dll.config
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.Tests.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.Tests.pdb
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.pdb
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.pdb
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CRMMembershipProvider.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Client.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Sdk.dll
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CRMMembershipProvider.pdb
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Client.xml
+C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Sdk.xml
