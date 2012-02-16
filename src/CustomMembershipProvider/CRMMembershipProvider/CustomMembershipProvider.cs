@@ -65,29 +65,28 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
     {
-        var connection = new CrmConnection(_ConnectionStringName);
-        var service = new OrganizationService(connection);
+        var service = OurConnect();
 
         QueryExpression qe = new QueryExpression();
-        qe.EntityName = "account";
+        qe.EntityName = "rosetta_useraccount";
         qe.ColumnSet = new ColumnSet();
-        qe.ColumnSet.Columns.Add("name");
-
-        qe.LinkEntities.Add(new LinkEntity("account", "contact", "primarycontactid", "contactid", JoinOperator.Inner));
-        qe.LinkEntities[0].Columns.AddColumns("firstname", "lastname");
-        qe.LinkEntities[0].EntityAlias = "primarycontact";
+        qe.ColumnSet.Columns.Add("rosetta_username");
+        qe.Criteria = ;
 
         EntityCollection ec = service.RetrieveMultiple(qe);
 
-        Console.WriteLine("Retrieved {0} entities", ec.Entities.Count);
-        foreach (Entity act in ec.Entities)
+        if (ec.Entities.Count != 0)
+        {
+            throw new Exception("Found!");
+        }
+        /*foreach (Entity act in ec.Entities)
         {
             Console.WriteLine("account name:" + act["name"]);
             Console.WriteLine("primary contact first name:" + act["primarycontact.firstname"]);
             Console.WriteLine("primary contact last name:" + act["primarycontact.lastname"]);
-        }
+        }*/
 
-        throw new NotImplementedException();
+        throw new Exception("Made through function");
     }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
