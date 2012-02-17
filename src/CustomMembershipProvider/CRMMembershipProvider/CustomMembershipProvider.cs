@@ -107,7 +107,22 @@ public class CRMMembershipProvider : MembershipProvider
 
         if (ec.Entities.Count != 0)
         {
-            throw new Exception("Found!");
+            throw new Exception("Username already exists!");
+        }
+        else
+        {
+            Entity newMember = new Entity("rosetta_useraccount");
+
+            newMember["rosetta_name"] = username;
+            newMember["rosetta_username"] = username;
+            newMember["rosetta_password"] = password;
+            newMember["rosetta_email"] = email;
+            newMember["rosetta_securityquestion"] = passwordQuestion;
+            newMember["rosetta_securityanswer"] = passwordAnswer;
+
+            Guid entityID = service.Create(newMember);
+            throw new Exception("Created new member!");
+            //return GetUser(username);
         }
         /*foreach (Entity act in ec.Entities)
         {
@@ -116,7 +131,7 @@ public class CRMMembershipProvider : MembershipProvider
             Console.WriteLine("primary contact last name:" + act["primarycontact.lastname"]);
         }*/
 
-        throw new Exception("Made through function");
+        
     }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
