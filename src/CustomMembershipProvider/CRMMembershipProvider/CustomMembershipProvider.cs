@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*bcd note to guys: in order to know if the password stuff is working we need the validate user stuff to work so that we can get to the point
+ where we can go and check our user account settings. I realize we are still working on everything, but there will be no way to test the pass
+ word stuff until that basica functionality is setup*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Services;
@@ -84,8 +89,37 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
-    {
-        return false;
+    {//bcd
+        var service = OurConnect(); //intialize connection to CRM
+
+        //check for username
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_username";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(username);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AddColumn("rosetta_password");
+        query.Criteria.AddFilter(filter);
+        EntityCollection collection = service.RetrieveMultiple(query);
+
+        if (collection.Entities.Count == 0)
+        {
+            throw new Exception("User does not exist!");
+        }
+        else//I wont know if this works for sure until we can validate user and have a modification screen
+        {
+            Entity ChangeMember = new Entity("rosetta_useraccount");
+            ChangeMember["rosetta_securityquestion"] = newPasswordQuestion;
+            ChangeMember["rosetta_securityanswer"] = newPasswordAnswer;
+
+            
+            service.Update(ChangeMember);
+            throw new Exception("Successfully changed Security Question and Answer!");
+        }
     }
     //MAS
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
@@ -170,6 +204,7 @@ public class CRMMembershipProvider : MembershipProvider
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
             //usersToReturn.
             //return(//todo: need to figure out how to return the MembershipUserColletctions;
+            throw new NotImplementedException();
         }
         else
         {
