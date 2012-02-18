@@ -25,6 +25,8 @@ using Microsoft.Xrm.Sdk.Metadata;
 
 public class CRMMembershipProvider : MembershipProvider
 {
+    //the following private variables are for the dynamic names of the attribute names that are used in CRM. Currently, the attribute names
+    //are hard coded in but will be replaced with these variables to make the code more dynamic.
     private Guid _accountId;
     private string _passwordN;
     private string _usernameN;
@@ -171,6 +173,11 @@ public class CRMMembershipProvider : MembershipProvider
         
     }
 
+    protected override byte[] DecryptPassword(byte[] encodedPassword)
+    {
+        return base.DecryptPassword(encodedPassword);
+    }
+
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
     {
         throw new NotImplementedException();
@@ -184,6 +191,16 @@ public class CRMMembershipProvider : MembershipProvider
     public override bool EnablePasswordRetrieval
     {
         get { return _EnablePasswordRetrieval; }
+    }
+
+    protected override byte[] EncryptPassword(byte[] password)
+    {
+        return base.EncryptPassword(password);
+    }
+
+    protected override byte[] EncryptPassword(byte[] password, MembershipPasswordCompatibilityMode legacyPasswordCompatibilityMode)
+    {
+        return base.EncryptPassword(password, legacyPasswordCompatibilityMode);
     }
 
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)

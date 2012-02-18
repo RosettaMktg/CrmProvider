@@ -18,3 +18,11 @@ C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\microsoft.xrm.client.xml
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\microsoft.xrm.sdk.xml
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CRMMembershipProvider\obj\x86\Debug\CRMMembershipProvider.pdb
+C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\CRMMembershipProvider.dll.config
+C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\CRMMembershipProvider.dll
+C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\CRMMembershipProvider.pdb
+C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\microsoft.xrm.client.xml
+C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CRMMembershipProvider\bin\Debug\microsoft.xrm.sdk.xml
+C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CRMMembershipProvider\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CRMMembershipProvider\obj\x86\Debug\CRMMembershipProvider.dll
+C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CRMMembershipProvider\obj\x86\Debug\CRMMembershipProvider.pdb
