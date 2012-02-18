@@ -232,40 +232,58 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override string GetPassword(string username, string answer)
-    {
-        //var connection = new CrmConnection(_ConnectionString);
-        //var service = new OrganizationService(connection);
-        //var context = new CrmOrganizationServiceContext(connection);
+    {//CC
+        var service = OurConnect(); //initialize connection
 
-        //service.RetrieveEntity(
-        /*
-        if (EnablePasswordRetrieval)
+        ConditionExpression condition = new ConditionExpression(); //creates a new condition
+        condition.AttributeName = "rosetta_username"; //column to check against (trying to find username)
+        condition.Operator = ConditionOperator.Equal; //checking agasint equal values
+        condition.Values.Add(username); //check passed username value to password field in CRM
+
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to filter
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.ColumnSet.AllColumns = true;
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for username
+        EntityCollection ec = service.RetrieveMultiple(query); //retireve all records with same username
+
+        if (ec.Entities.Count == 0) //check if any entities exist
         {
-            if (_PasswordFormat == MembershipPasswordFormat.Hashed)
-            {
-                throw new NotSupportedException("Cannot retrieve hashed passwords.");
-            }
-            else
-            {
-                //using direct from help file on Update using Entity Class
-
-                OrganizationServiceProxy _proxyService;
-                IOrganizationService _orgService;
-
-                Guid _accountId;
-
-
-                Entity account = new Entity("account");
-
-                account = 
-            }
+            throw new Exception("Cannot retrieve password because user does not exist."); //no entities exist
         }
         else
         {
-            throw new NotSupportedException("The current settings do not allow the password to be retrieved.");
+            if (EnablePasswordRetrieval) //if allowed to get password
+            {
+                if (_PasswordFormat == MembershipPasswordFormat.Hashed) //checks if passwords are hashed. Cannot retrieve hashed passwords
+                {
+                    throw new NotSupportedException("Cannot retrieve hashed passwords.");
+                }
+                else
+                {
+                    if (_RequiresQuestionAndAnswer == true) //checks if the answer to the security question is needed
+                    {
+                        if (ec.Entities[0].GetAttributeValue("rosetta_securityanswer") == answer) //for now, check the value of the first entity in the collection agasint the answer passed
+                        {
+                            return (string)ec.Entities[0].GetAttributeValue("rosetta_password"); //return the password from the first entity in the collection from the query
+                        }
+                        else
+                        {
+                            throw new Exception("Incorrect Answer to the security question."); //throw an exception that the answer doesn't match
+                        }
+                    }
+                    else
+                    {
+                        return (string)ec.Entities[0].GetAttributeValue("rosetta_password"); //return the password from the first entity in the collection from the query
+                    }
+                }
+            }
+            else
+            {
+                throw new NotSupportedException("The current settings do not allow the password to be retrieved."); //throw exception that it is not supported to get password
+            }
         }
-         */
-        throw new NotImplementedException();
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
