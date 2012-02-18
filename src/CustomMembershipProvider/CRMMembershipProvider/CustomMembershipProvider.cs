@@ -75,10 +75,11 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_password");
         q.Criteria.AddFilter(f);
 
-        EntityCollection result = service.RetrieveMultiple(q);
+        EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
         //compare oldPassword to the current pasword
         if (oldPassword != (string)result.Entities[0]["rosetta_password"])//assuming that entities[0] is the only entity since i am only making onw with my query
         {
+            //return false;
             throw new Exception("no user/pass match");
         }
         //if the same overwrite with new password
@@ -108,7 +109,8 @@ public class CRMMembershipProvider : MembershipProvider
 
         if (collection.Entities.Count == 0)
         {
-            throw new Exception("User does not exist!");
+            //return false;
+            throw new Exception("User does not exist or incorrect password!");
         }
         else//I wont know if this works for sure until we can validate user and have a modification screen
         {
@@ -118,6 +120,7 @@ public class CRMMembershipProvider : MembershipProvider
 
             
             service.Update(ChangeMember);
+            //return true;
             throw new Exception("Successfully changed Security Question and Answer!");
         }
     }
@@ -233,9 +236,7 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override string GetPassword(string username, string answer)
     {
-        //var connection = new CrmConnection(_ConnectionString);
-        //var service = new OrganizationService(connection);
-        //var context = new CrmOrganizationServiceContext(connection);
+        //var service = OurConnect();
 
         //service.RetrieveEntity(
         /*
@@ -323,8 +324,16 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override string ResetPassword(string username, string answer)
-    {
-        throw new NotImplementedException();
+    {//bcd
+        var service = OurConnect();
+        if (EnablePasswordReset == false)
+        {
+            throw new Exception("Resetting of passwords is not permitted");
+        }
+        else
+        {//reset password based on assigned regular expresssion
+            throw new NotImplementedException();
+        }
     }
 
     public override bool UnlockUser(string userName)
