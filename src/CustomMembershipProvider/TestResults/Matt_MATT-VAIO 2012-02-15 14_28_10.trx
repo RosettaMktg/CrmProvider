@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<TestRun id="107a0398-f2ce-49c9-acb6-ddf16e9b71ac" name="Matt@MATT-VAIO 2012-02-15 14:28:10" runUser="Matt-VAIO\Matt" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <TestSettings name="Default Test Settings" id="1e1dc7d3-da6e-45c6-becf-36b08ea966c0">
+    <Deployment runDeploymentRoot="Matt_MATT-VAIO 2012-02-15 14_28_10">
+      <DeploymentItem filename="C:\Users\Matt\Desktop\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\bin\CustomMembershipProvider.dll" />
+    </Deployment>
+    <Execution>
+      <TestTypeSpecific />
+      <AgentRule name="Execution Agents">
+      </AgentRule>
+    </Execution>
+  </TestSettings>
+  <Times creation="2012-02-15T14:28:10.2477844-05:00" queuing="2012-02-15T14:28:12.3689057-05:00" start="2012-02-15T14:28:12.5609167-05:00" finish="2012-02-15T14:28:14.0380012-05:00" />
+  <ResultSummary outcome="Completed">
+    <Counters total="17" executed="17" passed="17" error="0" failed="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+  <TestDefinitions>
+    <UnitTest name="ChangePassword_Post_ReturnsViewIfModelStateIsInvalid" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="ead62016-4658-fa23-310b-7d888d6ad318">
+      <Execution id="fa0bc0b3-2098-41b4-bb2d-880a5efd7533" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePassword_Post_ReturnsViewIfModelStateIsInvalid" />
+    </UnitTest>
+    <UnitTest name="Register_Post_ReturnsViewIfModelStateIsInvalid" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="cb9b00e4-4dea-8fcc-479e-b0c40855c2c6">
+      <Execution id="a5257ba2-6a31-4133-b6ec-7578a764cab2" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Register_Post_ReturnsViewIfModelStateIsInvalid" />
+    </UnitTest>
+    <UnitTest name="About" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="d8485814-0ff6-eb3a-a7b8-0d5b7a3052b8">
+      <Execution id="4f9105dc-139b-4d9e-a3d9-68d5d142ef10" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.HomeControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="About" />
+    </UnitTest>
+    <UnitTest name="LogOn_Get_ReturnsView" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="293df830-f478-7ce6-3e1e-9a13424d2e8e">
+      <Execution id="b9bbd9a1-f75e-4086-a445-9dd4817b6212" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Get_ReturnsView" />
+    </UnitTest>
+    <UnitTest name="Register_Get_ReturnsView" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="d69ff632-4965-4a16-39e8-6abe6af8017a">
+      <Execution id="0b14850d-e172-4332-8478-e60bee354af1" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Register_Get_ReturnsView" />
+    </UnitTest>
+    <UnitTest name="LogOff_LogsOutAndRedirects" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="54237a11-5f26-544e-2fba-6461295bae8c">
+      <Execution id="4c750195-f157-4b2d-9ea5-574a23f020ca" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOff_LogsOutAndRedirects" />
+    </UnitTest>
+    <UnitTest name="Register_Post_ReturnsViewIfRegistrationFails" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="4ad61c0c-b2ab-abd8-e132-a3768e04917d">
+      <Execution id="661546eb-26d2-438c-b01e-337b702eb75f" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Register_Post_ReturnsViewIfRegistrationFails" />
+    </UnitTest>
+    <UnitTest name="LogOn_Post_ReturnsViewIfValidateUserFails" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="ebaa96b3-e2e8-23ad-8fdc-3ce70060d916">
+      <Execution id="a15c4e8b-730e-4711-821a-208bc401af7f" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Post_ReturnsViewIfValidateUserFails" />
+    </UnitTest>
+    <UnitTest name="LogOn_Post_ReturnsRedirectOnSuccess_WithReturnUrl" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="3fa2a8c3-5491-9982-3379-8b2e60a45de9">
+      <Execution id="6a1db796-d84b-4d6d-a220-5693ed637f53" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Post_ReturnsRedirectOnSuccess_WithReturnUrl" />
+    </UnitTest>
+    <UnitTest name="Index" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="f7a4f6e4-c59f-b88d-3310-4dca0b83e38e">
+      <Execution id="3ec2dcdc-3a13-40f8-8c00-c21909340d3c" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.HomeControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Index" />
+    </UnitTest>
+    <UnitTest name="ChangePassword_Post_ReturnsViewIfChangePasswordFails" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="5c83de2f-9c62-289b-f18e-54812365a857">
+      <Execution id="d0515a11-8f27-40c2-9678-f924749c9433" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePassword_Post_ReturnsViewIfChangePasswordFails" />
+    </UnitTest>
+    <UnitTest name="LogOn_Post_ReturnsRedirectOnSuccess_WithoutReturnUrl" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="aff14354-dcb9-05de-d04b-9fc8afc77cf3">
+      <Execution id="50612707-d2dd-4007-bb06-020c7034fb4a" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Post_ReturnsRedirectOnSuccess_WithoutReturnUrl" />
+    </UnitTest>
+    <UnitTest name="ChangePassword_Post_ReturnsRedirectOnSuccess" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="1710224a-e060-e271-c3bd-05670cd644ed">
+      <Execution id="8eeb3152-f215-4ad4-8792-49381895f9d4" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePassword_Post_ReturnsRedirectOnSuccess" />
+    </UnitTest>
+    <UnitTest name="LogOn_Post_ReturnsViewIfModelStateIsInvalid" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="6938a69b-2d77-e799-1cf4-6bf6c9a09f5c">
+      <Execution id="ee5fdcaf-c554-44ed-853f-ce76872ab749" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="LogOn_Post_ReturnsViewIfModelStateIsInvalid" />
+    </UnitTest>
+    <UnitTest name="ChangePasswordSuccess_ReturnsView" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="e7654f50-a340-c44c-0462-6ac81d657d72">
+      <Execution id="4b3f8a91-301c-4e4c-bdab-a4f38f6b2125" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePasswordSuccess_ReturnsView" />
+    </UnitTest>
+    <UnitTest name="ChangePassword_Get_ReturnsView" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="550b9b41-f3e9-aeab-2e96-eeaa01081536">
+      <Execution id="13ef8c47-6f70-4a9e-9fe4-af9a39df12ba" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="ChangePassword_Get_ReturnsView" />
+    </UnitTest>
+    <UnitTest name="Register_Post_ReturnsRedirectOnSuccess" storage="c:\users\matt\desktop\crmprovider\src\custommembershipprovider\custommembershipprovider.tests\bin\debug\custommembershipprovider.tests.dll" id="5fb64f25-1491-d65a-42c2-401cae78567a">
+      <Execution id="8d6e490e-8269-4947-8b2b-c6cc7d2399dd" />
+      <TestMethod codeBase="C:/Users/Matt/Desktop/CrmProvider/src/CustomMembershipProvider/CustomMembershipProvider.Tests/bin/Debug/CustomMembershipProvider.Tests.DLL" adapterTypeName="Microsoft.VisualStudio.TestTools.TestTypes.Unit.UnitTestAdapter, Microsoft.VisualStudio.QualityTools.Tips.UnitTest.Adapter, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" className="CustomMembershipProvider.Tests.Controllers.AccountControllerTest, CustomMembershipProvider.Tests, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null" name="Register_Post_ReturnsRedirectOnSuccess" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <TestEntries>
+    <TestEntry testId="1710224a-e060-e271-c3bd-05670cd644ed" executionId="8eeb3152-f215-4ad4-8792-49381895f9d4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="293df830-f478-7ce6-3e1e-9a13424d2e8e" executionId="b9bbd9a1-f75e-4086-a445-9dd4817b6212" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3fa2a8c3-5491-9982-3379-8b2e60a45de9" executionId="6a1db796-d84b-4d6d-a220-5693ed637f53" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ad61c0c-b2ab-abd8-e132-a3768e04917d" executionId="661546eb-26d2-438c-b01e-337b702eb75f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54237a11-5f26-544e-2fba-6461295bae8c" executionId="4c750195-f157-4b2d-9ea5-574a23f020ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="550b9b41-f3e9-aeab-2e96-eeaa01081536" executionId="13ef8c47-6f70-4a9e-9fe4-af9a39df12ba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5c83de2f-9c62-289b-f18e-54812365a857" executionId="d0515a11-8f27-40c2-9678-f924749c9433" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5fb64f25-1491-d65a-42c2-401cae78567a" executionId="8d6e490e-8269-4947-8b2b-c6cc7d2399dd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6938a69b-2d77-e799-1cf4-6bf6c9a09f5c" executionId="ee5fdcaf-c554-44ed-853f-ce76872ab749" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aff14354-dcb9-05de-d04b-9fc8afc77cf3" executionId="50612707-d2dd-4007-bb06-020c7034fb4a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cb9b00e4-4dea-8fcc-479e-b0c40855c2c6" executionId="a5257ba2-6a31-4133-b6ec-7578a764cab2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d69ff632-4965-4a16-39e8-6abe6af8017a" executionId="0b14850d-e172-4332-8478-e60bee354af1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d8485814-0ff6-eb3a-a7b8-0d5b7a3052b8" executionId="4f9105dc-139b-4d9e-a3d9-68d5d142ef10" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e7654f50-a340-c44c-0462-6ac81d657d72" executionId="4b3f8a91-301c-4e4c-bdab-a4f38f6b2125" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ead62016-4658-fa23-310b-7d888d6ad318" executionId="fa0bc0b3-2098-41b4-bb2d-880a5efd7533" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ebaa96b3-e2e8-23ad-8fdc-3ce70060d916" executionId="a15c4e8b-730e-4711-821a-208bc401af7f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7a4f6e4-c59f-b88d-3310-4dca0b83e38e" executionId="3ec2dcdc-3a13-40f8-8c00-c21909340d3c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <Results>
+    <UnitTestResult executionId="8eeb3152-f215-4ad4-8792-49381895f9d4" testId="1710224a-e060-e271-c3bd-05670cd644ed" testName="ChangePassword_Post_ReturnsRedirectOnSuccess" computerName="MATT-VAIO" duration="00:00:00.0958644" startTime="2012-02-15T14:28:12.6719231-05:00" endTime="2012-02-15T14:28:13.7119826-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8eeb3152-f215-4ad4-8792-49381895f9d4">
+    </UnitTestResult>
+    <UnitTestResult executionId="b9bbd9a1-f75e-4086-a445-9dd4817b6212" testId="293df830-f478-7ce6-3e1e-9a13424d2e8e" testName="LogOn_Get_ReturnsView" computerName="MATT-VAIO" duration="00:00:00.0033607" startTime="2012-02-15T14:28:13.7249833-05:00" endTime="2012-02-15T14:28:13.7379840-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b9bbd9a1-f75e-4086-a445-9dd4817b6212">
+    </UnitTestResult>
+    <UnitTestResult executionId="6a1db796-d84b-4d6d-a220-5693ed637f53" testId="3fa2a8c3-5491-9982-3379-8b2e60a45de9" testName="LogOn_Post_ReturnsRedirectOnSuccess_WithReturnUrl" computerName="MATT-VAIO" duration="00:00:00.0031533" startTime="2012-02-15T14:28:13.7399842-05:00" endTime="2012-02-15T14:28:13.7549850-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6a1db796-d84b-4d6d-a220-5693ed637f53">
+    </UnitTestResult>
+    <UnitTestResult executionId="661546eb-26d2-438c-b01e-337b702eb75f" testId="4ad61c0c-b2ab-abd8-e132-a3768e04917d" testName="Register_Post_ReturnsViewIfRegistrationFails" computerName="MATT-VAIO" duration="00:00:00.0059343" startTime="2012-02-15T14:28:13.7599853-05:00" endTime="2012-02-15T14:28:13.7729860-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="661546eb-26d2-438c-b01e-337b702eb75f">
+    </UnitTestResult>
+    <UnitTestResult executionId="4c750195-f157-4b2d-9ea5-574a23f020ca" testId="54237a11-5f26-544e-2fba-6461295bae8c" testName="LogOff_LogsOutAndRedirects" computerName="MATT-VAIO" duration="00:00:00.0007518" startTime="2012-02-15T14:28:13.7779863-05:00" endTime="2012-02-15T14:28:13.7859868-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4c750195-f157-4b2d-9ea5-574a23f020ca">
+    </UnitTestResult>
+    <UnitTestResult executionId="13ef8c47-6f70-4a9e-9fe4-af9a39df12ba" testId="550b9b41-f3e9-aeab-2e96-eeaa01081536" testName="ChangePassword_Get_ReturnsView" computerName="MATT-VAIO" duration="00:00:00.0016710" startTime="2012-02-15T14:28:13.7879869-05:00" endTime="2012-02-15T14:28:13.7969874-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="13ef8c47-6f70-4a9e-9fe4-af9a39df12ba">
+    </UnitTestResult>
+    <UnitTestResult executionId="d0515a11-8f27-40c2-9678-f924749c9433" testId="5c83de2f-9c62-289b-f18e-54812365a857" testName="ChangePassword_Post_ReturnsViewIfChangePasswordFails" computerName="MATT-VAIO" duration="00:00:00.0007112" startTime="2012-02-15T14:28:13.7999876-05:00" endTime="2012-02-15T14:28:13.8109882-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d0515a11-8f27-40c2-9678-f924749c9433">
+    </UnitTestResult>
+    <UnitTestResult executionId="8d6e490e-8269-4947-8b2b-c6cc7d2399dd" testId="5fb64f25-1491-d65a-42c2-401cae78567a" testName="Register_Post_ReturnsRedirectOnSuccess" computerName="MATT-VAIO" duration="00:00:00.0006041" startTime="2012-02-15T14:28:13.8149885-05:00" endTime="2012-02-15T14:28:13.8229889-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8d6e490e-8269-4947-8b2b-c6cc7d2399dd">
+    </UnitTestResult>
+    <UnitTestResult executionId="ee5fdcaf-c554-44ed-853f-ce76872ab749" testId="6938a69b-2d77-e799-1cf4-6bf6c9a09f5c" testName="LogOn_Post_ReturnsViewIfModelStateIsInvalid" computerName="MATT-VAIO" duration="00:00:00.0009250" startTime="2012-02-15T14:28:13.8279892-05:00" endTime="2012-02-15T14:28:13.8359897-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ee5fdcaf-c554-44ed-853f-ce76872ab749">
+    </UnitTestResult>
+    <UnitTestResult executionId="50612707-d2dd-4007-bb06-020c7034fb4a" testId="aff14354-dcb9-05de-d04b-9fc8afc77cf3" testName="LogOn_Post_ReturnsRedirectOnSuccess_WithoutReturnUrl" computerName="MATT-VAIO" duration="00:00:00.0006090" startTime="2012-02-15T14:28:13.8389898-05:00" endTime="2012-02-15T14:28:13.8479903-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="50612707-d2dd-4007-bb06-020c7034fb4a">
+    </UnitTestResult>
+    <UnitTestResult executionId="a5257ba2-6a31-4133-b6ec-7578a764cab2" testId="cb9b00e4-4dea-8fcc-479e-b0c40855c2c6" testName="Register_Post_ReturnsViewIfModelStateIsInvalid" computerName="MATT-VAIO" duration="00:00:00.0006359" startTime="2012-02-15T14:28:13.8529906-05:00" endTime="2012-02-15T14:28:13.8659914-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a5257ba2-6a31-4133-b6ec-7578a764cab2">
+    </UnitTestResult>
+    <UnitTestResult executionId="0b14850d-e172-4332-8478-e60bee354af1" testId="d69ff632-4965-4a16-39e8-6abe6af8017a" testName="Register_Get_ReturnsView" computerName="MATT-VAIO" duration="00:00:00.0005552" startTime="2012-02-15T14:28:13.8699916-05:00" endTime="2012-02-15T14:28:13.8779921-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0b14850d-e172-4332-8478-e60bee354af1">
+    </UnitTestResult>
+    <UnitTestResult executionId="4f9105dc-139b-4d9e-a3d9-68d5d142ef10" testId="d8485814-0ff6-eb3a-a7b8-0d5b7a3052b8" testName="About" computerName="MATT-VAIO" duration="00:00:00.0015776" startTime="2012-02-15T14:28:13.8829923-05:00" endTime="2012-02-15T14:28:13.8919929-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4f9105dc-139b-4d9e-a3d9-68d5d142ef10">
+    </UnitTestResult>
+    <UnitTestResult executionId="4b3f8a91-301c-4e4c-bdab-a4f38f6b2125" testId="e7654f50-a340-c44c-0462-6ac81d657d72" testName="ChangePasswordSuccess_ReturnsView" computerName="MATT-VAIO" duration="00:00:00.0005361" startTime="2012-02-15T14:28:13.8959931-05:00" endTime="2012-02-15T14:28:13.9029935-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4b3f8a91-301c-4e4c-bdab-a4f38f6b2125">
+    </UnitTestResult>
+    <UnitTestResult executionId="fa0bc0b3-2098-41b4-bb2d-880a5efd7533" testId="ead62016-4658-fa23-310b-7d888d6ad318" testName="ChangePassword_Post_ReturnsViewIfModelStateIsInvalid" computerName="MATT-VAIO" duration="00:00:00.0012806" startTime="2012-02-15T14:28:13.9099939-05:00" endTime="2012-02-15T14:28:13.9179943-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fa0bc0b3-2098-41b4-bb2d-880a5efd7533">
+    </UnitTestResult>
+    <UnitTestResult executionId="a15c4e8b-730e-4711-821a-208bc401af7f" testId="ebaa96b3-e2e8-23ad-8fdc-3ce70060d916" testName="LogOn_Post_ReturnsViewIfValidateUserFails" computerName="MATT-VAIO" duration="00:00:00.0013506" startTime="2012-02-15T14:28:13.9219946-05:00" endTime="2012-02-15T14:28:13.9299950-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a15c4e8b-730e-4711-821a-208bc401af7f">
+    </UnitTestResult>
+    <UnitTestResult executionId="3ec2dcdc-3a13-40f8-8c00-c21909340d3c" testId="f7a4f6e4-c59f-b88d-3310-4dca0b83e38e" testName="Index" computerName="MATT-VAIO" duration="00:00:00.0012870" startTime="2012-02-15T14:28:13.9339953-05:00" endTime="2012-02-15T14:28:13.9469960-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3ec2dcdc-3a13-40f8-8c00-c21909340d3c">
+    </UnitTestResult>
+  </Results>
+</TestRun>

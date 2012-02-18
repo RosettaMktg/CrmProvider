@@ -319,7 +319,7 @@ namespace CustomMembershipProvider.Tests.Controllers
             AccountController controller = new AccountController()
             {
                 FormsService = new MockFormsAuthenticationService(),
-                MembershipService = new MockMembershipService()
+                MembershipService = new AccountMembershipService()
             };
             controller.ControllerContext = new ControllerContext()
             {
