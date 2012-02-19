@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.Configuration;
 using System.Collections.Specialized;
+using System.Text;
 
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Client;
@@ -42,7 +43,8 @@ public class CRMMembershipProvider : MembershipProvider
     private DateTime _accountCreationN;*/
     
     //our connection method
-    public OrganizationService OurConnect() {
+    public OrganizationService OurConnect() 
+    {//tc
         var connection = new CrmConnection(_ConnectionStringName);
         var service = new OrganizationService(connection);
         return service;
@@ -73,18 +75,28 @@ public class CRMMembershipProvider : MembershipProvider
 
         QueryExpression q = new QueryExpression("rosetta_useraccount");
         q.ColumnSet.AddColumn("rosetta_password");
+        q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
         //compare oldPassword to the current pasword
-        if (oldPassword != (string)result.Entities[0]["rosetta_password"])//assuming that entities[0] is the only entity since i am only making onw with my query
+
+        System.Text.ASCIIEncoding encoding =new System.Text.ASCIIEncoding();
+        byte[] bytes = encoding.GetBytes(oldPassword);
+        if (EncryptPassword(bytes) != result.Entities[0]["rosetta_password"])// assuming that entities[0] is the only entity since i am only making onw with my query
         {
             //return false;
             throw new Exception("no user/pass match");
         }
         //if the same overwrite with new password
         else {
+            //is this good here or do we need encrypted pass?
+            System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
+            byte[] newBytes = newEncoding.GetBytes(newPassword);
+            newBytes = EncryptPassword(newBytes);
+            result.Entities[0]["rosetta_password"] = newBytes;
 
+            service.Update(result.Entities[0]);
             return true;
         }
     }
