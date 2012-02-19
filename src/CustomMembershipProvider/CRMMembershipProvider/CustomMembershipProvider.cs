@@ -78,7 +78,12 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
+<<<<<<< HEAD
         EntityCollection result = service.RetrieveMultiple(q);
+=======
+        EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
+                                                                //we use retrieve multiple because retrieve() requires GUID
+>>>>>>> 453fd585382949f20d61cac34febcafe795478ee
         //compare oldPassword to the current pasword
 
         System.Text.ASCIIEncoding encoding =new System.Text.ASCIIEncoding();
@@ -172,6 +177,16 @@ public class CRMMembershipProvider : MembershipProvider
         }
         else
         {
+            ValidatePasswordEventArgs args = new ValidatePasswordEventArgs(username,
+                                                                password,
+                                                                true);
+            OnValidatingPassword(args);
+            if (args.Cancel)
+            {
+                status = MembershipCreateStatus.InvalidPassword;
+                return null;
+            }
+
             Entity newMember = new Entity("rosetta_useraccount");
 
             newMember["rosetta_name"] = username;
@@ -204,15 +219,42 @@ public class CRMMembershipProvider : MembershipProvider
 
         
     }
-
+    
     protected override byte[] DecryptPassword(byte[] encodedPassword)
     {
         return base.DecryptPassword(encodedPassword);
     }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
-    {
-        throw new NotImplementedException();
+    {//tc
+        //soft delete, check if 'deleted' if not, 'delete'
+        var service = OurConnect();
+        //find user by username
+        //create condition for query
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_username";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(username);
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AddColumn("rosetta_username");
+        q.ColumnSet.AddColumn("rosetta_deleteduser");
+        q.Criteria.AddFilter(f);
+
+        EntityCollection result = service.RetrieveMultiple(q);
+
+        if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
+        {
+            return false;
+        }
+        else {
+            result.Entities[0]["rosetta_deleteduser"] = "Yes";
+            service.Update(result.Entities[0]);
+            return true;
+        }
     }
 
     public override bool EnablePasswordReset
@@ -285,19 +327,24 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override int GetNumberOfUsersOnline()
     {//JH
+<<<<<<< HEAD
         var service = OurConnect();
+=======
+        var service = OurConnect(); //intialize connection
+>>>>>>> 453fd585382949f20d61cac34febcafe795478ee
 
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
         condition.Operator = ConditionOperator.Equal;//sets the comparing. 
-        condition.Values.Add(true);//check to see if users are online.
+        condition.Values.Add("Yes");//check to see if users are online.
         
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
         
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
-		query.Criteria.AddFilter(filter); //query CRM with the new filter for email
-        EntityCollection ec = service.RetrieveMultiple(query); //retrive 
+        query.ColumnSet.AddColumn("rosetta_username");
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for users online 
+        EntityCollection ec = service.RetrieveMultiple(query);  
 		
 		
         int usersOnline;
@@ -364,12 +411,13 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
+
     {
-        throw new NotImplementedException();
+        return GetUser(username);
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
-    {
+    {//JH
         throw new NotImplementedException();
     }
     //function to streamline getuser process
