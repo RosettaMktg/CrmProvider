@@ -27,8 +27,8 @@ public class CRMMembershipProvider : MembershipProvider
 {
     //the following private variables are for the dynamic names of the attribute names that are used in CRM. Currently, the attribute names
     //are hard coded in but will be replaced with these variables to make the code more dynamic.
-    /*private Guid _accountId;
-    private string _passwordN;
+    private Guid _accountId;
+    /*private string _passwordN;
     private string _usernameN;
     private string _securityQuestionN;
     private string _securityAnswerN;
@@ -93,6 +93,8 @@ public class CRMMembershipProvider : MembershipProvider
     {//bcd
         var service = OurConnect(); //intialize connection to CRM
 
+
+        //for updating we do not need to query for the existance of a user since, technically, the user exists. However we do not know the GUID of the user without querying?
         //check for username
         ConditionExpression condition = new ConditionExpression();
         condition.AttributeName = "rosetta_username";
@@ -105,24 +107,33 @@ public class CRMMembershipProvider : MembershipProvider
         QueryExpression query = new QueryExpression("rosetta_useraccount");
         query.ColumnSet.AddColumn("rosetta_password");
         query.Criteria.AddFilter(filter);
+
         EntityCollection collection = service.RetrieveMultiple(query);
 
         if (collection.Entities.Count == 0)
         {
             //return false;
-            throw new Exception("User does not exist or incorrect password!");
+            throw new Exception("incorrect password!");
         }
         else//I wont know if this works for sure until we can validate user and have a modification screen
         {
-            Entity ChangeMember = new Entity("rosetta_useraccount");
-            ChangeMember["rosetta_securityquestion"] = newPasswordQuestion;
-            ChangeMember["rosetta_securityanswer"] = newPasswordAnswer;
+            Entity tempEntity = new Entity(collection[0].ToString());
+            Guid Retrieve_ID = tempEntity.Id;
+            ColumnSet attributes = new ColumnSet(new string[] { "rosetta_password", "rosetta_securityquestion", "rosetta_securityanswer" });
+            Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributes);
 
-            
-            service.Update(ChangeMember);
+            retrievedEntity["rosetta_securityquestion"] = newPasswordQuestion;
+            retrievedEntity["rosetta_securityanswer"] = newPasswordAnswer;
+
+            service.Update(retrievedEntity);
             //return true;
             throw new Exception("Successfully changed Security Question and Answer!");
         }
+
+            
+            
+            
+        
     }
     
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
