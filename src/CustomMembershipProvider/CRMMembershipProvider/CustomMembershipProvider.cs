@@ -160,6 +160,16 @@ public class CRMMembershipProvider : MembershipProvider
         }
         else
         {
+            ValidatePasswordEventArgs args = new ValidatePasswordEventArgs(username,
+                                                                password,
+                                                                true);
+            OnValidatingPassword(args);
+            if (args.Cancel)
+            {
+                status = MembershipCreateStatus.InvalidPassword;
+                return null;
+            }
+
             Entity newMember = new Entity("rosetta_useraccount");
 
             newMember["rosetta_name"] = username;
@@ -192,7 +202,7 @@ public class CRMMembershipProvider : MembershipProvider
 
         
     }
-
+    
     protected override byte[] DecryptPassword(byte[] encodedPassword)
     {
         return base.DecryptPassword(encodedPassword);
@@ -325,7 +335,7 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {
-        throw new NotImplementedException();
+        return GetUser(username);
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
