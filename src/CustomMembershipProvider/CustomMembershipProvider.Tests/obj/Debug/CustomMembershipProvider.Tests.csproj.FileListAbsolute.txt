@@ -26,3 +26,17 @@ C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.dll
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.pdb
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.Tests.dll.config
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.Tests.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.Tests.pdb
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CRMMembershipProvider.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Client.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Sdk.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CRMMembershipProvider.pdb
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.pdb
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Client.xml
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Sdk.xml
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.pdb
