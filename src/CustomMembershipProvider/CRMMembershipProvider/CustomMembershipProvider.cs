@@ -13,6 +13,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.Configuration;
 using System.Collections.Specialized;
+using System.Text;
 
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Client;
@@ -42,7 +43,8 @@ public class CRMMembershipProvider : MembershipProvider
     private DateTime _accountCreationN;*/
     
     //our connection method
-    public OrganizationService OurConnect() {
+    public OrganizationService OurConnect() 
+    {//tc
         var connection = new CrmConnection(_ConnectionStringName);
         var service = new OrganizationService(connection);
         return service;
@@ -73,18 +75,29 @@ public class CRMMembershipProvider : MembershipProvider
 
         QueryExpression q = new QueryExpression("rosetta_useraccount");
         q.ColumnSet.AddColumn("rosetta_password");
+        q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
+                                                                //we use retrieve multiple because retrieve() requires GUID
         //compare oldPassword to the current pasword
-        if (oldPassword != (string)result.Entities[0]["rosetta_password"])//assuming that entities[0] is the only entity since i am only making onw with my query
+
+        System.Text.ASCIIEncoding encoding =new System.Text.ASCIIEncoding();
+        byte[] bytes = encoding.GetBytes(oldPassword);
+        if (EncryptPassword(bytes) != result.Entities[0]["rosetta_password"])// assuming that entities[0] is the only entity since i am only making onw with my query
         {
             //return false;
             throw new Exception("no user/pass match");
         }
         //if the same overwrite with new password
         else {
+            //is this good here or do we need encrypted pass?
+            System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
+            byte[] newBytes = newEncoding.GetBytes(newPassword);
+            newBytes = EncryptPassword(newBytes);
+            result.Entities[0]["rosetta_password"] = newBytes;
 
+            service.Update(result.Entities[0]);
             return true;
         }
     }
@@ -117,8 +130,8 @@ public class CRMMembershipProvider : MembershipProvider
         }
         else//I wont know if this works for sure until we can validate user and have a modification screen
         {
-            Entity tempEntity = new Entity(collection[0].ToString());
-            Guid Retrieve_ID = tempEntity.Id;
+
+            Guid Retrieve_ID = collection[0].Id;
             ColumnSet attributes = new ColumnSet(new string[] { "rosetta_password", "rosetta_securityquestion", "rosetta_securityanswer" });
             Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributes);
 
@@ -209,8 +222,35 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
-    {
-        throw new NotImplementedException();
+    {//tc
+        //soft delete, check if 'deleted' if not, 'delete'
+        var service = OurConnect();
+        //find user by username
+        //create condition for query
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_username";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(username);
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AddColumn("rosetta_username");
+        q.ColumnSet.AddColumn("rosetta_deleteduser");
+        q.Criteria.AddFilter(f);
+
+        EntityCollection result = service.RetrieveMultiple(q);
+
+        if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
+        {
+            return false;
+        }
+        else {
+            result.Entities[0]["rosetta_deleteduser"] = "Yes";
+            service.Update(result.Entities[0]);
+            return true;
+        }
     }
 
     public override bool EnablePasswordReset
@@ -241,24 +281,32 @@ public class CRMMembershipProvider : MembershipProvider
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_email"; //column we want to check against
         condition.Operator = ConditionOperator.Equal; //checking against equal values
-        condition.Values.Add(emailToMatch); //check username against rosetta_email in CRM
+        condition.Values.Add(emailToMatch); //checks email against rosetta_email in CRM
+        
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
+        
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
         query.ColumnSet.AllColumns = true;
         query.Criteria.AddFilter(filter); //query CRM with the new filter for email
-        EntityCollection FoundRecordsByEmail = service.RetrieveMultiple(query); //retrieve all records with same email
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
 
-        if (FoundRecordsByEmail.TotalRecordCount != 0)
+        totalRecords = ec.TotalRecordCount;
+       
+        if (ec.TotalRecordCount != 0)
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-            //usersToReturn.
-            //return(//todo: need to figure out how to return the MembershipUserColletctions;
-            throw new NotImplementedException();
-        }
+            foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
+            {
+                MembershipUser TempUser = GetUser((string)act["rosetta_username"]);
+                usersToReturn.Add(TempUser);
+            
+            }
+            return usersToReturn;
+         }
         else
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 
@@ -274,8 +322,29 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override int GetNumberOfUsersOnline()
-    {
-        throw new NotImplementedException();
+    {//JH
+        var service = OurConnect(); //intialize connection
+
+        ConditionExpression condition = new ConditionExpression(); //creates a new condition.
+        condition.AttributeName = "rosetta_online"; //column we want to check against.
+        condition.Operator = ConditionOperator.Equal;//sets the comparing. 
+        condition.Values.Add("Yes");//check to see if users are online.
+        
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
+        
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.ColumnSet.AddColumn("rosetta_username");
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for users online 
+        EntityCollection ec = service.RetrieveMultiple(query);  
+		
+		
+        int usersOnline;
+        usersOnline = ec.TotalRecordCount;
+        return usersOnline;
+        
+		
+		
     }
 
     public override string GetPassword(string username, string answer)
@@ -334,12 +403,13 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
+
     {
         return GetUser(username);
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
-    {
+    {//JH
         throw new NotImplementedException();
     }
     //function to streamline getuser process
@@ -394,8 +464,33 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override string GetUserNameByEmail(string email)
-    {
-        throw new NotImplementedException();
+    {//bcd
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_email";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(email);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+       
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AddColumn("rosetta_username");
+        query.Criteria.AddFilter(filter);
+        EntityCollection collection = service.RetrieveMultiple(query);
+
+        if (collection.Entities.Count == 0)
+            return null;
+        else//return username
+        {
+            Guid Retrieve_ID = collection[0].Id;
+            ColumnSet attributies = new ColumnSet(new string[] { "rosetta_username" });
+            Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributies);
+
+            return retrievedEntity["rosetta_username"].ToString();
+        }
+            
     }
 
     public override int MaxInvalidPasswordAttempts
