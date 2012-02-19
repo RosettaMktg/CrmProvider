@@ -1,4 +1,9 @@
-﻿using System;
+﻿/*bcd note to guys: in order to know if the password stuff is working we need the validate user stuff to work so that we can get to the point
+ where we can go and check our user account settings. I realize we are still working on everything, but there will be no way to test the pass
+ word stuff until that basica functionality is setup*/
+
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Services;
@@ -20,6 +25,8 @@ using Microsoft.Xrm.Sdk.Metadata;
 
 public class CRMMembershipProvider : MembershipProvider
 {
+    //the following private variables are for the dynamic names of the attribute names that are used in CRM. Currently, the attribute names
+    //are hard coded in but will be replaced with these variables to make the code more dynamic.
     private Guid _accountId;
     private string _passwordN;
     private string _usernameN;
@@ -70,10 +77,11 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_password");
         q.Criteria.AddFilter(f);
 
-        EntityCollection result = service.RetrieveMultiple(q);
+        EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
         //compare oldPassword to the current pasword
         if (oldPassword != (string)result.Entities[0]["rosetta_password"])//assuming that entities[0] is the only entity since i am only making onw with my query
         {
+            //return false;
             throw new Exception("no user/pass match");
         }
         //if the same overwrite with new password
@@ -84,8 +92,39 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
-    {
-        return false;
+    {//bcd
+        var service = OurConnect(); //intialize connection to CRM
+
+        //check for username
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_username";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(username);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AddColumn("rosetta_password");
+        query.Criteria.AddFilter(filter);
+        EntityCollection collection = service.RetrieveMultiple(query);
+
+        if (collection.Entities.Count == 0)
+        {
+            //return false;
+            throw new Exception("User does not exist or incorrect password!");
+        }
+        else//I wont know if this works for sure until we can validate user and have a modification screen
+        {
+            Entity ChangeMember = new Entity("rosetta_useraccount");
+            ChangeMember["rosetta_securityquestion"] = newPasswordQuestion;
+            ChangeMember["rosetta_securityanswer"] = newPasswordAnswer;
+
+            
+            service.Update(ChangeMember);
+            //return true;
+            throw new Exception("Successfully changed Security Question and Answer!");
+        }
     }
     //MAS
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
@@ -107,7 +146,22 @@ public class CRMMembershipProvider : MembershipProvider
 
         if (ec.Entities.Count != 0)
         {
-            throw new Exception("Found!");
+            throw new Exception("Username already exists!");
+        }
+        else
+        {
+            Entity newMember = new Entity("rosetta_useraccount");
+
+            newMember["rosetta_name"] = username;
+            newMember["rosetta_username"] = username;
+            newMember["rosetta_password"] = password;
+            newMember["rosetta_email"] = email;
+            newMember["rosetta_securityquestion"] = passwordQuestion;
+            newMember["rosetta_securityanswer"] = passwordAnswer;
+
+            Guid entityID = service.Create(newMember);
+            throw new Exception("Created new member!");
+            //return GetUser(username);
         }
         /*foreach (Entity act in ec.Entities)
         {
@@ -116,7 +170,12 @@ public class CRMMembershipProvider : MembershipProvider
             Console.WriteLine("primary contact last name:" + act["primarycontact.lastname"]);
         }*/
 
-        throw new Exception("Made through function");
+        
+    }
+
+    protected override byte[] DecryptPassword(byte[] encodedPassword)
+    {
+        return base.DecryptPassword(encodedPassword);
     }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
@@ -132,6 +191,16 @@ public class CRMMembershipProvider : MembershipProvider
     public override bool EnablePasswordRetrieval
     {
         get { return _EnablePasswordRetrieval; }
+    }
+
+    protected override byte[] EncryptPassword(byte[] password)
+    {
+        return base.EncryptPassword(password);
+    }
+
+    protected override byte[] EncryptPassword(byte[] password, MembershipPasswordCompatibilityMode legacyPasswordCompatibilityMode)
+    {
+        return base.EncryptPassword(password, legacyPasswordCompatibilityMode);
     }
 
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
@@ -155,6 +224,7 @@ public class CRMMembershipProvider : MembershipProvider
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
             //usersToReturn.
             //return(//todo: need to figure out how to return the MembershipUserColletctions;
+            throw new NotImplementedException();
         }
         else
         {
@@ -182,40 +252,58 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override string GetPassword(string username, string answer)
-    {
-        //var connection = new CrmConnection(_ConnectionString);
-        //var service = new OrganizationService(connection);
-        //var context = new CrmOrganizationServiceContext(connection);
+    {//CC
+        var service = OurConnect(); //initialize connection
 
-        //service.RetrieveEntity(
-        /*
-        if (EnablePasswordRetrieval)
+        ConditionExpression condition = new ConditionExpression(); //creates a new condition
+        condition.AttributeName = "rosetta_username"; //column to check against (trying to find username)
+        condition.Operator = ConditionOperator.Equal; //checking agasint equal values
+        condition.Values.Add(username); //check passed username value to password field in CRM
+
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to filter
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.ColumnSet.AllColumns = true;
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for username
+        EntityCollection ec = service.RetrieveMultiple(query); //retireve all records with same username
+
+        if (ec.Entities.Count == 0) //check if any entities exist
         {
-            if (_PasswordFormat == MembershipPasswordFormat.Hashed)
-            {
-                throw new NotSupportedException("Cannot retrieve hashed passwords.");
-            }
-            else
-            {
-                //using direct from help file on Update using Entity Class
-
-                OrganizationServiceProxy _proxyService;
-                IOrganizationService _orgService;
-
-                Guid _accountId;
-
-
-                Entity account = new Entity("account");
-
-                account = 
-            }
+            throw new Exception("Cannot retrieve password because user does not exist."); //no entities exist
         }
         else
         {
-            throw new NotSupportedException("The current settings do not allow the password to be retrieved.");
+            if (EnablePasswordRetrieval) //if allowed to get password
+            {
+                if (_PasswordFormat == MembershipPasswordFormat.Hashed) //checks if passwords are hashed. Cannot retrieve hashed passwords
+                {
+                    throw new NotSupportedException("Cannot retrieve hashed passwords.");
+                }
+                else
+                {
+                    if (_RequiresQuestionAndAnswer == true) //checks if the answer to the security question is needed
+                    {
+                        if (ec.Entities[0].GetAttributeValue("rosetta_securityanswer") == answer) //for now, check the value of the first entity in the collection agasint the answer passed
+                        {
+                            return (string)ec.Entities[0].GetAttributeValue("rosetta_password"); //return the password from the first entity in the collection from the query
+                        }
+                        else
+                        {
+                            throw new Exception("Incorrect Answer to the security question."); //throw an exception that the answer doesn't match
+                        }
+                    }
+                    else
+                    {
+                        return (string)ec.Entities[0].GetAttributeValue("rosetta_password"); //return the password from the first entity in the collection from the query
+                    }
+                }
+            }
+            else
+            {
+                throw new NotSupportedException("The current settings do not allow the password to be retrieved."); //throw exception that it is not supported to get password
+            }
         }
-         */
-        throw new NotImplementedException();
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
@@ -273,8 +361,16 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override string ResetPassword(string username, string answer)
-    {
-        throw new NotImplementedException();
+    {//bcd
+        var service = OurConnect();
+        if (EnablePasswordReset == false)
+        {
+            throw new Exception("Resetting of passwords is not permitted");
+        }
+        else
+        {//reset password based on assigned regular expresssion
+            throw new NotImplementedException();
+        }
     }
 
     public override bool UnlockUser(string userName)
