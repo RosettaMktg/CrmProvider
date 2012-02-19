@@ -370,9 +370,28 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
-    {
-        //totalRecords >= ((pageSize*pageIndex)+1)
-        throw new NotImplementedException();
+    {//MAS
+        var service = OurConnect();
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+
+        totalRecords = ec.TotalRecordCount;
+
+        if (totalRecords != 0 && totalRecords >= ((pageSize * pageIndex) + 1))
+        {
+            MembershipUserCollection usersToReturn = new MembershipUserCollection();
+            for (int i = (pageSize * pageIndex); i < ((pageSize * pageIndex) + pageSize); i++)//gets all the records out of ec assigns them to userstoreturn.
+            {
+                MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
+                usersToReturn.Add(TempUser);
+
+            }
+            return usersToReturn;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public override int GetNumberOfUsersOnline()
