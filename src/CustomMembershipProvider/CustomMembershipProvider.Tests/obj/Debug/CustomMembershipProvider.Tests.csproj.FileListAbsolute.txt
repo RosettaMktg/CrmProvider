@@ -17,11 +17,9 @@ C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.Tests.pdb
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CRMMembershipProvider.dll
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.dll
-C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Client.dll
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Sdk.dll
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CRMMembershipProvider.pdb
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\CustomMembershipProvider.pdb
-C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Client.xml
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Sdk.xml
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.dll
