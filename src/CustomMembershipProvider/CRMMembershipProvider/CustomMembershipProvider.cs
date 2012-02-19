@@ -78,12 +78,8 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
-<<<<<<< HEAD
-        EntityCollection result = service.RetrieveMultiple(q);
-=======
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
                                                                 //we use retrieve multiple because retrieve() requires GUID
->>>>>>> 453fd585382949f20d61cac34febcafe795478ee
         //compare oldPassword to the current pasword
 
         System.Text.ASCIIEncoding encoding =new System.Text.ASCIIEncoding();
@@ -327,11 +323,9 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override int GetNumberOfUsersOnline()
     {//JH
-<<<<<<< HEAD
-        var service = OurConnect();
-=======
+
         var service = OurConnect(); //intialize connection
->>>>>>> 453fd585382949f20d61cac34febcafe795478ee
+
 
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
