@@ -240,27 +240,23 @@ public class CRMMembershipProvider : MembershipProvider
         query.ColumnSet.AllColumns = true;
         query.Criteria.AddFilter(filter); //query CRM with the new filter for email
         EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
-        
-        
+
+        totalRecords = ec.TotalRecordCount;
+       
         if (ec.TotalRecordCount != 0)
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-
-            int numRecords = ec.TotalRecordCount;
-            for (int i = 0; i < numRecords; i++)
+            foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
             {
-                usersToReturn.Add((MembershipUser)ec.Entities(i));
-                
+                MembershipUser TempUser = GetUser((string)act["rosetta_username"]);
+                usersToReturn.Add(TempUser);
             
             }
-            //usersToReturn
-
-            //return(//todo: need to figure out how to return the MembershipUserColletctions;
-            throw new NotImplementedException();
-        }
+            return usersToReturn;
+         }
         else
         {
-            throw new Exception("No match users found by email");
+            return null;
         }
     }
 
