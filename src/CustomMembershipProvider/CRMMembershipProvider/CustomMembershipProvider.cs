@@ -318,8 +318,8 @@ public class CRMMembershipProvider : MembershipProvider
         EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
 
         totalRecords = ec.TotalRecordCount;
-       
-        if (ec.TotalRecordCount != 0)
+      
+        if (totalRecords != 0 && totalRecords >= ((pageSize*pageIndex)+1))
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
             foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
@@ -338,16 +338,18 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
     {
-
+        //totalRecords >= ((pageSize*pageIndex)+1)
         throw new NotImplementedException();
     }
 
     public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
     {
+        //totalRecords >= ((pageSize*pageIndex)+1)
         throw new NotImplementedException();
     }
 
     public override int GetNumberOfUsersOnline()
+
     {//JH
 <<<<<<< HEAD
         var service = OurConnect();
