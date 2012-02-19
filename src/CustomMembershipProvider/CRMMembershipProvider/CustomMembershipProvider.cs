@@ -334,9 +334,38 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
-    {
-        //totalRecords >= ((pageSize*pageIndex)+1)
-        throw new NotImplementedException();
+    {//MAS
+        var service = OurConnect(); //intialize connection
+
+        ConditionExpression condition = new ConditionExpression(); //creates a new condition.
+        condition.AttributeName = "rosetta_username"; //column we want to check against
+        condition.Operator = ConditionOperator.Equal; //checking against equal values
+        condition.Values.Add(usernameToMatch); //checks email against rosetta_email in CRM
+
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for email
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+
+        totalRecords = ec.TotalRecordCount;
+
+        if (totalRecords != 0 && totalRecords >= ((pageSize * pageIndex) + 1))
+        {
+            MembershipUserCollection usersToReturn = new MembershipUserCollection();
+            for(int i=(pageSize*pageIndex);i<((pageSize*pageIndex)+pageSize);i++)//gets all the records out of ec assigns them to userstoreturn.
+            {
+                MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
+                usersToReturn.Add(TempUser);
+
+            }
+            return usersToReturn;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
