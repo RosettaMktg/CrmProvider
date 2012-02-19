@@ -117,8 +117,8 @@ public class CRMMembershipProvider : MembershipProvider
         }
         else//I wont know if this works for sure until we can validate user and have a modification screen
         {
-            Entity tempEntity = new Entity(collection[0].ToString());
-            Guid Retrieve_ID = tempEntity.Id;
+
+            Guid Retrieve_ID = collection[0].Id;
             ColumnSet attributes = new ColumnSet(new string[] { "rosetta_password", "rosetta_securityquestion", "rosetta_securityanswer" });
             Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributes);
 
@@ -410,8 +410,33 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override string GetUserNameByEmail(string email)
-    {
-        throw new NotImplementedException();
+    {//bcd
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_email";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(email);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+       
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AddColumn("rosetta_username");
+        query.Criteria.AddFilter(filter);
+        EntityCollection collection = service.RetrieveMultiple(query);
+
+        if (collection.Entities.Count == 0)
+            return null;
+        else//return username
+        {
+            Guid Retrieve_ID = collection[0].Id;
+            ColumnSet attributies = new ColumnSet(new string[] { "rosetta_username" });
+            Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributies);
+
+            return retrievedEntity["rosetta_username"].ToString();
+        }
+            
     }
 
     public override int MaxInvalidPasswordAttempts
