@@ -211,24 +211,36 @@ public class CRMMembershipProvider : MembershipProvider
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_email"; //column we want to check against
         condition.Operator = ConditionOperator.Equal; //checking against equal values
-        condition.Values.Add(emailToMatch); //check username against rosetta_email in CRM
+        condition.Values.Add(emailToMatch); //checks email against rosetta_email in CRM
+        
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
+        
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
         query.ColumnSet.AllColumns = true;
         query.Criteria.AddFilter(filter); //query CRM with the new filter for email
-        EntityCollection FoundRecordsByEmail = service.RetrieveMultiple(query); //retrieve all records with same email
-
-        if (FoundRecordsByEmail.TotalRecordCount != 0)
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+        
+        
+        if (ec.TotalRecordCount != 0)
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-            //usersToReturn.
+
+            int numRecords = ec.TotalRecordCount;
+            for (int i = 0; i < numRecords; i++)
+            {
+                usersToReturn.Add((MembershipUser)ec.Entities(i));
+                
+            
+            }
+            //usersToReturn
+
             //return(//todo: need to figure out how to return the MembershipUserColletctions;
             throw new NotImplementedException();
         }
         else
         {
-            throw new NotImplementedException();
+            throw new Exception("No match users found by email");
         }
 
 
@@ -247,7 +259,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override int GetNumberOfUsersOnline()
-    {
+    {//JH
         throw new NotImplementedException();
     }
 
