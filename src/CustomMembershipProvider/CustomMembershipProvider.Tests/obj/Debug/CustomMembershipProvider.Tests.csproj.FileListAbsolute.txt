@@ -38,3 +38,5 @@ C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.T
 C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.dll
 C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider.Tests\obj\Debug\CustomMembershipProvider.Tests.pdb
+C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Client.dll
+C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider.Tests\bin\Debug\Microsoft.Xrm.Client.xml

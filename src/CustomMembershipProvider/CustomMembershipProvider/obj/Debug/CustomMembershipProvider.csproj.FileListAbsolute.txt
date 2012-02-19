@@ -40,3 +40,5 @@ C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\b
 C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\CustomMembershipProvider.dll
 C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\CustomMembershipProvider.pdb
+C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\bin\Microsoft.Xrm.Client.dll
+C:\Users\Brandon_Davis\Documents\CS499\CrmProvider\src\CustomMembershipProvider\CustomMembershipProvider\bin\Microsoft.Xrm.Client.xml

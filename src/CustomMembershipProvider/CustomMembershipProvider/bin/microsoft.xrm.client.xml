@@ -1,0 +1,1997 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<doc>
+	<assembly>
+		<name>Microsoft.Xrm.Client</name>
+	</assembly>
+	<members>
+		<member name="T:Microsoft.Xrm.Client.CrmConnection">
+			<summary>Provides a connection to the server using a connection string.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmConnection.#ctor">
+			<summary>constructor_initializesCrmConnection class.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmConnection.#ctor(System.Configuration.ConnectionStringSettings)">
+			<summary>constructor_initializesCrmConnection class, setting the connection string.</summary>
+			<param name="connectionString">The connection string.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmConnection.#ctor(System.String)">
+			<summary>constructor_initializesCrmConnection class, setting the connection string name.</summary>
+			<param name="connectionStringName">The name of the connection string.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmConnection.GetConnectionId">
+			<summary>Builds a text value that is unique to the connection values.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmConnection.Parse(System.String)">
+			<summary>Parses a string in the DbConnectionStringBuilderhttp://msdn.microsoft.com/en-us/library/efk29f3z format.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.CrmConnection"></see>.</returns>
+			<param name="connectionString">The connection string.</param>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.CallerId">
+			<summary>The ID of the system user to impersonate.</summary>
+			<returns>Returns <see cref="T:System.Nullable`1"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.ClientCredentials">
+			<summary>The user credentials.</summary>
+			<returns>Returns <see cref="T:System.ServiceModel.Description.ClientCredentials"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.DeviceCredentials">
+			<summary>The Windows Live ID device credentials.</summary>
+			<returns>Returns <see cref="T:System.ServiceModel.Description.ClientCredentials"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.HomeRealmUri">
+			<summary>The URI of the cross realm STS metadata endpoint.</summary>
+			<returns>Returns <see cref="T:System.Uri"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.ProxyTypesAssembly">
+			<summary>The assembly containing the strong proxy types.</summary>
+			<returns>Returns <see cref="T:System.Reflection.Assembly"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.ProxyTypesEnabled">
+			<summary>Determines if the strong proxy types should be returned by the service.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.ServiceConfigurationInstanceMode">
+			<summary>The mode for instantiating the service configuration.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.ServiceConfigurationInstanceMode"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.ServiceUri">
+			<summary>The organization service URL.</summary>
+			<returns>Returns <see cref="T:System.Uri"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.Timeout">
+			<summary>The service timeout value</summary>
+			<returns>Returns <see cref="T:System.Nullable`1"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmConnection.UserTokenExpiryWindow">
+			<summary>The time offset prior to the user token expiration when the user token should be refreshed.</summary>
+			<returns>Returns <see cref="T:System.Nullable`1"></see>.</returns>
+		</member>
+		<member name="T:Microsoft.Xrm.Client.CrmEntity">
+			<summary>The base class of an entity class from Developer Extensions for pn_CRM_2011.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.#ctor(System.String)">
+			<summary>constructor_initializesCrmEntity class.</summary>
+			<param name="entityName">The name of the entity.</param>
+		</member>
+		<member name="E:Microsoft.Xrm.Client.CrmEntity.PropertyChanged">
+			<summary>Occurs when an attribute or relationship is set. </summary>
+		</member>
+		<member name="E:Microsoft.Xrm.Client.CrmEntity.PropertyChanging">
+			<summary>Occurs when an attribute or relationship is set. </summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.GetAttributeCollectionValue``1(System.String)">
+			<summary>Retrieves the value of a sequence attribute.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+			<param name="attributeLogicalName">The logical name of the attribute.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.GetAttributeValue``1(System.String)">
+			<summary>Retrieves the value of an attribute.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+			<param name="attributeLogicalName">The logical name of the attribute.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.GetRelatedEntities``1(System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+			<param name="primaryEntityRole">The role that the entity plays in the relationship, referencing or referenced.</param>
+			<param name="relationshipSchemaName">The schema name of the relationship.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.GetRelatedEntity``1(System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+			<param name="primaryEntityRole">The role that the entity plays in the relationship, referencing or referenced.</param>
+			<param name="relationshipSchemaName">The schema name of the relationship.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.SetAttributeCollectionValue``1(System.String,System.String,System.Collections.Generic.IEnumerable{``0})">
+			<summary>Modifies the value of a sequence attribute.</summary>
+			<param name="attributeLogicalName">The logical name of the attribute.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.SetAttributeValue``1(System.String,System.String,System.Object)">
+			<summary>Modifies the value of an attribute.</summary>
+			<param name="value">The attribute value.</param>
+			<param name="attributeLogicalName">The logical name of the attribute.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.SetAttributeValue``1(System.String,System.String,System.String,System.Object)">
+			<summary>Modifies the value of an attribute.</summary>
+			<param name="value">The attribute value.</param>
+			<param name="entityLogicalName">The logical name of the entity.</param>
+			<param name="attributeLogicalName">The logical name of the attribute.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.SetPrimaryIdAttributeValue``1(System.String,System.String,System.Object)">
+			<summary>Modifies the value of a primary key attribute.</summary>
+			<param name="value">The attribute value.</param>
+			<param name="attributeLogicalName">The logical name of the attribute.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.SetRelatedEntities``1(System.String,System.String,System.Collections.Generic.IEnumerable{``0})">
+			<summary>Modifies the collection of related entities for a specific relationship.</summary>
+			<param name="relationshipSchemaName">The schema name of the relationship.</param>
+			<param name="entities">The related entities.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.SetRelatedEntities``1(System.String,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole},System.Collections.Generic.IEnumerable{``0})">
+			<summary>Modifies the collection of related entities for a specific relationship.</summary>
+			<param name="primaryEntityRole">The role that the entity plays in the relationship, referencing or referenced.</param>
+			<param name="relationshipSchemaName">The schema name of the relationship.</param>
+			<param name="entities">The related entities.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.SetRelatedEntity``1(System.String,System.String,``0)">
+			<summary>Modifies a related entity for a specific relationship.</summary>
+			<param name="entity">The related entity.</param>
+			<param name="relationshipSchemaName">The schema name of the relationship.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntity.SetRelatedEntity``1(System.String,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole},``0)">
+			<summary>Modifies a related entity for a specific relationship.</summary>
+			<param name="primaryEntityRole">The role that the entity plays in the relationship, referencing or referenced.</param>
+			<param name="entity">The related entity.</param>
+			<param name="relationshipSchemaName">The schema name of the relationship.</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntityReference.Equals(System.Object)">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntityReference.GetHashCode">
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntityReference.op_Implicit(Microsoft.Xrm.Client.CrmEntityReference)~Microsoft.Xrm.Sdk.EntityReference">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityReference"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmEntityReference.op_Implicit(Microsoft.Xrm.Sdk.EntityReference)~Microsoft.Xrm.Client.CrmEntityReference">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.CrmEntityReference"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmEntityReference.Id">
+			<summary>The ID of the entity.</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmEntityReference.LogicalName">
+			<summary>The logical name of the entity.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.CrmEntityReference.Name">
+			<summary>The name of the entity.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="T:Microsoft.Xrm.Client.CrmOrganizationServiceContext">
+			<summary>The Developer Extensions for pn_CRM_2011 version of the runtime context of the data service that is used to track pn_microsoftcrm entities and that sends and receives entities from the server.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmOrganizationServiceContext.Create(Microsoft.Xrm.Sdk.Entity)">
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmOrganizationServiceContext.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+			<summary>Initializes custom settings.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmOrganizationServiceContext.Retrieve(System.String,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmOrganizationServiceContext.RetrieveMultiple(Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmOrganizationServiceContext.System.Data.Services.IUpdatable.ClearChanges">
+			<summary>Clears all tracking of entities by the <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.CrmOrganizationServiceContext.System.Data.Services.IUpdatable.SaveChanges">
+			<summary>Saves the changes that the <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see> is tracking to pn_microsoftcrm.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.SaveChangesResultCollection"></see>. A <see cref="T:Microsoft.Xrm.Sdk.SaveChangesResultCollection"></see> that contains status, headers, and errors that result from the call to <see cref="M:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext.SaveChanges"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.DateTimeExtensions.Floor(System.DateTime,Microsoft.Xrm.Client.RoundTo)">
+			<summary>Returns the largest discrete value less than or equal to the specified value.</summary>
+			<returns>Returns <see cref="T:System.DateTime"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.DateTimeExtensions.Floor(System.DateTimeOffset,Microsoft.Xrm.Client.RoundTo)">
+			<summary>Returns the largest discrete value less than or equal to the specified value.</summary>
+			<returns>Returns <see cref="T:System.DateTimeOffset"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.DateTimeExtensions.Round(System.DateTime,Microsoft.Xrm.Client.RoundTo)">
+			<summary>Rounds a value to the nearest discrete value.</summary>
+			<returns>Returns <see cref="T:System.DateTime"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.DateTimeExtensions.Round(System.DateTimeOffset,Microsoft.Xrm.Client.RoundTo)">
+			<summary>Rounds a value to the nearest discrete value.</summary>
+			<returns>Returns <see cref="T:System.DateTimeOffset"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.AssertEntityName(Microsoft.Xrm.Sdk.Entity,System.String[])">
+			<summary>Verifies that the LogicalName of an entity is the expected name.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.Clone(Microsoft.Xrm.Sdk.Entity,System.Boolean)">
+			<summary>Deep clones an <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.Clone(Microsoft.Xrm.Sdk.EntityCollection,System.Boolean)">
+			<summary>Deep clones an <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetAttributeCollectionValue``1(Microsoft.Xrm.Sdk.Entity,System.String)">
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetAttributeValue(Microsoft.Xrm.Sdk.Entity,System.String)">
+			<summary>Retrieves the value of an attribute.</summary>
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetAttributeValue``1(Microsoft.Xrm.Sdk.Entity,System.String)">
+			<summary>Retrieves the value of an attribute.</summary>
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetEntityReferenceValue``1(Microsoft.Xrm.Sdk.Entity,System.String)">
+			<summary>Retrieves attribute values for <see cref="T:Microsoft.Xrm.Sdk.EntityReference"></see> attributes.</summary>
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetFormattedAttributeValue(Microsoft.Xrm.Sdk.Entity,System.String)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntities(Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Relationship)">
+			<summary>Retrieves the collection of related entities for a specific relationship.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntities(Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<summary>Retrieves the collection of related entities for a specific relationship.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntities``1(Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.Relationship)">
+			<summary>Retrieves the collection of related entities for a specific relationship.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntities``1(Microsoft.Xrm.Sdk.Entity,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<summary>Retrieves the collection of related entities for a specific relationship.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntities``2(Microsoft.Xrm.Sdk.Entity,System.Linq.Expressions.Expression{System.Func{``0,System.Collections.Generic.IEnumerable{``1}}})">
+			<summary>Retrieves the collection of related entities for a specific relationship.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntities``2(``0,Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Linq.Expressions.Expression{System.Func{``0,System.Collections.Generic.IEnumerable{``1}}})">
+			<summary>Retrieves the collection of related entities for a specific relationship.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntity(Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Relationship)">
+			<summary>Retrieves the related entity for a specific relationship.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntity(Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<summary>Retrieves the related entity for a specific relationship.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntity``1(Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.Relationship)">
+			<summary>Retrieves the related entity for a specific relationship.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntity``1(Microsoft.Xrm.Sdk.Entity,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<summary>Retrieves the related entity for a specific relationship.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntity``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+			<summary>Retrieves the related entity for a specific relationship.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.GetRelatedEntity``2(``0,Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Linq.Expressions.Expression{System.Func{``0,``1}})">
+			<summary>Retrieves the related entity for a specific relationship.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetAttributeCollectionValue``1(Microsoft.Xrm.Sdk.Entity,System.String,System.Collections.Generic.IEnumerable{``0})">
+			<summary>Modifies the value of a sequence attribute.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetAttributeValue(Microsoft.Xrm.Sdk.Entity,System.String,System.Object)">
+			<summary>Modifies the value of an attribute.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetAttributeValue(Microsoft.Xrm.Sdk.Entity,System.String,System.String,System.Object)">
+			<summary>Modifies the value of an attribute.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetAttributeValue``1(Microsoft.Xrm.Sdk.Entity,System.String,System.Object)">
+			<summary>Modifies the value of an attribute.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetAttributeValue``1(Microsoft.Xrm.Sdk.Entity,System.String,System.String,System.Object)">
+			<summary>Modifies the value of an attribute.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetRelatedEntities``1(Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.Relationship,System.Collections.Generic.IEnumerable{``0})">
+			<summary>Modifies the collection of related entities for a specific relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetRelatedEntities``1(Microsoft.Xrm.Sdk.Entity,System.String,System.Collections.Generic.IEnumerable{``0})">
+			<summary>Modifies the collection of related entities for a specific relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetRelatedEntities``1(Microsoft.Xrm.Sdk.Entity,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole},System.Collections.Generic.IEnumerable{``0})">
+			<summary>Modifies the collection of related entities for a specific relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetRelatedEntities``2(``0,System.Linq.Expressions.Expression{System.Func{``0,System.Collections.Generic.IEnumerable{``1}}},System.Collections.Generic.IEnumerable{``1})">
+			<summary>Modifies the collection of related entities for a specific relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetRelatedEntity``1(Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.Relationship,``0)">
+			<summary>Modifies a related entity for a specific relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetRelatedEntity``1(Microsoft.Xrm.Sdk.Entity,System.String,``0)">
+			<summary>Modifies a related entity for a specific relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetRelatedEntity``1(Microsoft.Xrm.Sdk.Entity,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole},``0)">
+			<summary>Modifies a related entity for a specific relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.EntityExtensions.SetRelatedEntity``2(``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},``1)">
+			<summary>Modifies a related entity for a specific relationship.</summary>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.IOrganizationServiceContainer.Service">
+			<summary>Gets the service.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.IOrganizationService"></see>.</returns>
+		</member>
+		<member name="T:Microsoft.Xrm.Client.OrganizationServiceContextExtensions">
+			<summary> Extensions for <see cref="T:Microsoft.Xrm.Client.CrmOrganizationServiceContext"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.AttachClone``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,``0,System.Boolean)">
+			<summary>Clones an arbitrary source entity and attaches it to the context.</summary>
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.Detach(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Collections.Generic.IEnumerable{Microsoft.Xrm.Sdk.Entity})">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.DetachLink(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.String,Microsoft.Xrm.Sdk.Entity,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.DetachLink``2(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},``1)">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.Execute``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.OrganizationRequest)">
+			<summary>Executes an <see cref="T:Microsoft.Xrm.Sdk.OrganizationRequest"></see> and returns a specifically typed <see cref="T:Microsoft.Xrm.Sdk.OrganizationResponse"></see>.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.IsAttached``2(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},``1)">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.IsAttached``2(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,``0,System.Linq.Expressions.Expression{System.Func{``0,System.Collections.Generic.IEnumerable{``1}}},``1)">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.IsDeleted``2(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,``0,System.Linq.Expressions.Expression{System.Func{``0,``1}},``1)">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.LoadProperty(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<summary>Loads the related entity collection for the specified relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.LoadProperty``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,``0,System.Linq.Expressions.Expression{System.Func{``0,System.Object}})">
+			<summary>Loads the related entity collection for the specified relationship.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.MergeClone``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,``0,System.Boolean)">
+			<summary>Clones an arbitrary source entity and attaches it to the context.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.ReAttach(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity)">
+			<summary>Resets the <see cref="T:Microsoft.Xrm.Sdk.EntityState"></see> of an entity before attaching it to the context.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.TryAccessCache(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Action{Microsoft.Xrm.Client.Services.IOrganizationServiceCache})">
+			<summary>Tries to perform an action on the underlying <see cref="T:Microsoft.Xrm.Client.Services.IOrganizationServiceCache"></see> if applicable.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.TryRemoveFromCache(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity)">
+			<summary>Removes an entity from cache if it is applicable to the context.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.TryRemoveFromCache(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference)">
+			<summary>Removes an entity from cache if it is applicable to the context.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.TryRemoveFromCache(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.OrganizationRequest)">
+			<summary>Removes a request/response from cache if it is applicable to the context.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.TryRemoveFromCache(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<summary>Removes an item from cache if it is applicable to the context.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextExtensions.TryRemoveFromCache(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Nullable{System.Guid})">
+			<summary>Removes an entity from cache if it is applicable to the context.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.OrganizationServiceContextUtility.TryGetWebsiteIDFromParentLinkForEntityInPendingChanges(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.String,Microsoft.Xrm.Sdk.EntityReference@)">
+			<summary>internal</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.RelationshipExtensions.ToRelationship(System.String,System.Nullable{Microsoft.Xrm.Sdk.EntityRole})">
+			<summary>Converts a relationship schema name to a relationship.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Relationship"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.RelationshipExtensions.ToSchemaName(Microsoft.Xrm.Sdk.Relationship,System.String)">
+			<summary>Converts a relationship into a relationship schema name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.StringExtensions.FormatWith(System.String,System.Object[])">
+			<summary>Calls the Format(IFormatProvider, String, Object[])http://msdn2.microsoft.com/en-us/library/1ksz8yb7 method with the InvariantCulturehttp://msdn2.microsoft.com/en-us/library/1781h47s provider</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.StringExtensions.ToEnum``1(System.Int32)">
+			<summary>Converts an integer value into an Enumhttp://msdn2.microsoft.com/en-us/library/1zt1ybx4 value</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.StringExtensions.ToEnum``1(System.String)">
+			<summary>Parses a name value into an Enumhttp://msdn2.microsoft.com/en-us/library/1zt1ybx4 value.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.TypeExtensions.GetCustomAttributes``1(System.Type)">
+			<summary>Returns a collection of custom attributes for a given type.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.TypeExtensions.GetEntityLogicalName(System.Type)">
+			<summary>Returns the logical name value of the <see cref="T:Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute"></see> attribute associated to the class type.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.TypeExtensions.GetFirstOrDefaultCustomAttribute``1(System.Type)">
+			<summary>Returns the first custom attribute of a given type.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.TypeExtensions.GetType(System.String)">
+			<summary>Retrieves a type object by name and by searching through all available assemblies.</summary>
+			<returns>Returns <see cref="T:System.Type"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.TypeExtensions.GetUnderlyingType(System.Type)">
+			<summary>Retrieves the underlying type if the type is nullable, otherwise returns the current type.</summary>
+			<returns>Returns <see cref="T:System.Type"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.TypeExtensions.IsA(System.Type,System.Type)">
+			<summary>Determines if the input reference type is assignable from this type.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.TypeExtensions.IsA``1(System.Type)">
+			<summary>Determines if a generic type is assignable from this type.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.CacheItemDetail.#ctor(System.String,System.Runtime.Caching.CacheItemPolicy)">
+			<summary>constructor_initializesCacheItemDetail class.</summary>
+			<param name="policy">The policy of the cache item.</param>
+			<param name="cacheKey">The associated cache item.</param>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Caching.CacheItemDetail.CacheKey">
+			<summary>The key of the related cache item. </summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Caching.CacheItemDetail.CreatedOn">
+			<summary>The creation date of the cache item. </summary>
+			<returns>Returns <see cref="T:System.DateTimeOffset"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Caching.CacheItemDetail.Policy">
+			<summary>The policy of the cache item.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Caching.CacheItemDetail.UpdatedOn">
+			<summary>The last updated date of the cache item.</summary>
+			<returns>Returns <see cref="T:System.DateTimeOffset"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.IExtendedObjectCache.RemoveAll(System.String)">
+			<summary>Removes all cache items.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.IExtendedObjectCache.RemoveAllLocal(System.String)">
+			<summary>Removes all cache items that are local to the application.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.IExtendedObjectCache.RemoveLocal(System.String,System.String)">
+			<summary>Removes a cache item that is local to the application.</summary>
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Clear(System.Runtime.Caching.ObjectCache)">
+			<summary>Removes all items from the cache.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Get``1(System.String,System.Func{System.Runtime.Caching.ObjectCache,``0},System.Action{System.Runtime.Caching.ObjectCache,``0},System.String)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Get``1(System.String,System.Func{System.Runtime.Caching.ObjectCache,``0},System.Func{System.Runtime.Caching.CacheItemPolicy},System.String)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Get``1(System.Runtime.Caching.ObjectCache,System.String,System.Func{System.Runtime.Caching.ObjectCache,``0},System.Action{System.Runtime.Caching.ObjectCache,``0},System.String)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Get``1(System.Runtime.Caching.ObjectCache,System.String,System.Func{System.Runtime.Caching.ObjectCache,``0},System.Func{System.Runtime.Caching.CacheItemPolicy},System.String)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Get``1(System.String,System.String,System.Func{System.Runtime.Caching.ObjectCache,``0},System.Action{System.Runtime.Caching.ObjectCache,``0},System.String)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Get``1(System.String,System.String,System.Func{System.Runtime.Caching.ObjectCache,``0},System.Func{System.Runtime.Caching.CacheItemPolicy},System.String)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.GetCacheItemDetail(System.Runtime.Caching.ObjectCache,System.String,System.String)">
+			<summary>Retrieves the associated <see cref="T:Microsoft.Xrm.Client.Caching.CacheItemDetail"></see> for a cache item.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Caching.CacheItemDetail"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.GetCacheItemDetailCacheKey(System.Runtime.Caching.ObjectCache,System.String)">
+			<summary>Retrieves the cache key of the associated <see cref="T:Microsoft.Xrm.Client.Caching.CacheItemDetail"></see> for a cache item.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.GetCacheItemPolicy(System.String)">
+			<summary>Builds a CacheItemPolicyhttp://msdn2.microsoft.com/en-us/library/dd988752 from a configuration element.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.GetCacheItemPolicy(System.Runtime.Caching.ChangeMonitor,System.String)">
+			<summary>Builds a CacheItemPolicyhttp://msdn2.microsoft.com/en-us/library/dd988752 from a configuration element and adds a single ChangeMonitorhttp://msdn2.microsoft.com/en-us/library/dd780597 to the policy.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.GetCacheItemPolicy(System.Collections.Generic.IEnumerable{System.String},System.String,System.String)">
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.GetCacheItemPolicy(System.Runtime.Caching.ObjectCache,System.Collections.Generic.IEnumerable{System.String},System.String,System.String)">
+			<summary>Builds a CacheItemPolicyhttp://msdn2.microsoft.com/en-us/library/dd988752 and adds a set of CacheEntryChangeMonitorhttp://msdn2.microsoft.com/en-us/library/dd988729 objects to the policy.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.GetChangeMonitor(System.Runtime.Caching.ObjectCache,System.Collections.Generic.IEnumerable{System.String},System.String)">
+			<summary>Builds a CacheEntryChangeMonitorhttp://msdn2.microsoft.com/en-us/library/dd988729 from a set of cache keys.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheEntryChangeMonitor"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.GetInstance(System.String)">
+			<summary>Retrieves a configured ObjectCachehttp://msdn2.microsoft.com/en-us/library/dd780630.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.ObjectCache"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Insert(System.Runtime.Caching.ObjectCache,System.String,System.Object,System.Runtime.Caching.CacheItemPolicy,System.String)">
+			<summary>Inserts an object into cache along with an associated <see cref="T:Microsoft.Xrm.Client.Caching.CacheItemDetail"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.Insert(System.Runtime.Caching.ObjectCache,System.String,System.Object,System.Collections.Generic.IEnumerable{System.String},System.String)">
+			<summary>Inserts an object into cache along with an associated <see cref="T:Microsoft.Xrm.Client.Caching.CacheItemDetail"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Caching.ObjectCacheManager.RemoveAll(System.Runtime.Caching.ObjectCache,System.String)">
+			<summary>Removes all items from the cache by invoking the <see cref="T:Microsoft.Xrm.Client.Caching.IExtendedObjectCache"></see> if it is available.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Collections.Generic.ArgumentDictionary.AddRange(System.Collections.Specialized.NameValueCollection)">
+			<summary>Merges a collection into the dictionary.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Collections.Generic.ArgumentDictionary.AddRange(System.String[])">
+			<summary>Merges a collection of pair strings into the dictionary.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Collections.Generic.ArgumentDictionary.IsEnabled(System.String)">
+			<summary>Determines if an entry contains the string value "true".</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Collections.Generic.ConnectionStringExtensions.ToDictionary(System.Configuration.ConnectionStringSettings)">
+			<summary>Builds a connection string dictionary from a configuration connection string.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Collections.Generic.ConnectionStringExtensions.ToDictionary(System.String)">
+			<summary>Builds a connection string dictionary that is parsed from a string.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Collections.Generic.ConnectionStringExtensions.ToDictionaryFromConnectionStringName(System.String)">
+			<summary>Builds a connection string dictionary from a named configuration connection string.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Collections.Generic.DictionaryExtensions.FirstNotNullOrDefault``2(System.Collections.Generic.IDictionary{``0,``1},``0[])">
+			<summary>Returns the first non-null value for a sequence of keys.</summary>
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Collections.Generic.DictionaryExtensions.FirstNotNullOrEmpty``1(System.Collections.Generic.IDictionary{``0,System.String},``0[])">
+			<summary>Returns the first non-null or empty string value for a sequence of keys.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.CreateNewElement">
+			<returns>Returns <see cref="T:System.Configuration.ConfigurationElement"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.GetElementKey(System.Configuration.ConfigurationElement)">
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.GetElementOrDefault(System.String,System.Boolean)">
+			<summary>Retrieves the selected element or falls back to the default.</summary>
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.GetKey(System.Int32)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.AllKeys">
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.CollectionName">
+			<summary>The name of the element collection.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.Current">
+			<summary>Gets the selected or default element.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.Default">
+			<summary>Gets or sets the default element name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.ElementName">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.Item(System.Int32)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.Item(System.String)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ConfigurationElementCollection`1.Properties">
+			<returns>Returns <see cref="T:System.Configuration.ConfigurationPropertyCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.CreateCacheItemPolicy(System.String,System.Boolean)">
+			<summary>Retrieves the configured CacheItemPolicyhttp://msdn2.microsoft.com/en-us/library/dd988752.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.CreateConnectionDictionary(System.Configuration.ConnectionStringSettings)">
+			<summary>Creates and caches connection strings by name.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.CreateContext(System.String,System.Boolean)">
+			<summary>Retrieves the configured <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.CreateObjectCache(System.String,System.Boolean)">
+			<summary>Retrieves the configured <see cref="P:Microsoft.Xrm.Client.Configuration.CrmSection.ObjectCache"></see>.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.ObjectCache"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.CreateService(System.String,System.Boolean)">
+			<summary>Retrieves the configured <see cref="T:Microsoft.Xrm.Sdk.IOrganizationService"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.IOrganizationService"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.CreateService(Microsoft.Xrm.Client.CrmConnection,System.String,System.Boolean)">
+			<summary>Retrieves the configured <see cref="T:Microsoft.Xrm.Sdk.IOrganizationService"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.IOrganizationService"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.CreateServiceCache(System.String,Microsoft.Xrm.Client.CrmConnection,System.Boolean)">
+			<summary>Retrieves the configured <see cref="T:Microsoft.Xrm.Client.Services.IOrganizationServiceCache"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.IOrganizationServiceCache"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.CreateServiceCache(System.String,System.String,System.Boolean)">
+			<summary>Retrieves the configured <see cref="T:Microsoft.Xrm.Client.Services.IOrganizationServiceCache"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.IOrganizationServiceCache"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.GetConnectionStringNameFromContext(System.String,System.Boolean)">
+			<summary>Retrieves the connection string name from the context name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.GetCrmSection">
+			<summary>Retrieves the configuration section</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Configuration.CrmSection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.GetObjectCaches(System.String)">
+			<summary>Retrieves the cached <see cref="P:Microsoft.Xrm.Client.Configuration.CrmSection.ObjectCache"></see> objects</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IEnumerable`1"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager.Reset">
+			<summary>Resets the cached dependencies.</summary>
+		</member>
+		<member name="T:Microsoft.Xrm.Client.Configuration.CrmSection">
+			<summary>Represents a collection of site configuration nodes and settings for all sites in general.</summary>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.CrmSection.SectionName">
+			<summary>The element name of the section.</summary>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.CrmSection.Contexts">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Configuration.OrganizationServiceContextElementCollection"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.CrmSection.ObjectCache">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Configuration.ObjectCacheElementCollection"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.CrmSection.ServiceCache">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElementCollection"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.CrmSection.Services">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Configuration.OrganizationServiceElementCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.IInitializable.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+			<summary>Performs custom initialization.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.AddConfig(System.String,System.String)">
+			<summary>Adds a setting.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.CreateDependency``1(System.Func{``0},System.Object[])">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.CreateDependency``2(System.Func{``0},System.Object[],System.Func{``1},System.Object[])">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.CreateDependencyAndInitialize``1(System.Func{``0},System.Object[])">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.CreateDependencyAndInitialize``2(System.Func{``0},System.Object[],System.Func{``1},System.Object[])">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.GetDependencyType">
+			<returns>Returns <see cref="T:System.Type"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.Initialize(`0)">
+			<summary>Initializes the dependency object.</summary>
+			<returns>Returns <see cref="T:System.Type"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.OnDeserializeUnrecognizedAttribute(System.String,System.String)">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.TryInitialize(System.Object)">
+			<summary>Initializes the dependency object.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.DependencyType">
+			<summary>The dependency type.</summary>
+			<returns>Returns <see cref="T:System.Type"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.Name">
+			<summary>The name of the configuration element.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.Parameters">
+			<summary>The attributes of the configuration element.</summary>
+			<returns>Returns <see cref="T:System.Collections.Specialized.NameValueCollection"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.InitializableConfigurationElement`1.Type">
+			<summary>The dependency type name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.DefaultObjectCacheName">
+			<summary>The default element name.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.CreateCacheItemPolicy">
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.CreateObjectCache(System.String)">
+			<summary>Creates a <see cref="P:Microsoft.Xrm.Client.Configuration.CrmSection.ObjectCache"></see> object.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.ObjectCache"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.AbsoluteExpiration">
+			<summary>The cache policy absolute expiration date.</summary>
+			<returns>Returns <see cref="T:System.DateTimeOffset"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.Duration">
+			<summary>The cache policy cache duration.</summary>
+			<returns>Returns <see cref="T:System.Nullable`1"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.InstanceMode">
+			<summary>The instance mode.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Configuration.ObjectCacheInstanceMode"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.Name">
+			<summary>Gets or sets the element name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.OutputCacheProfileName">
+			<summary>The name of the <see cref="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.OutputCacheProfileName"></see> from which the cache profile duration is obtained.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.Priority">
+			<summary>The cache policy priority.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPriority"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.SlidingExpiration">
+			<summary>The cache policy sliding expiration.</summary>
+			<returns>Returns <see cref="T:System.TimeSpan"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElement.Type">
+			<summary>The dependency type name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.ObjectCacheElementCollection.Name">
+			<summary>The name of the element collection.</summary>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.ObjectCacheElementCollection.CollectionName">
+			<summary>The name of the element collection.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement.CreateOrganizationServiceCache(System.Runtime.Caching.ObjectCache,Microsoft.Xrm.Client.Services.OrganizationServiceCacheSettings)">
+			<summary>Creates a <see cref="T:Microsoft.Xrm.Client.Services.IOrganizationServiceCache"></see> object.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.IOrganizationServiceCache"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement.CacheMode">
+			<summary>The caching behavior mode.</summary>
+			<returns>Returns <see cref="T:System.Nullable`1"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement.CacheRegionName">
+			<summary>The cache region name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement.Name">
+			<summary>Gets or sets the element name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement.ObjectCacheName">
+			<summary>The name of the nested <see cref="T:Microsoft.Xrm.Client.Configuration.ObjectCacheElement"></see> configuration.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement.QueryHashingEnabled">
+			<summary>Indicates that the query used to construct the cache key is to be hashed or left as a readable string.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement.ReturnMode">
+			<summary>The cache retrieval mode.</summary>
+			<returns>Returns <see cref="T:System.Nullable`1"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement.Type">
+			<summary>The dependency type name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElementCollection.Name">
+			<summary>The name of the element collection.</summary>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElementCollection.CollectionName">
+			<summary>The name of the element collection.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.OrganizationServiceContextElement.CreateOrganizationServiceContext(Microsoft.Xrm.Sdk.IOrganizationService)">
+			<summary>Creates an <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see> object.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceContextElement.ConnectionStringName">
+			<summary>The name of the service connection string.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceContextElement.Name">
+			<summary>Gets or sets the element name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceContextElement.ServiceName">
+			<summary>The name of the nested <see cref="T:Microsoft.Xrm.Client.Configuration.OrganizationServiceElement"></see> configuration.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceContextElement.Type">
+			<summary>The dependency type name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.OrganizationServiceContextElementCollection.Name">
+			<summary>The name of the element collection.</summary>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceContextElementCollection.CollectionName">
+			<summary>The name of the element collection.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Configuration.OrganizationServiceElement.CreateOrganizationService(Microsoft.Xrm.Client.CrmConnection,Microsoft.Xrm.Client.Services.IOrganizationServiceCache)">
+			<summary>Creates an <see cref="T:Microsoft.Xrm.Sdk.IOrganizationService"></see> object.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.IOrganizationService"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceElement.InstanceMode">
+			<summary>The instance mode.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Configuration.OrganizationServiceInstanceMode"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceElement.Name">
+			<summary>Gets or sets the element name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceElement.ObjectCacheName">
+			<summary>The name of the nested <see cref="T:Microsoft.Xrm.Client.Configuration.ObjectCacheElement"></see> configuration.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceElement.ServiceCacheName">
+			<summary>The name of the nested <see cref="T:Microsoft.Xrm.Client.Configuration.OrganizationServiceCacheElement"></see> configuration.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceElement.Type">
+			<summary>The dependency type name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.OrganizationServiceElementCollection.Name">
+			<summary>The name of the element collection.</summary>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Configuration.OrganizationServiceElementCollection.CollectionName">
+			<summary>The name of the element collection.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="T:Microsoft.Xrm.Client.Configuration.OrganizationServiceInstanceMode">
+			<summary>Specifies how <see cref="T:Microsoft.Xrm.Client.Configuration.CrmConfigurationManager"></see> will adjust its instantiation behavior.</summary>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.OrganizationServiceInstanceMode.PerInstance">
+			<summary>Specifies to return a new instance on each call.</summary>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.OrganizationServiceInstanceMode.PerName">
+			<summary>Specifies to return a single instance for each configuration element specified.</summary>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.OrganizationServiceInstanceMode.PerRequest">
+			<summary>Specifies to return the same first instance in the context of a Web request, for example. one instance for each HttpContext instance.</summary>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Configuration.OrganizationServiceInstanceMode.Static">
+			<summary>Specifies to always return the same static instance.</summary>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Diagnostics.Tracing.AppDomain">
+			<returns>Returns <see cref="T:System.Diagnostics.TraceSource"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Diagnostics.Tracing.Framework">
+			<returns>Returns <see cref="T:System.Diagnostics.TraceSource"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Diagnostics.Tracing.Workflow">
+			<returns>Returns <see cref="T:System.Diagnostics.TraceSource"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddItemCampaign(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid,System.String)">
+			<summary>Extension_Message_part1AddItemCampaignRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+			<param name="campaignId">The ID of the campaign.</param>
+			<param name="entityName">Extension_Message_entityName_param</param>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddItemCampaignActivity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid,System.String)">
+			<summary>Extension_Message_part1AddItemCampaignActivityRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+			<param name="entityName">Extension_Message_entityName_param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddListMembersList(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid[])">
+			<summary>Extension_Message_part1AddListMembersListRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddMemberList(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1AddMemberListRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddMembersTeam(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid[])">
+			<summary>Extension_Message_part1AddMembersTeamRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddPrivilegesRole(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Object)">
+			<summary>Extension_Message_part1AddPrivilegesRoleRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddProductToKit(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1AddProductToKitRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddRecurrence(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.Guid)">
+			<summary>Extension_Message_part1AddRecurrenceRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddSolutionComponent(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32,System.String,System.Boolean)">
+			<summary>Extension_Message_part1AddSolutionComponentRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddSubstituteProduct(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1AddSubstituteProductRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AddToQueue(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.Guid,System.Guid,Microsoft.Xrm.Sdk.Entity)">
+			<summary>Extension_Message_part1AddToQueueRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.Assign(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.EntityReference)">
+			<summary>Extension_Message_part1AssignRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AssociateEntities(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.EntityReference,System.String)">
+			<summary>Extension_Message_part1AssociateEntitiesRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.AutoMapEntity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1AutoMapEntityRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.BackgroundSendEmail``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<summary>Extension_Message_part1BackgroundSendEmailRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.Book``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity)">
+			<summary>Extension_Message_part1BookRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.BulkDelete(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Query.QueryExpression[],System.String,System.Boolean,System.Guid[],System.Guid[],System.String,System.DateTime,System.Nullable{System.Guid})">
+			<summary>Extension_Message_part1BulkDeleteRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.BulkDetectDuplicates(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Query.QueryBase,System.String,System.Boolean,System.Guid,System.Guid[],System.Guid[],System.String,System.DateTime)">
+			<summary>Extension_Message_part1BulkDetectDuplicatesRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.BulkOperationStatusClose(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32,System.Int32,System.Int32,System.Int32)">
+			<summary>Extension_Message_part1BulkOperationStatusCloseRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CalculateActualValueOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1CalculateActualValueOpportunityRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Decimal"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CalculateTotalTimeIncident(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1CalculateTotalTimeIncidentRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Int64"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CancelContract(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.DateTime,Microsoft.Xrm.Sdk.OptionSetValue)">
+			<summary>Extension_Message_part1CancelContractRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CancelSalesOrder(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.OptionSetValue)">
+			<summary>Extension_Message_part1CancelSalesOrderRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CheckIncomingEmail``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.String,System.String,System.String,System.String,System.String)">
+			<summary>Extension_Message_part1CheckIncomingEmailRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Int64"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CheckPromoteEmail``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.String)">
+			<summary>Extension_Message_part1CheckPromoteEmailRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Int64"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CleanUpBulkOperation(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32)">
+			<summary>Extension_Message_part1CleanUpBulkOperationRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CloneContract(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Boolean)">
+			<summary>Extension_Message_part1CloneContractRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CloseIncident(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.Int32)">
+			<summary>Extension_Message_part1CloseIncidentRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CloseIncident(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.OptionSetValue)">
+			<summary>Extension_Message_part1CloseIncidentRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CloseQuote(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.OptionSetValue)">
+			<summary>Extension_Message_part1CloseQuoteRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CompoundCreate(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.EntityCollection)">
+			<summary>Extension_Message_part1CompoundCreateRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CompoundUpdate(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.EntityCollection)">
+			<summary>Extension_Message_part1CompoundUpdateRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CompoundUpdateDuplicateDetectionRule(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.EntityCollection)">
+			<summary>Extension_Message_part1CompoundUpdateDuplicateDetectionRuleRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ConvertKitToProduct(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1ConvertKitToProductRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ConvertProductToKit(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1ConvertProductToKitRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ConvertQuoteToSalesOrder(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<summary>Extension_Message_part1ConvertQuoteToSalesOrderRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ConvertSalesOrderToInvoice(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<summary>Extension_Message_part1ConvertSalesOrderToInvoiceRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CopyCampaign(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Boolean)">
+			<summary>Extension_Message_part1CopyCampaignRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CopyCampaignResponse(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference)">
+			<summary>Extension_Message_part1CopyCampaignResponseRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CopyDynamicListToStatic(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1CopyDynamicListToStaticRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CopyMembersList(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1CopyMembersListRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CopySystemForm(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.Guid)">
+			<summary>Extension_Message_part1CopySystemFormRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CreateActivitiesList(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.String,Microsoft.Xrm.Sdk.Entity,System.Guid,System.Boolean,System.Object,Microsoft.Xrm.Sdk.EntityReference,System.Boolean,System.Boolean,System.Guid)">
+			<summary>Extension_Message_part1CreateActivitiesListRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CreateException(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.DateTime,System.Boolean)">
+			<summary>Extension_Message_part1CreateExceptionRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CreateInstance(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.Int32)">
+			<summary>Extension_Message_part1CreateInstanceRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.CreateWorkflowFromTemplate(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Guid)">
+			<summary>Extension_Message_part1CreateWorkflowFromTemplateRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.DeleteAuditData(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.DateTime)">
+			<summary>Extension_Message_part1DeleteAuditDataRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.DeleteOpenInstances(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.DateTime,System.Int32)">
+			<summary>Extension_Message_part1DeleteOpenInstancesRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.DeliverIncomingEmail(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.String,System.String,System.String,System.String,System.String,System.DateTime,System.String,System.String,System.String,Microsoft.Xrm.Sdk.EntityCollection)">
+			<summary>Extension_Message_part1DeliverIncomingEmailRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.DeliverPromoteEmail(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.String,System.String,System.String,System.String,System.String,System.String,System.DateTime,System.String,System.String,System.String,Microsoft.Xrm.Sdk.EntityCollection,Microsoft.Xrm.Sdk.Entity)">
+			<summary>Extension_Message_part1DeliverPromoteEmailRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.DeprovisionLanguage(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Int32)">
+			<summary>Extension_Message_part1DeprovisionLanguageRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.DisassociateEntities(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.EntityReference,System.String)">
+			<summary>Extension_Message_part1DisassociateEntitiesRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.DistributeCampaignActivity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Boolean,Microsoft.Xrm.Sdk.Entity,System.Guid,System.Object,Microsoft.Xrm.Sdk.EntityReference,System.Boolean,System.Guid)">
+			<summary>Extension_Message_part1DistributeCampaignActivityRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.DownloadReportDefinition(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1DownloadReportDefinitionRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ExecuteByIdSavedQuery(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1ExecuteByIdSavedQueryRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ExecuteByIdUserQuery(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference)">
+			<summary>Extension_Message_part1ExecuteByIdUserQueryRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ExecuteFetch(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<summary>Extension_Message_part1ExecuteFetchRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ExecuteWorkflow(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1ExecuteWorkflowRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ExpandCalendar``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.DateTime,System.DateTime)">
+			<summary>Extension_Message_part1ExpandCalendarRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ExportSolution(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)">
+			<summary>Extension_Message_part1ExportSolutionRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Byte"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ExportTranslation(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<summary>Extension_Message_part1ExportTranslationRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Byte"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.FetchXmlToQueryExpression(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<summary>Extension_Message_part1FetchXmlToQueryExpressionRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Query.QueryExpression"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.FindParentResourceGroup(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid[])">
+			<summary>Extension_Message_part1FindParentResourceGroupRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.FulfillSalesOrder(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.OptionSetValue)">
+			<summary>Extension_Message_part1FulfillSalesOrderRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GenerateInvoiceFromOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<summary>Extension_Message_part1GenerateInvoiceFromOpportunityRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GenerateQuoteFromOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<summary>Extension_Message_part1GenerateQuoteFromOpportunityRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GenerateSalesOrderFromOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<summary>Extension_Message_part1GenerateSalesOrderFromOpportunityRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetAllTimeZonesWithDisplayName(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Int32)">
+			<summary>Extension_Message_part1GetAllTimeZonesWithDisplayNameRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetDecryptionKey(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<summary>Extension_Message_part1GetDecryptionKeyRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetDistinctValuesImportFile(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32,System.Int32,System.Int32)">
+			<summary>Extension_Message_part1GetDistinctValuesImportFileRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetHeaderColumnsImportFile(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1GetHeaderColumnsImportFileRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetInvoiceProductsFromOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1GetInvoiceProductsFromOpportunityRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetQuantityDecimal(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1GetQuantityDecimalRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetQuoteProductsFromOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1GetQuoteProductsFromOpportunityRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetReportHistoryLimit(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1GetReportHistoryLimitRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetSalesOrderProductsFromOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<summary>Extension_Message_part1GetSalesOrderProductsFromOpportunityRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetTimeZoneCodeByLocalizedName(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Int32)">
+			<summary>Extension_Message_part1GetTimeZoneCodeByLocalizedNameRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GetTrackingTokenEmail(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<summary>Extension_Message_part1GetTrackingTokenEmailRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.GrantAccess(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.Object)">
+			<summary>Extension_Message_part1GrantAccessRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ImportRecordsImport(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1ImportRecordsImportRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ImportSolution(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Boolean,System.Boolean,System.Byte[],System.Guid)">
+			<summary>Extension_Message_part1ImportSolutionRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ImportTranslation(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Byte[],System.Guid)">
+			<summary>Extension_Message_part1ImportTranslationRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.InitializeFrom(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.String,System.Object)">
+			<summary>Extension_Message_part1InitializeFromRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+			<param name="targetEntityName">Extension_Message_entityName_param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.InstallSampleData(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<summary>Extension_Message_part1InstallSampleDataRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.InstantiateFilters(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReferenceCollection,System.Guid)">
+			<summary>Extension_Message_part1InstantiateFiltersRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.InstantiateTemplate(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.String,System.Guid)">
+			<summary>Extension_Message_part1InstantiateTemplateRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.IsBackOfficeInstalled(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<summary>Extension_Message_part1IsBackOfficeInstalledRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.IsComponentCustomizable(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32)">
+			<summary>Extension_Message_part1IsComponentCustomizableRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.IsValidStateTransition(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.String,System.Int32)">
+			<summary>Extension_Message_part1IsValidStateTransitionRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.LocalTimeFromUtcTime(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Int32,System.DateTime)">
+			<summary>Extension_Message_part1LocalTimeFromUtcTimeRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.DateTime"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.LockInvoicePricing(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1LockInvoicePricingRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.LockSalesOrderPricing(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1LockSalesOrderPricingRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.LogFailureBulkOperation(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid,System.Int32,System.Int32,System.String,System.String)">
+			<summary>Extension_Message_part1LogFailureBulkOperationRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.LogSuccessBulkOperation(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid,System.Int32,System.Guid,System.Int32,System.String)">
+			<summary>Extension_Message_part1LogSuccessBulkOperationRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.LoseOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.Int32)">
+			<summary>Extension_Message_part1LoseOpportunityRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.LoseOpportunity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Sdk.OptionSetValue)">
+			<summary>Extension_Message_part1LoseOpportunityRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.MakeAvailableToOrganizationReport(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1MakeAvailableToOrganizationReportRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.MakeAvailableToOrganizationTemplate(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1MakeAvailableToOrganizationTemplateRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.MakeUnavailableToOrganizationReport(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1MakeUnavailableToOrganizationReportRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.MakeUnavailableToOrganizationTemplate(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1MakeUnavailableToOrganizationTemplateRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.Merge(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.Guid,Microsoft.Xrm.Sdk.Entity,System.Boolean)">
+			<summary>Extension_Message_part1MergeRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ModifyAccess(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.Object)">
+			<summary>Extension_Message_part1ModifyAccessRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ParseImport(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1ParseImportRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ProcessInboundEmail(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1ProcessInboundEmailRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ProcessOneMemberBulkOperation(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Entity,System.Int32)">
+			<summary>Extension_Message_part1ProcessOneMemberBulkOperationRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.PropagateByExpression(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Query.QueryBase,System.String,System.Boolean,Microsoft.Xrm.Sdk.Entity,System.Guid,System.Object,System.Boolean,Microsoft.Xrm.Sdk.EntityReference,System.Boolean,System.Guid)">
+			<summary>Extension_Message_part1PropagateByExpressionRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ProvisionLanguage(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Int32)">
+			<summary>Extension_Message_part1ProvisionLanguageRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.PublishAllXml(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<summary>Extension_Message_part1PublishAllXmlRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.PublishDuplicateRule(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<summary>Extension_Message_part1PublishDuplicateRuleRequestExtension_Message_part2</summary>
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.PublishXml(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<summary>Extension_Message_part1PublishXmlRequestExtension_Message_part2</summary>
+			<param name="context">Extension_Message_Context_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.QualifyLead(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.Boolean,System.Boolean,System.Boolean,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.OptionSetValue)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityReferenceCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.QueryExpressionToFetchXml(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.QueryMultipleSchedules``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid[],System.DateTime,System.DateTime,System.Object)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.QuerySchedule``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.DateTime,System.DateTime,System.Object)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RemoveItemCampaign(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RemoveMemberList(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Guid)">
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RemoveSolutionComponent(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32,System.String)">
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RenewContract(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32,System.Boolean)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.Reschedule``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveAbsoluteAndSiteCollectionUrl``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveAllChildUsersSystemUser(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveAllEntities(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Metadata.EntityFilters,System.Boolean)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Metadata.EntityMetadata"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveApplicationRibbon(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:System.Byte"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveAttribute(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.String,System.Boolean)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Metadata.AttributeMetadata"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveAttributeChangeHistory``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.String,Microsoft.Xrm.Sdk.Query.PagingInfo)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Metadata.AttributeMetadata"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveAuditDetails``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Metadata.AttributeMetadata"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveAuditPartitionList``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Metadata.AttributeMetadata"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveAvailableLanguages(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveBusinessHierarchyBusinessUnit(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveByGroupResource(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveByResourceResourceGroup(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveByResourcesService(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid[],Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveByTopIncidentProductKbArticle(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveByTopIncidentSubjectKbArticle(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveDependenciesForDelete(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveDependenciesForUninstall(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveDependentComponents(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveDeploymentLicenseType(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveDeprovisionedLanguages(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveDuplicates(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,System.String,Microsoft.Xrm.Sdk.Query.PagingInfo)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveEntity(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,Microsoft.Xrm.Sdk.Metadata.EntityFilters,System.Boolean)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Metadata.EntityMetadata"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveEntityRibbon(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Object)">
+			<returns>Returns <see cref="T:System.Byte"></see>.</returns>
+			<param name="entityName">Extension_Message_entityName_param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveExchangeRate(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:System.Decimal"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveFilteredForms(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,Microsoft.Xrm.Sdk.OptionSetValue,System.Guid)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityReferenceCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveFormattedImportJobResults(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveFormXml``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+			<param name="entityName">Extension_Message_entityName_param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveInstalledLanguagePacks(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveInstalledLanguagePackVersion(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Int32)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveLicenseInfo``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Int32)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveLocLabels(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.String,System.Boolean)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Label"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveMembersBulkOperation(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32,System.Int32,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveMembersTeam(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveMissingComponents``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Byte[])">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveMissingDependencies(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveMultiple(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveMultiple(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Messages.RetrieveMultipleRequest)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Messages.RetrieveMultipleResponse"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveOrganizationResources``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveParentGroupsResourceGroup(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveParsedDataImportFile(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.PagingInfo)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrievePrincipalAccess``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.EntityReference)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrievePrincipalAttributePrivileges(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.AttributePrivilegeCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrievePrivilegeSet(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveProvisionedLanguagePackVersion(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Int32)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveProvisionedLanguages(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveRecordChangeHistory``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.Query.PagingInfo)">
+			<returns>Returns <see cref="T:System.Int32"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveRequiredComponents(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Int32)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveRolePrivilegesRole``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveSharedPrincipalsAndAccess``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveSubGroupsResourceGroup(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveSubsidiaryTeamsBusinessUnit(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveSubsidiaryUsersBusinessUnit(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveTeamPrivileges``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveTeamsSystemUser(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveUnpublished(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveUnpublishedMultiple(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveUserPrivileges``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveUserSettingsSystemUser(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+			<param name="entityId">Extension_Message_entityID_Param</param>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.RetrieveVersion(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ReviseQuote(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.Rollup(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,Microsoft.Xrm.Sdk.Query.QueryBase,System.Object)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.Search``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Object)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.SearchByBodyKbArticle(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Guid,System.Boolean,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.SearchByKeywordsKbArticle(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Guid,System.Boolean,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.SearchByTitleKbArticle(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.String,System.Guid,System.Boolean,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.SendEmail(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.Boolean,System.String)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.SendEmailFromTemplate(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid,System.String,System.Guid,Microsoft.Xrm.Sdk.Entity)">
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.TransformImport(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Guid)">
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.UtcTimeFromLocalTime(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Int32,System.DateTime)">
+			<returns>Returns <see cref="T:System.DateTime"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.Validate``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityCollection)">
+			<returns>Returns <see cref="T:System.DateTime"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.ValidateRecurrenceRule(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.VerifyProcessStateData(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.EntityReference,System.String)">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Messages.OrganizationServiceContextExtensions.WhoAmI``1(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext)">
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Metadata.AttributeInfo.GetValue(System.Object)">
+			<summary>Retrieves the value of the property for an <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</summary>
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.AttributeInfo.CrmPropertyAttribute">
+			<summary>The logical name annotation of the attribute property.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.AttributeLogicalNameAttribute"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.AttributeInfo.Property">
+			<summary>The PropertyInfohttp://msdn2.microsoft.com/en-us/library/8z852kf5 reflection object for the attribute property.</summary>
+			<returns>Returns <see cref="T:System.Reflection.PropertyInfo"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityAttribute.EntitySetName">
+			<summary>Gets or sets the plural name of the static entity.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityInfo.AttributesByLogicalName">
+			<summary>A lookup of <see cref="T:Microsoft.Xrm.Client.Metadata.AttributeInfo"></see> keyed by the attribute logical name.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityInfo.AttributesByPropertyName">
+			<summary>A lookup of <see cref="T:Microsoft.Xrm.Client.Metadata.AttributeInfo"></see> keyed by the attribute property name</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityInfo.Entity">
+			<summary>The entity set annotation of the <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Metadata.EntityAttribute"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityInfo.EntityLogicalName">
+			<summary>The logical name annotation of the <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Client.EntityLogicalNameAttribute"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityInfo.EntityType">
+			<summary>The type of the <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</summary>
+			<returns>Returns <see cref="T:System.Type"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityInfo.PrimaryKeyProperty">
+			<summary>The <see cref="T:Microsoft.Xrm.Client.Metadata.AttributeInfo"></see> of the primary key property.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Metadata.AttributeInfo"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityInfo.RelationshipsByPropertyName">
+			<summary>A lookup of <see cref="T:Microsoft.Xrm.Client.Metadata.RelationshipInfo"></see> keyed by the relationship property name.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntityInfo.RelationshipsBySchemaName">
+			<summary>A lookup of <see cref="T:Microsoft.Xrm.Client.Metadata.RelationshipInfo"></see> keyed by the relationship schema name.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntitySetInfo.Entity">
+			<summary>Gets the <see cref="T:Microsoft.Xrm.Client.Metadata.EntityInfo"></see> reflection object for the corresponding entity type</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Metadata.EntityInfo"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.EntitySetInfo.Property">
+			<summary>Gets the PropertyInfohttp://msdn2.microsoft.com/en-us/library/8z852kf5 reflection object for the entity set property.</summary>
+			<returns>Returns <see cref="T:System.Reflection.PropertyInfo"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Metadata.OrganizationServiceContextInfo.TryGet(System.Type,Microsoft.Xrm.Client.Metadata.OrganizationServiceContextInfo@)">
+			<summary>Returns a OrganizationServiceContextInfo from a custom <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see> class.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Metadata.OrganizationServiceContextInfo.TryGet(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Client.Metadata.EntitySetInfo@)">
+			<summary>Returns an <see cref="T:Microsoft.Xrm.Client.Metadata.EntitySetInfo"></see> from a custom <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see> class and an entity.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Metadata.OrganizationServiceContextInfo.TryGet(System.Type,System.String,Microsoft.Xrm.Client.Metadata.EntitySetInfo@)">
+			<summary>Returns an <see cref="T:Microsoft.Xrm.Client.Metadata.EntitySetInfo"></see> from a custom <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see> class and an entity logical name. </summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.OrganizationServiceContextInfo.ContextType">
+			<summary>The custom <see cref="T:Microsoft.Xrm.Sdk.Client.OrganizationServiceContext"></see> class.</summary>
+			<returns>Returns <see cref="T:System.Type"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.OrganizationServiceContextInfo.EntitySetsByEntityLogicalName">
+			<summary>A lookup of <see cref="T:Microsoft.Xrm.Client.Metadata.EntitySetInfo"></see> keyed by the entity logical name.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.OrganizationServiceContextInfo.EntitySetsByPropertyName">
+			<summary>A lookup of <see cref="T:Microsoft.Xrm.Client.Metadata.EntitySetInfo"></see> keyed by the entity set property name.</summary>
+			<returns>Returns <see cref="T:System.Collections.Generic.IDictionary`2"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.RelationshipInfo.CrmAssociationAttribute">
+			<summary>The annotation for the relationship property.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.RelationshipSchemaNameAttribute"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.RelationshipInfo.IsCollection">
+			<summary>Indicates that the relationship property returns a collection of entities.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Metadata.RelationshipInfo.Property">
+			<summary>The reflection object for the relationship property.</summary>
+			<returns>Returns <see cref="T:System.Reflection.PropertyInfo"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Runtime.Serialization.ObjectExtensions.DeserializeByJson(System.String,System.Type,System.Collections.Generic.IEnumerable{System.Type})">
+			<summary>Deserializes an object using the DataContractJsonSerializerhttp://msdn2.microsoft.com/en-us/library/bb908432.</summary>
+			<returns>Returns <see cref="T:System.Object"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Runtime.Serialization.ObjectExtensions.SerializeByJson(System.Object,System.Collections.Generic.IEnumerable{System.Type})">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.CrmEntitySecurityProvider.Assert(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Client.Security.CrmEntityRight)">
+			<summary>Asserts that the current user has the requested right to an entity.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.CrmEntitySecurityProvider.Assert(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Collections.Generic.IEnumerable{Microsoft.Xrm.Sdk.Entity},Microsoft.Xrm.Client.Security.CrmEntityRight)">
+			<summary>Asserts that the current user has the requested right to a set of entities.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.CrmEntitySecurityProvider.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+			<summary>Initializes custom settings.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.CrmEntitySecurityProvider.TryAssert(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Client.Security.CrmEntityRight)">
+			<summary>Asserts that the current user has the requested right to an entity.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.CrmEntitySecurityProvider.TryAssert(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Collections.Generic.IEnumerable{Microsoft.Xrm.Sdk.Entity},Microsoft.Xrm.Client.Security.CrmEntityRight)">
+			<summary>Asserts that the current user has the requested right to a set of entities.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.ICrmEntitySecurityProvider.Assert(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Client.Security.CrmEntityRight)">
+			<summary>Asserts that the current user has the requested right to an entity.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.ICrmEntitySecurityProvider.Assert(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Collections.Generic.IEnumerable{Microsoft.Xrm.Sdk.Entity},Microsoft.Xrm.Client.Security.CrmEntityRight)">
+			<summary>Asserts that the current user has the requested right to a set of entities.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.ICrmEntitySecurityProvider.TryAssert(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,Microsoft.Xrm.Sdk.Entity,Microsoft.Xrm.Client.Security.CrmEntityRight)">
+			<summary>Asserts that the current user has the requested right to an entity.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Security.ICrmEntitySecurityProvider.TryAssert(Microsoft.Xrm.Sdk.Client.OrganizationServiceContext,System.Collections.Generic.IEnumerable{Microsoft.Xrm.Sdk.Entity},Microsoft.Xrm.Client.Security.CrmEntityRight)">
+			<summary>Asserts that the current user has the requested right to a set of entities.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.CachedOrganizationService.Create(Microsoft.Xrm.Sdk.Entity)">
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.CachedOrganizationService.Execute(Microsoft.Xrm.Sdk.OrganizationRequest)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.OrganizationResponse"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.CachedOrganizationService.Execute``1(Microsoft.Xrm.Sdk.OrganizationRequest,System.Func{Microsoft.Xrm.Sdk.OrganizationResponse,``0},System.String)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.OrganizationResponse"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.CachedOrganizationService.Retrieve(System.String,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.CachedOrganizationService.RetrieveMultiple(Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.CachedOrganizationService.Cache">
+			<summary>The caching provider.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.IOrganizationServiceCache"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.ICacheItemPolicyFactory.Create">
+			<summary>Creates a cache item policy.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.IOrganizationServiceCache.Execute``1(Microsoft.Xrm.Sdk.OrganizationRequest,System.Func{Microsoft.Xrm.Sdk.OrganizationRequest,Microsoft.Xrm.Sdk.OrganizationResponse},System.Func{Microsoft.Xrm.Sdk.OrganizationResponse,``0},System.String)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.IOrganizationServiceCache.Remove(Microsoft.Xrm.Sdk.Entity)">
+			<summary>Removes an entity from the cache.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.IOrganizationServiceCache.Remove(Microsoft.Xrm.Sdk.EntityReference)">
+			<summary>Removes an entity from the cache.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.IOrganizationServiceCache.Remove(Microsoft.Xrm.Sdk.OrganizationRequest)">
+			<summary>Removes a request from the cache.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.IOrganizationServiceCache.Remove(System.String)">
+			<summary>Removes a specific cache item.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.IOrganizationServiceCache.Remove(System.String,System.Nullable{System.Guid})">
+			<summary>Removes an entity from the cache.</summary>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.IOrganizationServiceCache.Mode">
+			<summary>The caching behavior mode.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.OrganizationServiceCacheMode"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.IOrganizationServiceCache.ReturnMode">
+			<summary>The cache retrieval mode.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.OrganizationServiceCacheReturnMode"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.KeyedRequest.Key">
+			<summary>A custom key value that is unique to the current request.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.KeyedRequest.Request">
+			<summary>The underlying request.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.OrganizationRequest"></see>.</returns>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Services.KnownTypesProvider.EntityKnownTypes">
+			<summary>Types for serializing an <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</summary>
+		</member>
+		<member name="F:Microsoft.Xrm.Client.Services.KnownTypesProvider.QueryExpressionKnownTypes">
+			<summary>Types for serializing a <see cref="T:Microsoft.Xrm.Sdk.Query.QueryExpression"></see>.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationService.Create(Microsoft.Xrm.Sdk.Entity)">
+			<returns>Returns <see cref="T:System.Guid"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationService.Execute(Microsoft.Xrm.Sdk.OrganizationRequest)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.OrganizationResponse"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationService.Retrieve(System.String,System.Guid,Microsoft.Xrm.Sdk.Query.ColumnSet)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Entity"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationService.RetrieveMultiple(Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.CloneResponse``1(``0)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Execute``1(Microsoft.Xrm.Sdk.OrganizationRequest,System.Func{Microsoft.Xrm.Sdk.OrganizationRequest,Microsoft.Xrm.Sdk.OrganizationResponse},System.Func{Microsoft.Xrm.Sdk.OrganizationResponse,``0},System.String)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.GetBaseCachePolicy">
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.GetCacheKey(System.Object)">
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.GetCachePolicy(System.Object,System.Object)">
+			<returns>Returns <see cref="T:System.Runtime.Caching.CacheItemPolicy"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Initialize(System.String,System.Collections.Specialized.NameValueCollection)">
+			<summary>Initializes custom settings.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Remove(Microsoft.Xrm.Sdk.Entity)">
+			<summary>Removes an entity from the cache.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Remove(Microsoft.Xrm.Sdk.EntityReference)">
+			<summary>Removes an entity from the cache.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Remove(Microsoft.Xrm.Sdk.OrganizationRequest)">
+			<summary>Removes a request from the cache.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Remove(System.String)">
+			<summary>Removes a specific cache item.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Remove(System.String,System.Nullable{System.Guid})">
+			<summary>Removes an entity from the cache.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.TryGetCacheKey(System.Object,System.String@)">
+			<summary>An extensibility method for retrieving a custom cache key.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.TryGetCachePolicy(System.Object,System.Object,System.Runtime.Caching.CacheItemPolicy@)">
+			<summary>An extensibility method for retrieving a custom cache policy.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceCache.TryGetDependencies(System.Object,System.Collections.Generic.IEnumerable{System.String}@)">
+			<summary>An extensiblity method for retrieving dependencies.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Cache">
+			<summary>The underlying cache.</summary>
+			<returns>Returns <see cref="T:System.Runtime.Caching.ObjectCache"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCache.CacheEntryChangeMonitorPrefix">
+			<summary>The prefix string used for constructing the CacheEntryChangeMonitorhttp://msdn2.microsoft.com/en-us/library/dd988729 objects assigned to the cache items.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCache.CacheRegionName">
+			<summary>The cache region used when interacting with the ObjectCachehttp://msdn2.microsoft.com/en-us/library/dd780630.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCache.ConnectionId">
+			<summary>A key value for uniquely distinguishing the connection.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCache.Mode">
+			<summary>The caching behavior mode.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.OrganizationServiceCacheMode"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCache.QueryHashingEnabled">
+			<summary>Gets or sets the flag determining whether or not to hash the serialized query.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCache.ReturnMode">
+			<summary>The cache retrieval mode.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.OrganizationServiceCacheReturnMode"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCacheSettings.CacheEntryChangeMonitorPrefix">
+			<summary>The prefix string used for constructing the CacheEntryChangeMonitorhttp://msdn2.microsoft.com/en-us/library/dd988729 objects assigned to the cache items.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCacheSettings.CacheRegionName">
+			<summary>The cache region name.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCacheSettings.ConnectionId">
+			<summary>A key value for uniquely distinguishing the connection.</summary>
+			<returns>Returns <see cref="T:System.String"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCacheSettings.PolicyFactory">
+			<summary>A factory for creating CacheItemPolicyhttp://msdn2.microsoft.com/en-us/library/dd988752 objects.</summary>
+			<returns>Returns <see cref="T:Microsoft.Xrm.Client.Services.ICacheItemPolicyFactory"></see>.</returns>
+		</member>
+		<member name="P:Microsoft.Xrm.Client.Services.OrganizationServiceCacheSettings.QueryHashingEnabled">
+			<summary>Indicates that the query used to construct the cache key is to be hashed or left as a readable string.</summary>
+			<returns>Returns <see cref="T:System.Boolean"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceExtensions.Execute``1(Microsoft.Xrm.Sdk.IOrganizationService,Microsoft.Xrm.Sdk.OrganizationRequest)">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceExtensions.FetchXmlToQueryExpression(Microsoft.Xrm.Sdk.IOrganizationService,System.String)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Query.QueryExpression"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceExtensions.RetrieveEntity(Microsoft.Xrm.Sdk.IOrganizationService,Microsoft.Xrm.Sdk.Messages.RetrieveEntityRequest)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Messages.RetrieveEntityResponse"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceExtensions.RetrieveEntity(Microsoft.Xrm.Sdk.IOrganizationService,System.String,Microsoft.Xrm.Sdk.Metadata.EntityFilters,System.Boolean)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Metadata.EntityMetadata"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceExtensions.RetrieveMultiple(Microsoft.Xrm.Sdk.IOrganizationService,Microsoft.Xrm.Sdk.Query.QueryBase)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.EntityCollection"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Services.OrganizationServiceExtensions.RetrieveMultiple(Microsoft.Xrm.Sdk.IOrganizationService,Microsoft.Xrm.Sdk.Messages.RetrieveMultipleRequest)">
+			<returns>Returns <see cref="T:Microsoft.Xrm.Sdk.Messages.RetrieveMultipleResponse"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Threading.MutexExtensions.Get``1(System.String,System.Func{System.String,System.Object},System.Func{System.String,``0})">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Threading.MutexExtensions.Get``1(System.String,System.Func{System.String,System.Object},System.Func{System.String,``0},System.Action{System.String,``0})">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Threading.MutexExtensions.Get``1(System.String,System.Int32,System.Func{System.String,System.Object},System.Func{System.String,``0})">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Threading.MutexExtensions.Get``1(System.String,System.Int32,System.Func{System.String,System.Object},System.Func{System.String,``0},System.Action{System.String,``0})">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Threading.MutexExtensions.Lock(System.String,System.Action{System.Threading.Mutex})">
+			<summary>Performs an action under an exclusive lock.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Threading.MutexExtensions.Lock(System.String,System.Int32,System.Action{System.Threading.Mutex})">
+			<summary>Performs an action under an exclusive lock.</summary>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Threading.MutexExtensions.Lock``1(System.String,System.Func{System.Threading.Mutex,``0})">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+		<member name="M:Microsoft.Xrm.Client.Threading.MutexExtensions.Lock``1(System.String,System.Int32,System.Func{System.Threading.Mutex,``0})">
+			<returns>Returns <see cref="{0}"></see>.</returns>
+		</member>
+	</members>
+</doc>

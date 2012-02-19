@@ -78,6 +78,7 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
+
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
                                                                 //we use retrieve multiple because retrieve() requires GUID
         //compare oldPassword to the current pasword
@@ -315,8 +316,8 @@ public class CRMMembershipProvider : MembershipProvider
         EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
 
         totalRecords = ec.TotalRecordCount;
-       
-        if (ec.TotalRecordCount != 0)
+      
+        if (totalRecords != 0 && totalRecords >= ((pageSize*pageIndex)+1))
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
             foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
@@ -335,24 +336,21 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
     {
-
+        //totalRecords >= ((pageSize*pageIndex)+1)
         throw new NotImplementedException();
     }
 
     public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
     {
+        //totalRecords >= ((pageSize*pageIndex)+1)
         throw new NotImplementedException();
     }
 
     public override int GetNumberOfUsersOnline()
+
     {//JH
-<<<<<<< HEAD
 
-        var service = OurConnect(); //intialize connection
-
-=======
-        var service = OurConnect(); //intialize connection
->>>>>>> 39375abf4543984a0de96b95cc6bcb4de127ee97
+        var service = OurConnect(); //intialize connectio
 
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
