@@ -81,24 +81,32 @@ public class CRMMembershipProvider : MembershipProvider
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
                                                                 //we use retrieve multiple because retrieve() requires GUID
         //compare oldPassword to the current pasword
-
-        System.Text.ASCIIEncoding encoding =new System.Text.ASCIIEncoding();
-        byte[] bytes = encoding.GetBytes(oldPassword);
-        if (EncryptPassword(bytes) != result.Entities[0]["rosetta_password"])// assuming that entities[0] is the only entity since i am only making onw with my query
+        if (result.Entities.Count != 0)
         {
-            //return false;
-            throw new Exception("no user/pass match");
+            //if username doesn't exist
+            return false;
         }
-        //if the same overwrite with new password
-        else {
-            //is this good here or do we need encrypted pass?
-            System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
-            byte[] newBytes = newEncoding.GetBytes(newPassword);
-            newBytes = EncryptPassword(newBytes);
-            result.Entities[0]["rosetta_password"] = newBytes;
+        else
+        {
+            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+            byte[] bytes = encoding.GetBytes(oldPassword);
+            if (EncryptPassword(bytes) != result.Entities[0]["rosetta_password"])// assuming that entities[0] is the only entity since i am only making onw with my query
+            {
+                return false;
+                //throw new Exception("no user/pass match");
+            }
+            //if the same overwrite with new password
+            else
+            {
+                //is this good here or do we need encrypted pass?
+                System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
+                byte[] newBytes = newEncoding.GetBytes(newPassword);
+                newBytes = EncryptPassword(newBytes);
+                result.Entities[0]["rosetta_password"] = newBytes;
 
-            service.Update(result.Entities[0]);
-            return true;
+                service.Update(result.Entities[0]);
+                return true;
+            }
         }
     }
 
@@ -114,39 +122,37 @@ public class CRMMembershipProvider : MembershipProvider
         condition.Operator = ConditionOperator.Equal;
         condition.Values.Add(username);
 
+        ConditionExpression condition2 = new ConditionExpression();
+        condition2.AttributeName = "rosetta_password";
+        condition2.Operator = ConditionOperator.Equal;
+        condition2.Values.Add(EncryptPassword(StringToAsci(password)));
+
         FilterExpression filter = new FilterExpression();
         filter.Conditions.Add(condition);
+        filter.Conditions.Add(condition2);
 
         QueryExpression query = new QueryExpression("rosetta_useraccount");
-        query.ColumnSet.AddColumn("rosetta_password");
+        query.ColumnSet.AddColumns("rosetta_securityquestion");
+        query.ColumnSet.AddColumns("rosetta_securitypassword");
         query.Criteria.AddFilter(filter);
 
         EntityCollection collection = service.RetrieveMultiple(query);
 
         if (collection.Entities.Count == 0)
         {
-            //return false;
-            throw new Exception("incorrect password!");
+            //user doesn't exist
+            return false;
+            //throw new Exception("incorrect password!");
         }
         else//I wont know if this works for sure until we can validate user and have a modification screen
         {
+            collection.Entities[0]["rosetta_securityquestion"] = newPasswordQuestion;
+            collection.Entities[0]["rosetta_securityanswer"] = newPasswordAnswer;
 
-            Guid Retrieve_ID = collection[0].Id;
-            ColumnSet attributes = new ColumnSet(new string[] { "rosetta_password", "rosetta_securityquestion", "rosetta_securityanswer" });
-            Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributes);
-
-            retrievedEntity["rosetta_securityquestion"] = newPasswordQuestion;
-            retrievedEntity["rosetta_securityanswer"] = newPasswordAnswer;
-
-            service.Update(retrievedEntity);
-            //return true;
-            throw new Exception("Successfully changed Security Question and Answer!");
+            service.Update(collection.Entities[0]);//success
+            return true;
+            //throw new Exception("Successfully changed Security Question and Answer!");
         }
-
-            
-            
-            
-        
     }
     
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
@@ -171,40 +177,38 @@ public class CRMMembershipProvider : MembershipProvider
             status = MembershipCreateStatus.DuplicateUserName;
             return null;
         }
-        else
+        /*else
         {
-            ValidatePasswordEventArgs args = new ValidatePasswordEventArgs(username,
-                                                                password,
-                                                                true);
-            OnValidatingPassword(args);
-            if (args.Cancel)
+            if (_RequireUniqueEmail && GetUserNameByEmail(email) != null)
             {
-                status = MembershipCreateStatus.InvalidPassword;
+                status = MembershipCreateStatus.DuplicateEmail;
                 return null;
-            }
+            }*/
+            else
+            {
+                Entity newMember = new Entity("rosetta_useraccount");
 
-            Entity newMember = new Entity("rosetta_useraccount");
+                newMember["rosetta_name"] = username;
+                newMember["rosetta_username"] = username;
+                newMember["rosetta_password"] = EncryptPassword(StringToAsci(password));
+                newMember["rosetta_email"] = email;
+                newMember["rosetta_securityquestion"] = passwordQuestion;
+                newMember["rosetta_securityanswer"] = passwordAnswer;
+                newMember["rosetta_applicationname"] = _ApplicationName;
+                newMember["rosetta_deleteduser"] = false;
+                newMember["rosetta_lock"] = false;
+                newMember["rosetta_online"] = false;
+                newMember["rosetta_loginattempts"] = 0;
+                newMember["rosetta_accountcreation"] = DateTime.Now;
+                newMember["rosetta_firstfailed"] = DateTime.Now;
+                newMember["rosetta_lastlogin"] = DateTime.Now;
+                newMember["rosetta_timelocked"] = DateTime.Now;
 
-            newMember["rosetta_name"] = username;
-            newMember["rosetta_username"] = username;
-            newMember["rosetta_password"] = password;
-            newMember["rosetta_email"] = email;
-            newMember["rosetta_securityquestion"] = passwordQuestion;
-            newMember["rosetta_securityanswer"] = passwordAnswer;
-            newMember["rosetta_applicationname"] = _ApplicationName;
-            newMember["rosetta_deleteduser"] = false;
-            newMember["rosetta_lock"] = false;
-            newMember["rosetta_online"] = false;
-            newMember["rosetta_loginattempts"] = 0;
-            newMember["rosetta_accountcreation"] = DateTime.Now;
-            newMember["rosetta_firstfailed"] = DateTime.Now;
-            newMember["rosetta_lastlogin"] = DateTime.Now;
-            newMember["rosetta_timelocked"] = DateTime.Now;
+                Guid _accountID = service.Create(newMember);
+                status = MembershipCreateStatus.Success;
 
-            Guid _accountID = service.Create(newMember);
-            status = MembershipCreateStatus.Success;
-
-            return GetUser(username);
+                return GetUser(username);
+           // }
         }
         /*foreach (Entity act in ec.Entities)
         {
@@ -272,7 +276,12 @@ public class CRMMembershipProvider : MembershipProvider
     {
         return base.EncryptPassword(password, legacyPasswordCompatibilityMode);
     }
-
+    private byte[] StringToAsci(string password)
+    {
+        System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
+        byte[] newBytes = newEncoding.GetBytes(password);
+        return newBytes;
+    }
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
     {//JH
 
