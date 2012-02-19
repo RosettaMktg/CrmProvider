@@ -78,7 +78,7 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
-        EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
+        EntityCollection result = service.RetrieveMultiple(q);
         //compare oldPassword to the current pasword
 
         System.Text.ASCIIEncoding encoding =new System.Text.ASCIIEncoding();
@@ -90,7 +90,8 @@ public class CRMMembershipProvider : MembershipProvider
         }
         //if the same overwrite with new password
         else {
-            //is this good here or do we need encrypted pass?
+            //is this good here or do we need encrypted pass? 
+            //we have an encrypt password function we have to write anyway, so you may want to move some of this code around for that. Scroll down a littl and you will see it
             System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
             byte[] newBytes = newEncoding.GetBytes(newPassword);
             newBytes = EncryptPassword(newBytes);
@@ -104,7 +105,6 @@ public class CRMMembershipProvider : MembershipProvider
     public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
     {//bcd
         var service = OurConnect(); //intialize connection to CRM
-
 
         //for updating we do not need to query for the existance of a user since, technically, the user exists. However we do not know the GUID of the user without querying?
         //check for username
@@ -285,6 +285,8 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override int GetNumberOfUsersOnline()
     {//JH
+        var service = OurConnect();
+
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
         condition.Operator = ConditionOperator.Equal;//sets the comparing. 
