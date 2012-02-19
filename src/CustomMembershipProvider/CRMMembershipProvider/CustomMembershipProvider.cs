@@ -78,7 +78,10 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 0d6e862ca2fc884ceda39c7f2ad5f336a0368af1
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
                                                                 //we use retrieve multiple because retrieve() requires GUID
         //compare oldPassword to the current pasword
@@ -87,6 +90,7 @@ public class CRMMembershipProvider : MembershipProvider
             //if username doesn't exist
             return false;
         }
+<<<<<<< HEAD
          //if the same overwrite with new password
         else {
             //is this good here or do we need encrypted pass? 
@@ -99,6 +103,29 @@ public class CRMMembershipProvider : MembershipProvider
             service.Update(result.Entities[0]);
             return true;
 
+=======
+        else
+        {
+            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
+            byte[] bytes = encoding.GetBytes(oldPassword);
+            if (EncryptPassword(bytes) != result.Entities[0]["rosetta_password"])// assuming that entities[0] is the only entity since i am only making onw with my query
+            {
+                return false;
+                //throw new Exception("no user/pass match");
+            }
+            //if the same overwrite with new password
+            else
+            {
+                //is this good here or do we need encrypted pass?
+                System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
+                byte[] newBytes = newEncoding.GetBytes(newPassword);
+                newBytes = EncryptPassword(newBytes);
+                result.Entities[0]["rosetta_password"] = newBytes;
+
+                service.Update(result.Entities[0]);
+                return true;
+            }
+>>>>>>> 0d6e862ca2fc884ceda39c7f2ad5f336a0368af1
         }
     }
 
@@ -236,17 +263,6 @@ public class CRMMembershipProvider : MembershipProvider
         q.Criteria.AddFilter(f);
 
         EntityCollection result = service.RetrieveMultiple(q);
-
-<<<<<<< HEAD
-        if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
-        {
-            return false;
-        }
-        else {
-            result.Entities[0]["rosetta_deleteduser"] = "Yes";
-            service.Update(result.Entities[0]);
-            return true;
-=======
         if (result.Entities.Count() == 0)
         {
             return false;
@@ -267,11 +283,10 @@ public class CRMMembershipProvider : MembershipProvider
                 }
             }
             else { 
-                //DELETE ALL THE THINGS!
+                //DELETE ALL THE THINGS!!!
                 service.Delete("rosetta_useraccount", result.Entities[0].Id);
                 return true;
             }
->>>>>>> bd4e72a0e030565d13dc0511bfd5be49a0a1ad29
         }
     }
 
@@ -319,8 +334,8 @@ public class CRMMembershipProvider : MembershipProvider
         EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
 
         totalRecords = ec.TotalRecordCount;
-       
-        if (ec.TotalRecordCount != 0)
+      
+        if (totalRecords != 0 && totalRecords >= ((pageSize*pageIndex)+1))
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
             foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
@@ -339,22 +354,26 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
     {
-
+        //totalRecords >= ((pageSize*pageIndex)+1)
         throw new NotImplementedException();
     }
 
     public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
     {
+        //totalRecords >= ((pageSize*pageIndex)+1)
         throw new NotImplementedException();
     }
 
     public override int GetNumberOfUsersOnline()
+
     {//JH
 <<<<<<< HEAD
-        var service = OurConnect();
+
+        var service = OurConnect(); //intialize connection
+
 =======
         var service = OurConnect(); //intialize connection
->>>>>>> 453fd585382949f20d61cac34febcafe795478ee
+>>>>>>> 39375abf4543984a0de96b95cc6bcb4de127ee97
 
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
