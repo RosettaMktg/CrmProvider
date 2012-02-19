@@ -78,42 +78,16 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
-<<<<<<< HEAD
-        EntityCollection result = service.RetrieveMultiple(q);
-=======
+
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
                                                                 //we use retrieve multiple because retrieve() requires GUID
->>>>>>> 453fd585382949f20d61cac34febcafe795478ee
         //compare oldPassword to the current pasword
         if (result.Entities.Count != 0)
         {
             //if username doesn't exist
             return false;
         }
-<<<<<<< HEAD
-        else
-        {
-            System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
-            byte[] bytes = encoding.GetBytes(oldPassword);
-            if (EncryptPassword(bytes) != result.Entities[0]["rosetta_password"])// assuming that entities[0] is the only entity since i am only making onw with my query
-            {
-                return false;
-                //throw new Exception("no user/pass match");
-            }
-            //if the same overwrite with new password
-            else
-            {
-                //is this good here or do we need encrypted pass?
-                System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
-                byte[] newBytes = newEncoding.GetBytes(newPassword);
-                newBytes = EncryptPassword(newBytes);
-                result.Entities[0]["rosetta_password"] = newBytes;
-
-                service.Update(result.Entities[0]);
-                return true;
-            }
-=======
-        //if the same overwrite with new password
+         //if the same overwrite with new password
         else {
             //is this good here or do we need encrypted pass? 
             //we have an encrypt password function we have to write anyway, so you may want to move some of this code around for that. Scroll down a littl and you will see it
@@ -124,7 +98,7 @@ public class CRMMembershipProvider : MembershipProvider
 
             service.Update(result.Entities[0]);
             return true;
->>>>>>> 0e747aaddfa878adacda16c568660f4882518c9c
+
         }
     }
 
