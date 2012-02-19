@@ -78,19 +78,14 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
-<<<<<<< HEAD
-        EntityCollection result = service.RetrieveMultiple(q);
-=======
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
                                                                 //we use retrieve multiple because retrieve() requires GUID
->>>>>>> 453fd585382949f20d61cac34febcafe795478ee
         //compare oldPassword to the current pasword
         if (result.Entities.Count != 0)
         {
             //if username doesn't exist
             return false;
         }
-<<<<<<< HEAD
         else
         {
             System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
@@ -112,19 +107,6 @@ public class CRMMembershipProvider : MembershipProvider
                 service.Update(result.Entities[0]);
                 return true;
             }
-=======
-        //if the same overwrite with new password
-        else {
-            //is this good here or do we need encrypted pass? 
-            //we have an encrypt password function we have to write anyway, so you may want to move some of this code around for that. Scroll down a littl and you will see it
-            System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
-            byte[] newBytes = newEncoding.GetBytes(newPassword);
-            newBytes = EncryptPassword(newBytes);
-            result.Entities[0]["rosetta_password"] = newBytes;
-
-            service.Update(result.Entities[0]);
-            return true;
->>>>>>> 0e747aaddfa878adacda16c568660f4882518c9c
         }
     }
 
@@ -262,15 +244,30 @@ public class CRMMembershipProvider : MembershipProvider
         q.Criteria.AddFilter(f);
 
         EntityCollection result = service.RetrieveMultiple(q);
-
-        if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
+        if (result.Entities.Count() == 0)
         {
             return false;
         }
-        else {
-            result.Entities[0]["rosetta_deleteduser"] = "Yes";
-            service.Update(result.Entities[0]);
-            return true;
+        else
+        {
+            if (deleteAllRelatedData == false)
+            {
+                if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
+                {
+                    return false;
+                }
+                else
+                {
+                    result.Entities[0]["rosetta_deleteduser"] = "Yes";
+                    service.Update(result.Entities[0]);
+                    return true;
+                }
+            }
+            else { 
+                //DELETE ALL THE THINGS!!!
+                service.Delete("rosetta_useraccount", result.Entities[0].Id);
+                return true;
+            }
         }
     }
 
@@ -352,10 +349,12 @@ public class CRMMembershipProvider : MembershipProvider
 
     {//JH
 <<<<<<< HEAD
-        var service = OurConnect();
+
+        var service = OurConnect(); //intialize connection
+
 =======
         var service = OurConnect(); //intialize connection
->>>>>>> 453fd585382949f20d61cac34febcafe795478ee
+>>>>>>> 39375abf4543984a0de96b95cc6bcb4de127ee97
 
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
@@ -615,7 +614,7 @@ public class CRMMembershipProvider : MembershipProvider
 
 
     public override void Initialize(string name, NameValueCollection config)
-    {
+    {//MAS
         if (config == null)
             throw new ArgumentNullException("config");
 
