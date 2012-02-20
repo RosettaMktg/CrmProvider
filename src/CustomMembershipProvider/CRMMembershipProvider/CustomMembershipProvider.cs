@@ -313,17 +313,20 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override int GetNumberOfUsersOnline()
     {//JH
+        var service = OurConnect(); //intialize connection
+
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
-        condition.Operator = ConditionOperator.equal;//sets the comparing. 
-        condition.Value.Add(true);//check to see if users are online.
+        condition.Operator = ConditionOperator.Equal;//sets the comparing. 
+        condition.Values.Add("Yes");//check to see if users are online.
         
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
         
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
-		query.Criteria.AddFilter(filter); //query CRM with the new filter for email
-        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+        query.ColumnSet.AddColumn("rosetta_username");
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for users online 
+        EntityCollection ec = service.RetrieveMultiple(query);  
 		
 		
         int usersOnline;
@@ -390,12 +393,13 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
-    {
-        throw new NotImplementedException();
+    {//JH
+        var service = OurConnect(); 
+        throw new NotImplementedException(); 
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
-    {
+    {//JH
         throw new NotImplementedException();
     }
     //function to streamline getuser process
