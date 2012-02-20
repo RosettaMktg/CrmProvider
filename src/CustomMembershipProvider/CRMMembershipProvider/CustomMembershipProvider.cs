@@ -1,9 +1,4 @@
-﻿/*bcd note to guys: in order to know if the password stuff is working we need the validate user stuff to work so that we can get to the point
- where we can go and check our user account settings. I realize we are still working on everything, but there will be no way to test the pass
- word stuff until that basica functionality is setup*/
-
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.Services;
@@ -28,8 +23,8 @@ public class CRMMembershipProvider : MembershipProvider
 {
     //the following private variables are for the dynamic names of the attribute names that are used in CRM. Currently, the attribute names
     //are hard coded in but will be replaced with these variables to make the code more dynamic.
-    private Guid _accountId;
-    /*private string _passwordN;
+    /*private Guid _accountId;
+    private string _passwordN;
     private string _usernameN;
     private string _securityQuestionN;
     private string _securityAnswerN;
@@ -115,7 +110,6 @@ public class CRMMembershipProvider : MembershipProvider
     {//bcd
         var service = OurConnect(); //intialize connection to CRM
 
-        //for updating we do not need to query for the existance of a user since, technically, the user exists. However we do not know the GUID of the user without querying?
         //check for username
         ConditionExpression condition = new ConditionExpression();
         condition.AttributeName = "rosetta_username";
@@ -623,7 +617,7 @@ public class CRMMembershipProvider : MembershipProvider
             throw new Exception("Resetting of passwords is not permitted");
         }
         else
-        {//reset password based on assigned regular expresssion
+        {//reset password based on assigned regular expresssion, maybe
             ConditionExpression condition = new ConditionExpression();
             condition.AttributeName = "rosetta_username";
             condition.Operator = ConditionOperator.Equal;
@@ -651,7 +645,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool UnlockUser(string userName)
-    {
+    {//bcd
         var service = OurConnect();
 
         ConditionExpression condition = new ConditionExpression();
@@ -686,8 +680,61 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool ValidateUser(string username, string password)
-    {
-        throw new NotImplementedException();
+    {//bcd
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_username";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(username);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AddColumns("rosetta_password", "rosetta_lock", "rosetta_loginattempts", "rosetta_firstfailed", "rosetta_online");
+        query.Criteria.AddFilter(filter);
+
+        EntityCollection collection = service.RetrieveMultiple(query);
+
+        if (collection.Entities.Count == 0)
+            return false;//the username does not exist
+
+        if (collection.Entities[0]["rosetta_lock"].Equals(1) )
+            return false;//the account is locked
+
+        if (!collection.Entities[0]["rosetta_password"].Equals(password))//user exists, but pass is wrong
+        {
+            //need to log a failed login attempt
+            if (collection.Entities[0]["rosetta_firstfailed"] == null)//checking for first failed login
+                collection.Entities[0]["rosetta_firstfailed"] = DateTime.Now;
+
+            if ((DateTime.Now - (DateTime)collection.Entities[0]["rosetta_firstfailed"]).Minutes >= PasswordAttemptWindow)//password window/login attempt reset
+            {
+                collection.Entities[0]["rosetta_loginattempts"] = 0;
+                collection.Entities[0]["rosetta_firstfailed"] = DateTime.Now;
+            }
+
+            collection.Entities[0]["rosetta_loginattempts"] = (int)collection.Entities[0]["rosetta_loginattempts"] + 1;//increment login attempts
+
+            if ((int)collection.Entities[0]["rosetta_loginattemps"] == MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
+                collection.Entities[0]["rosetta_lock"] = 1;
+
+            service.Update(collection.Entities[0]);//update user information
+            return false;
+        }
+        else
+        {
+            //log a successful login in activity logs
+            
+            //reset attributes of login stuff
+            collection.Entities[0]["rosetta_online"] = 1;
+            collection.Entities[0]["rosetta_firstfailed"] = null;
+            collection.Entities[0]["rosetta_loginattempts"] = 0;
+
+            service.Update(collection.Entities[0]);
+            return true;
+        }
     }
     /*Start of Initialize method*/
     private string GetConfigValue(string configValue, string defaultValue)
