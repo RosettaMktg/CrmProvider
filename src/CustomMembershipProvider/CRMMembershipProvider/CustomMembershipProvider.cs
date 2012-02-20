@@ -263,6 +263,16 @@ public class CRMMembershipProvider : MembershipProvider
 
         EntityCollection result = service.RetrieveMultiple(q);
 
+<<<<<<< HEAD
+        if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
+        {
+            return false;
+        }
+        else {
+            result.Entities[0]["rosetta_deleteduser"] = "Yes";
+            service.Update(result.Entities[0]);
+            return true;
+=======
         if (result.Entities.Count() == 0)
         {
             return false;
@@ -287,6 +297,7 @@ public class CRMMembershipProvider : MembershipProvider
                 service.Delete("rosetta_useraccount", result.Entities[0].Id);
                 return true;
             }
+>>>>>>> bd4e72a0e030565d13dc0511bfd5be49a0a1ad29
         }
     }
 
