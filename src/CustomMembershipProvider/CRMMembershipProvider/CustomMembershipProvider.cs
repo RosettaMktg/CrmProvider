@@ -79,6 +79,7 @@ public class CRMMembershipProvider : MembershipProvider
         q.Criteria.AddFilter(f);
 
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
+                                                                //we use retrieve multiple because retrieve() requires GUID
         //compare oldPassword to the current pasword
 
         System.Text.ASCIIEncoding encoding =new System.Text.ASCIIEncoding();
@@ -211,8 +212,35 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
-    {
-        throw new NotImplementedException();
+    {//tc
+        //soft delete, check if 'deleted' if not, 'delete'
+        var service = OurConnect();
+        //find user by username
+        //create condition for query
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_username";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(username);
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AddColumn("rosetta_username");
+        q.ColumnSet.AddColumn("rosetta_deleteduser");
+        q.Criteria.AddFilter(f);
+
+        EntityCollection result = service.RetrieveMultiple(q);
+
+        if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
+        {
+            return false;
+        }
+        else {
+            result.Entities[0]["rosetta_deleteduser"] = "Yes";
+            service.Update(result.Entities[0]);
+            return true;
+        }
     }
 
     public override bool EnablePasswordReset
