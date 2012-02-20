@@ -504,46 +504,34 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
-        var service = OurConnect();
+        var service = OurConnect(); //intialize connection to CRM
 
         ConditionExpression condition = new ConditionExpression();
-        condition.AttributeName = "rosetta_online";
+        condition.AttributeName = "rosetta_username";
         condition.Operator = ConditionOperator.Equal;
-        if (userIsOnline)//this sets the filter according to the user online status.
-        {
-            condition.Values.Add("Yes");
-        }
+        condition.Values.Add(username);
+
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for email
+        query.ColumnSet.AllColumns = true;
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+
+        if (ec.Entities.Count == 0)
+            return null;
         else
         {
-            condition.Values.Add("No");
+            if (userIsOnline == (bool)ec.Entities[0]["rosetta_online"])
+                return GetUser((string)ec.Entities[0]["rosetta_username"]);
+            return null;
         }
-            ConditionExpression condition2 = new ConditionExpression();
-            condition2.AttributeName = "rosetta_username";
-            condition2.Operator = ConditionOperator.Equal;
-            condition2.Values.Add(username);
-
-            FilterExpression filter = new FilterExpression();
-            filter.Conditions.Add(condition);
-            filter.Conditions.Add(condition2);
-
-            QueryExpression query = new QueryExpression("rosetta_useraccount"); 
-            query.ColumnSet.AddColumn("rosetta_username");
-            query.Criteria.AddFilter(filter); 
-            EntityCollection ec = service.RetrieveMultiple(query);
-            if (ec.TotalRecordCount != 0)
-            {
-                return GetUser(username);
-            }
-            else
-            {
-                return null;
-            }
-            
         
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
-    {
+    {//MAS
         var service = OurConnect();
 
         ColumnSet attributes = new ColumnSet(new string[] { "rosetta_username", "rosetta_online" });
