@@ -78,10 +78,7 @@ public class CRMMembershipProvider : MembershipProvider
         q.ColumnSet.AddColumn("rosetta_username");
         q.Criteria.AddFilter(f);
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 0d6e862ca2fc884ceda39c7f2ad5f336a0368af1
         EntityCollection result = service.RetrieveMultiple(q);//why do we need to retrieve multiple in this case? bcd
                                                                 //we use retrieve multiple because retrieve() requires GUID
         //compare oldPassword to the current pasword
@@ -90,20 +87,6 @@ public class CRMMembershipProvider : MembershipProvider
             //if username doesn't exist
             return false;
         }
-<<<<<<< HEAD
-         //if the same overwrite with new password
-        else {
-            //is this good here or do we need encrypted pass? 
-            //we have an encrypt password function we have to write anyway, so you may want to move some of this code around for that. Scroll down a littl and you will see it
-            System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
-            byte[] newBytes = newEncoding.GetBytes(newPassword);
-            newBytes = EncryptPassword(newBytes);
-            result.Entities[0]["rosetta_password"] = newBytes;
-
-            service.Update(result.Entities[0]);
-            return true;
-
-=======
         else
         {
             System.Text.ASCIIEncoding encoding = new System.Text.ASCIIEncoding();
@@ -125,7 +108,6 @@ public class CRMMembershipProvider : MembershipProvider
                 service.Update(result.Entities[0]);
                 return true;
             }
->>>>>>> 0d6e862ca2fc884ceda39c7f2ad5f336a0368af1
         }
     }
 
@@ -367,13 +349,8 @@ public class CRMMembershipProvider : MembershipProvider
     public override int GetNumberOfUsersOnline()
 
     {//JH
-<<<<<<< HEAD
 
-        var service = OurConnect(); //intialize connection
-
-=======
-        var service = OurConnect(); //intialize connection
->>>>>>> 39375abf4543984a0de96b95cc6bcb4de127ee97
+        var service = OurConnect(); //intialize connectio
 
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
