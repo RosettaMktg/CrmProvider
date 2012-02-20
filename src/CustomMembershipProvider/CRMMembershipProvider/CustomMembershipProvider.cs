@@ -232,14 +232,30 @@ public class CRMMembershipProvider : MembershipProvider
 
         EntityCollection result = service.RetrieveMultiple(q);
 
-        if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
+        if (result.Entities.Count() == 0)
         {
             return false;
         }
-        else {
-            result.Entities[0]["rosetta_deleteduser"] = "Yes";
-            service.Update(result.Entities[0]);
-            return true;
+        else
+        {
+            if (deleteAllRelatedData == false)
+            {
+                if (result.Entities[0]["rosetta_deleteduser"] == "Yes")
+                {
+                    return false;
+                }
+                else
+                {
+                    result.Entities[0]["rosetta_deleteduser"] = "Yes";
+                    service.Update(result.Entities[0]);
+                    return true;
+                }
+            }
+            else { 
+                //DELETE ALL THE THINGS!
+                service.Delete("rosetta_useraccount", result.Entities[0].Id);
+                return true;
+            }
         }
     }
 
@@ -573,7 +589,7 @@ public class CRMMembershipProvider : MembershipProvider
 
 
     public override void Initialize(string name, NameValueCollection config)
-    {
+    {//MAS
         if (config == null)
             throw new ArgumentNullException("config");
 
