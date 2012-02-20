@@ -735,8 +735,33 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override void UpdateUser(MembershipUser user)
-    {
-        throw new NotImplementedException();
+    {//tc
+        var service = OurConnect();
+        //find user by username
+        //create condition for query
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_useraccountid";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(user.ProviderUserKey);
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AllColumns = true;
+        q.Criteria.AddFilter(f);
+        EntityCollection result = service.RetrieveMultiple(q);
+        
+        result.Entities[0]["rosetta_username"] = user.UserName;
+        result.Entities[0]["rosetta_securityquestion"] = user.PasswordQuestion;
+        result.Entities[0]["rosetta_email"] = user.Email;
+        result.Entities[0]["rosetta_timelocked"] = user.LastLockoutDate;
+        result.Entities[0]["rosetta_lastlogin"] = user.LastLoginDate;
+        result.Entities[0]["rosetta_accountcreation"] = user.CreationDate;
+        result.Entities[0]["rosetta_lock"] = user.IsLockedOut;
+
+
+        service.Update(result[0]);
     }
 
     public override bool ValidateUser(string username, string password)
