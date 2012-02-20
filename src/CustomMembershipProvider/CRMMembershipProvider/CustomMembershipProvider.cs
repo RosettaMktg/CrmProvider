@@ -618,7 +618,29 @@ public class CRMMembershipProvider : MembershipProvider
         }
         else
         {//reset password based on assigned regular expresssion
-            throw new NotImplementedException();
+            ConditionExpression condition = new ConditionExpression();
+            condition.AttributeName = "rosetta_username";
+            condition.Operator = ConditionOperator.Equal;
+            condition.Values.Add(username);
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(condition);
+
+            QueryExpression query = new QueryExpression("rosetta_useraccount");
+            query.ColumnSet.AddColumn("rosetta_securityanswer");
+            query.Criteria.AddFilter(filter);
+            EntityCollection collection = service.RetrieveMultiple(query);
+
+            if (collection.Entities.Count == 0)
+                return null;
+            else
+            {
+                string NewPass = Membership.GeneratePassword(_MinRequiredPasswordLength, 2);
+                collection.Entities[0]["rosetta_password"] = NewPass;
+                service.Update(collection.Entities[0]);
+                return NewPass;
+            }
+            
         }
     }
 
