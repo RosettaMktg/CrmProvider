@@ -279,10 +279,10 @@ public class CRMMembershipProvider : MembershipProvider
                 }
                 Entity newMember = new Entity("rosetta_useraccount");
 
-                newMember["rosetta_accountid"] = providerUserKey;
+                newMember["rosetta_useraccountid"] = providerUserKey;
                 newMember["rosetta_name"] = username;
                 newMember["rosetta_username"] = username;
-                newMember["rosetta_password"] = EncryptPassword(StringToAsci(password));
+                newMember["rosetta_password"] = password;//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
                 newMember["rosetta_email"] = email;
                 newMember["rosetta_securityquestion"] = passwordQuestion;
                 newMember["rosetta_securityanswer"] = passwordAnswer;
@@ -803,7 +803,7 @@ public class CRMMembershipProvider : MembershipProvider
         if ((bool)ec.Entities[0]["rosetta_lock"])
             return false;//the account is locked
 
-        if (!ec.Entities[0]["rosetta_password"].Equals(EncryptPassword(StringToAsci(password))))//user exists, but pass is wrong
+        if (!ec.Entities[0]["rosetta_password"].Equals(password)) //(EncryptPassword(StringToAsci(password))))//user exists, but pass is wrong
         {
             //need to log a failed login attempt
             if (ec.Entities[0]["rosetta_firstfailed"] == null)//checking for first failed login
@@ -817,7 +817,7 @@ public class CRMMembershipProvider : MembershipProvider
 
             ec.Entities[0]["rosetta_loginattempts"] = (int)ec.Entities[0]["rosetta_loginattempts"] + 1;//increment login attempts
 
-            if ((int)ec.Entities[0]["rosetta_loginattemps"] == _MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
+            if ((int)ec.Entities[0]["rosetta_loginattempts"] == _MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
                 ec.Entities[0]["rosetta_lock"] = 1;
 
             service.Update(ec.Entities[0]);//update user information
