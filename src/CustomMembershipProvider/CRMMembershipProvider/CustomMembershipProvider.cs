@@ -9,6 +9,7 @@ using System.Web.Security;
 using System.Web.Configuration;
 using System.Collections.Specialized;
 using System.Text;
+using System.Text.RegularExpressions;
 
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Client;
@@ -704,7 +705,7 @@ public class CRMMembershipProvider : MembershipProvider
                 return null;
             else
             {
-                string NewPass = Membership.GeneratePassword(_MinRequiredPasswordLength, 2);
+                string NewPass = Membership.GeneratePassword(_MinRequiredPasswordLength, _MinRequiredNonalphanumericCharacters); //changed to have MinRequireNonalphanumericCharacters (CC)
                 ec.Entities[0]["rosetta_password"] = NewPass;
                 service.Update(ec.Entities[0]);
                 return NewPass;
@@ -831,6 +832,54 @@ public class CRMMembershipProvider : MembershipProvider
 
             service.Update(ec.Entities[0]);
             return true;
+        }
+    }   
+ 
+    private int checkPasswordReq(string password) //private function used to check that the passwords follow the requirements from the web.config
+    {//CC
+        //This function will return either 0, 1, 2, or 3. 
+        //If a 1 is returned, the password did not meet minimum length.
+        //If a 2 is returned, the password did not have enough NonAlphaNumeric characters
+        //If a 3 is returned, the password did not match the Regular Expression
+        //If a 0 is returned, then the password fit all criteria and is a valid password.
+
+        if(password.Length < _MinRequiredPasswordLength) //check that the password is longer than MinRequiredPasswordLength
+        {
+            return 1; //if true, return error code 1
+        }
+        else
+        {
+            int nonAlphaNumCounter = 0;
+            bool passedNonAlphaNum = false;
+
+            for(int i=0; i<password.Length; i++)
+            {
+                if(!Char.IsLetterOrDigit(password, i)) //go through string and check if char is letter or digit
+                {
+                    nonAlphaNumCounter++; //if not, increment counter
+                }
+                if(nonAlphaNumCounter >= _MinRequiredNonalphanumericCharacters) //if counter is equal or greater to necessary
+                {
+                    passedNonAlphaNum = true; //say it passed
+                    break; //break from loop
+                }
+            }
+
+            if(!passedNonAlphaNum) //check bool on whether it passed or not
+            {
+                return 2; //if did not pass MinRequiredNonalphanumeric, return error code 2
+            }
+
+            if(_PasswordStrengthRegularExpression.Length > 0) //check to see if a regular expression is present
+            {
+                Regex passwordRegex = new Regex(_PasswordStrengthRegularExpression);
+                if(!passwordRegex.IsMatch(password))
+                {
+                    return 3; //if password did not pass RegularExpression check, return error code 3
+                }
+            }
+
+            return 0; //return 0 because password passed all checks
         }
     }    
 }
