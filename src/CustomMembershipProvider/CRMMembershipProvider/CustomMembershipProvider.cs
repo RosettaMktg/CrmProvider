@@ -357,7 +357,9 @@ public class CRMMembershipProvider : MembershipProvider
         if (totalRecords != 0 && totalRecords >= ((pageSize * pageIndex) + 1))
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-            for(int i=(pageSize*pageIndex);i<((pageSize*pageIndex)+pageSize);i++)//gets all the records out of ec assigns them to userstoreturn.
+            var start = pageSize * pageIndex;
+            var end = (pageSize * pageIndex) + pageSize;
+            for (int i = start; i < end; i++)//gets all the records out of ec assigns them to userstoreturn.
             {
                 MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
                 usersToReturn.Add(TempUser);
@@ -382,7 +384,9 @@ public class CRMMembershipProvider : MembershipProvider
         if (totalRecords != 0 && totalRecords >= ((pageSize * pageIndex) + 1))
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-            for (int i = (pageSize * pageIndex); i < ((pageSize * pageIndex) + pageSize); i++)//gets all the records out of ec assigns them to userstoreturn.
+            var start = pageSize * pageIndex;
+            var end = (pageSize * pageIndex) + pageSize;
+            for (int i = start; i < end; i++)//gets all the records out of ec assigns them to userstoreturn.
             {
                 MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
                 usersToReturn.Add(TempUser);
@@ -418,10 +422,7 @@ public class CRMMembershipProvider : MembershipProvider
 		
         int usersOnline;
         usersOnline = ec.TotalRecordCount;
-        return usersOnline;
-        
-		
-		
+        return usersOnline;	
     }
 
     public override string GetPassword(string username, string answer)
