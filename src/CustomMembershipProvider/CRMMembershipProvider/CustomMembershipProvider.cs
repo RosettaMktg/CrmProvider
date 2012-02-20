@@ -129,8 +129,8 @@ public class CRMMembershipProvider : MembershipProvider
         }
         else//I wont know if this works for sure until we can validate user and have a modification screen
         {
-            Entity tempEntity = new Entity(collection[0].ToString());
-            Guid Retrieve_ID = tempEntity.Id;
+
+            Guid Retrieve_ID = collection[0].Id;
             ColumnSet attributes = new ColumnSet(new string[] { "rosetta_password", "rosetta_securityquestion", "rosetta_securityanswer" });
             Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributes);
 
@@ -243,24 +243,32 @@ public class CRMMembershipProvider : MembershipProvider
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_email"; //column we want to check against
         condition.Operator = ConditionOperator.Equal; //checking against equal values
-        condition.Values.Add(emailToMatch); //check username against rosetta_email in CRM
+        condition.Values.Add(emailToMatch); //checks email against rosetta_email in CRM
+        
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
+        
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
         query.ColumnSet.AllColumns = true;
         query.Criteria.AddFilter(filter); //query CRM with the new filter for email
-        EntityCollection FoundRecordsByEmail = service.RetrieveMultiple(query); //retrieve all records with same email
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
 
-        if (FoundRecordsByEmail.TotalRecordCount != 0)
+        totalRecords = ec.TotalRecordCount;
+       
+        if (ec.TotalRecordCount != 0)
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-            //usersToReturn.
-            //return(//todo: need to figure out how to return the MembershipUserColletctions;
-            throw new NotImplementedException();
-        }
+            foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
+            {
+                MembershipUser TempUser = GetUser((string)act["rosetta_username"]);
+                usersToReturn.Add(TempUser);
+            
+            }
+            return usersToReturn;
+         }
         else
         {
-            throw new NotImplementedException();
+            return null;
         }
     }
 
@@ -276,8 +284,26 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override int GetNumberOfUsersOnline()
-    {
-        throw new NotImplementedException();
+    {//JH
+        ConditionExpression condition = new ConditionExpression(); //creates a new condition.
+        condition.AttributeName = "rosetta_online"; //column we want to check against.
+        condition.Operator = ConditionOperator.equal;//sets the comparing. 
+        condition.Value.Add(true);//check to see if users are online.
+        
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
+        
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+		query.Criteria.AddFilter(filter); //query CRM with the new filter for email
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+		
+		
+        int usersOnline;
+        usersOnline = ec.TotalRecordCount;
+        return usersOnline;
+        
+		
+		
     }
 
     public override string GetPassword(string username, string answer)
@@ -396,8 +422,33 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override string GetUserNameByEmail(string email)
-    {
-        throw new NotImplementedException();
+    {//bcd
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_email";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(email);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+       
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AddColumn("rosetta_username");
+        query.Criteria.AddFilter(filter);
+        EntityCollection collection = service.RetrieveMultiple(query);
+
+        if (collection.Entities.Count == 0)
+            return null;
+        else//return username
+        {
+            Guid Retrieve_ID = collection[0].Id;
+            ColumnSet attributies = new ColumnSet(new string[] { "rosetta_username" });
+            Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributies);
+
+            return retrievedEntity["rosetta_username"].ToString();
+        }
+            
     }
 
     public override int MaxInvalidPasswordAttempts
