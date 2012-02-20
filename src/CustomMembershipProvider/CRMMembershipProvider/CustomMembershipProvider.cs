@@ -180,8 +180,21 @@ public class CRMMembershipProvider : MembershipProvider
             }*/
             else
             {
+                if (providerUserKey == null)
+                {
+                    providerUserKey = Guid.NewGuid();
+                }
+                else
+                {
+                    if (!(providerUserKey is Guid))
+                    {
+                        status = MembershipCreateStatus.InvalidProviderUserKey;
+                        return null;
+                    }
+                }
                 Entity newMember = new Entity("rosetta_useraccount");
 
+                newMember["rosetta_accountid"] = providerUserKey;
                 newMember["rosetta_name"] = username;
                 newMember["rosetta_username"] = username;
                 newMember["rosetta_password"] = EncryptPassword(StringToAsci(password));
@@ -452,7 +465,8 @@ public class CRMMembershipProvider : MembershipProvider
             {
                 if (_PasswordFormat == MembershipPasswordFormat.Hashed) //checks if passwords are hashed. Cannot retrieve hashed passwords
                 {
-                    throw new NotSupportedException("Cannot retrieve hashed passwords.");
+                    return null;
+                    //throw new NotSupportedException("Cannot retrieve hashed passwords.");
                 }
                 else
                 {
@@ -464,7 +478,8 @@ public class CRMMembershipProvider : MembershipProvider
                         }
                         else
                         {
-                            throw new Exception("Incorrect Answer to the security question."); //throw an exception that the answer doesn't match
+                            return null;
+                            //throw new Exception("Incorrect Answer to the security question."); //throw an exception that the answer doesn't match
                         }
                     }
                     else
@@ -475,19 +490,59 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-                throw new NotSupportedException("The current settings do not allow the password to be retrieved."); //throw exception that it is not supported to get password
+                return null;
+                //throw new NotSupportedException("The current settings do not allow the password to be retrieved."); //throw exception that it is not supported to get password
             }
         }
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
-        return GetUser(username);
+         var service = OurConnect(); //intialize connection to CRM
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_username";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(username);
+
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for email
+        query.ColumnSet.AllColumns = true;
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+
+        if (ec.Entities.Count == 0)
+            return null;
+        else
+        {
+            if (userIsOnline == (bool)ec.Entities[0]["rosetta_online"])
+                return GetUser((string)ec.Entities[0]["rosetta_username"]);
+            return null;
+        }
+        
+
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
-    {
-        throw new NotImplementedException();
+    {//MAS
+        var service = OurConnect();
+
+        ColumnSet attributes = new ColumnSet(new string[] { "rosetta_username", "rosetta_online" });
+        Entity e = service.Retrieve("rosetta_useraccount", (Guid)providerUserKey, attributes);
+
+        if ((string)e["rosetta_username"]=="")
+        {
+            return null;
+        }
+        else
+        {
+            if(userIsOnline == (bool)e["rosetta_online"])
+                return GetUser((string)e["rosetta_username"]);
+            return null;
+        }
+
     }
     //function to streamline getuser process
     public MembershipUser GetUser(string username)
@@ -675,8 +730,33 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override void UpdateUser(MembershipUser user)
-    {
-        throw new NotImplementedException();
+    {//tc
+        var service = OurConnect();
+        //find user by username
+        //create condition for query
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_useraccountid";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(user.ProviderUserKey);
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AllColumns = true;
+        q.Criteria.AddFilter(f);
+        EntityCollection result = service.RetrieveMultiple(q);
+        
+        result.Entities[0]["rosetta_username"] = user.UserName;
+        result.Entities[0]["rosetta_securityquestion"] = user.PasswordQuestion;
+        result.Entities[0]["rosetta_email"] = user.Email;
+        result.Entities[0]["rosetta_timelocked"] = user.LastLockoutDate;
+        result.Entities[0]["rosetta_lastlogin"] = user.LastLoginDate;
+        result.Entities[0]["rosetta_accountcreation"] = user.CreationDate;
+        result.Entities[0]["rosetta_lock"] = user.IsLockedOut;
+
+
+        service.Update(result[0]);
     }
 
     public override bool ValidateUser(string username, string password)
