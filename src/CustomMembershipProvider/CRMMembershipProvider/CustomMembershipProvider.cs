@@ -320,9 +320,11 @@ public class CRMMembershipProvider : MembershipProvider
         if (totalRecords != 0 && totalRecords >= ((pageSize*pageIndex)+1))
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-            foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
+            var start = pageSize * pageSize;
+            var end = (pageSize * pageSize) + (pageSize-(totalRecords%pageSize));
+            for(int i=start;i<end;i++)
             {
-                MembershipUser TempUser = GetUser((string)act["rosetta_username"]);
+                MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
                 usersToReturn.Add(TempUser);
             
             }
