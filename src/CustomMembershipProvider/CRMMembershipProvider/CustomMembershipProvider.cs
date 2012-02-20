@@ -488,11 +488,49 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
-        return GetUser(username);
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_online";
+        condition.Operator = ConditionOperator.Equal;
+        if (userIsOnline)//this sets the filter according to the user online status.
+        {
+            condition.Values.Add("Yes");
+        }
+        else
+        {
+            condition.Values.Add("No");
+        }
+            ConditionExpression condition2 = new ConditionExpression();
+            condition2.AttributeName = "rosetta_username";
+            condition2.Operator = ConditionOperator.Equal;
+            condition2.Values.Add(username);
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(condition);
+            filter.Conditions.Add(condition2);
+
+            QueryExpression query = new QueryExpression("rosetta_useraccount"); 
+            query.ColumnSet.AddColumn("rosetta_username");
+            query.Criteria.AddFilter(filter); 
+            EntityCollection ec = service.RetrieveMultiple(query);
+            if (ec.TotalRecordCount != 0)
+            {
+                return GetUser(username);
+            }
+            else
+            {
+                return null;
+            }
+            
+        
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
     {
+        
+        
+        
         throw new NotImplementedException();
     }
     //function to streamline getuser process
