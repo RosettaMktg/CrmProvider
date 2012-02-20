@@ -319,9 +319,15 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_email"; //column we want to check against
         condition.Operator = ConditionOperator.Equal; //checking against equal values
         condition.Values.Add(emailToMatch); //checks email against rosetta_email in CRM
-        
+       
+        ConditionExpression condition2 = new ConditionExpression();// filters out soft deleted users.
+        condition2.AttributeName = "rosetta_deletedusers";
+        condition2.Operator = ConditionOperator.Equal;
+        condition2.Values.Add("No");
+      
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
+        filter.Conditions.Add(condition2); //add conditon 2 to the filter
         
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
         query.ColumnSet.AllColumns = true;
@@ -333,9 +339,11 @@ public class CRMMembershipProvider : MembershipProvider
         if (totalRecords != 0 && totalRecords >= ((pageSize*pageIndex)+1))
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-            foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
+            var start = pageSize * pageSize;
+            var end = (pageSize * pageSize) + (pageSize-(totalRecords%pageSize));
+            for(int i=start;i<end;i++)
             {
-                MembershipUser TempUser = GetUser((string)act["rosetta_username"]);
+                MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
                 usersToReturn.Add(TempUser);
             
             }
@@ -495,9 +503,43 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
+    {//JH
+        var service = OurConnect();
 
-    {
-        return GetUser(username);
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_online";
+        condition.Operator = ConditionOperator.Equal;
+        if (userIsOnline)//this sets the filter according to the user online status.
+        {
+            condition.Values.Add("Yes");
+        }
+        else
+        {
+            condition.Values.Add("No");
+        }
+            ConditionExpression condition2 = new ConditionExpression();
+            condition2.AttributeName = "rosetta_username";
+            condition2.Operator = ConditionOperator.Equal;
+            condition2.Values.Add(username);
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(condition);
+            filter.Conditions.Add(condition2);
+
+            QueryExpression query = new QueryExpression("rosetta_useraccount"); 
+            query.ColumnSet.AddColumn("rosetta_username");
+            query.Criteria.AddFilter(filter); 
+            EntityCollection ec = service.RetrieveMultiple(query);
+            if (ec.TotalRecordCount != 0)
+            {
+                return GetUser(username);
+            }
+            else
+            {
+                return null;
+            }
+            
+        
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
@@ -517,6 +559,7 @@ public class CRMMembershipProvider : MembershipProvider
                 return GetUser((string)e["rosetta_username"]);
             return null;
         }
+
     }
     //function to streamline getuser process
     public MembershipUser GetUser(string username)
@@ -675,7 +718,32 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override bool UnlockUser(string userName)
     {
-        throw new NotImplementedException();
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_username";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(userName);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AddColumns("rosetta_lock");
+        query.Criteria.AddFilter(filter);
+
+        EntityCollection collection = service.RetrieveMultiple(query);
+
+        if (collection.Entities.Count == 0 || collection.Entities[0]["rosetta_lock"].ToString() == false.ToString())
+        {
+            return false;
+        }
+        else
+        {
+            collection.Entities[0]["rosetta_lock"] = false;
+            service.Update(collection.Entities[0]);
+            return true;
+        }
     }
 
     public override void UpdateUser(MembershipUser user)
