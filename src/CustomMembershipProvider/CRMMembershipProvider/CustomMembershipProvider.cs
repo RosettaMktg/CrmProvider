@@ -186,8 +186,21 @@ public class CRMMembershipProvider : MembershipProvider
             }*/
             else
             {
+                if (providerUserKey == null)
+                {
+                    providerUserKey = Guid.NewGuid();
+                }
+                else
+                {
+                    if (!(providerUserKey is Guid))
+                    {
+                        status = MembershipCreateStatus.InvalidProviderUserKey;
+                        return null;
+                    }
+                }
                 Entity newMember = new Entity("rosetta_useraccount");
 
+                newMember["rosetta_accountid"] = providerUserKey;
                 newMember["rosetta_name"] = username;
                 newMember["rosetta_username"] = username;
                 newMember["rosetta_password"] = EncryptPassword(StringToAsci(password));
@@ -450,7 +463,8 @@ public class CRMMembershipProvider : MembershipProvider
             {
                 if (_PasswordFormat == MembershipPasswordFormat.Hashed) //checks if passwords are hashed. Cannot retrieve hashed passwords
                 {
-                    throw new NotSupportedException("Cannot retrieve hashed passwords.");
+                    return null;
+                    //throw new NotSupportedException("Cannot retrieve hashed passwords.");
                 }
                 else
                 {
@@ -462,7 +476,8 @@ public class CRMMembershipProvider : MembershipProvider
                         }
                         else
                         {
-                            throw new Exception("Incorrect Answer to the security question."); //throw an exception that the answer doesn't match
+                            return null;
+                            //throw new Exception("Incorrect Answer to the security question."); //throw an exception that the answer doesn't match
                         }
                     }
                     else
@@ -473,7 +488,8 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-                throw new NotSupportedException("The current settings do not allow the password to be retrieved."); //throw exception that it is not supported to get password
+                return null;
+                //throw new NotSupportedException("The current settings do not allow the password to be retrieved."); //throw exception that it is not supported to get password
             }
         }
     }
@@ -485,8 +501,22 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
-    {//JH
-        throw new NotImplementedException();
+    {
+        var service = OurConnect();
+
+        ColumnSet attributes = new ColumnSet(new string[] { "rosetta_username", "rosetta_online" });
+        Entity e = service.Retrieve("rosetta_useraccount", (Guid)providerUserKey, attributes);
+
+        if ((string)e["rosetta_username"]=="")
+        {
+            return null;
+        }
+        else
+        {
+            if(userIsOnline == (bool)e["rosetta_online"])
+                return GetUser((string)e["rosetta_username"]);
+            return null;
+        }
     }
     //function to streamline getuser process
     public MembershipUser GetUser(string username)
