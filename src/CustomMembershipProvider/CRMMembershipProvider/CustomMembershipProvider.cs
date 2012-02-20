@@ -644,7 +644,32 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override bool UnlockUser(string userName)
     {
-        throw new NotImplementedException();
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_username";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(userName);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AddColumns("rosetta_lock");
+        query.Criteria.AddFilter(filter);
+
+        EntityCollection collection = service.RetrieveMultiple(query);
+
+        if (collection.Entities.Count == 0 || collection.Entities[0]["rosetta_lock"].ToString() == false.ToString())
+        {
+            return false;
+        }
+        else
+        {
+            collection.Entities[0]["rosetta_lock"] = false;
+            service.Update(collection.Entities[0]);
+            return true;
+        }
     }
 
     public override void UpdateUser(MembershipUser user)
