@@ -817,7 +817,7 @@ public class CRMMembershipProvider : MembershipProvider
             ec.Entities[0]["rosetta_loginattempts"] = (int)ec.Entities[0]["rosetta_loginattempts"] + 1;//increment login attempts
 
             if ((int)ec.Entities[0]["rosetta_loginattempts"] == _MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
-                ec.Entities[0]["rosetta_lock"] = 1;
+                ec.Entities[0]["rosetta_lock"] = true;
 
             service.Update(ec.Entities[0]);//update user information
             return false;
