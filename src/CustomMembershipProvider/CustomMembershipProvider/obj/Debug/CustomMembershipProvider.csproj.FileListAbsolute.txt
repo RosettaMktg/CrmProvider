@@ -31,3 +31,14 @@ C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CustomMembersh
 C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\ResolveAssemblyReference.cache
 C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\CustomMembershipProvider.dll
 C:\Users\Geospark\CrmProvider\master\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\CustomMembershipProvider.pdb
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\bin\CustomMembershipProvider.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\bin\CustomMembershipProvider.pdb
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\bin\CRMMembershipProvider.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\bin\Microsoft.Xrm.Client.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\bin\Microsoft.Xrm.Sdk.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\bin\CRMMembershipProvider.pdb
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\bin\Microsoft.Xrm.Client.xml
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\bin\Microsoft.Xrm.Sdk.xml
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\CustomMembershipProvider.dll
+C:\Users\Tom\Desktop\CRM\src\CustomMembershipProvider\CustomMembershipProvider\obj\Debug\CustomMembershipProvider.pdb

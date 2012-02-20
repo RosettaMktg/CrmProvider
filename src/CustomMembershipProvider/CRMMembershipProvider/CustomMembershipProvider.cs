@@ -27,7 +27,7 @@ public class CRMMembershipProvider : MembershipProvider
 {
     //the following private variables are for the dynamic names of the attribute names that are used in CRM. Currently, the attribute names
     //are hard coded in but will be replaced with these variables to make the code more dynamic.
-    private Guid _accountId;
+    /*private Guid _accountId;
     private string _passwordN;
     private string _usernameN;
     private string _securityQuestionN;
@@ -39,7 +39,7 @@ public class CRMMembershipProvider : MembershipProvider
     private DateTime _timeLockedN;
     private DateTime _firstFailedN;
     private DateTime _lastLoginTimeN;
-    private DateTime _accountCreationN;
+    private DateTime _accountCreationN;*/
     
     //our connection method
     public OrganizationService OurConnect() {
@@ -50,12 +50,10 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override string ApplicationName
     {
-        get
-        {
+        get{
             return _ApplicationName;
         }
-        set
-        {
+        set{
             _ApplicationName = value;
         }
     }
@@ -126,9 +124,9 @@ public class CRMMembershipProvider : MembershipProvider
             throw new Exception("Successfully changed Security Question and Answer!");
         }
     }
-    //MAS
+    
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
-    {
+    {//MAS
         var service = OurConnect(); //intialize connection
 
         ConditionExpression condition = new ConditionExpression(); //create new condition
@@ -143,10 +141,11 @@ public class CRMMembershipProvider : MembershipProvider
         //query.ColumnSet.AddColumns("rosetta_username"); <--commented because do not need in this situation-->
         query.Criteria.AddFilter(filter); //query CRM with the new filter for username
         EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same username
-
+        
         if (ec.Entities.Count != 0)
         {
-            throw new Exception("Username already exists!");
+            status = MembershipCreateStatus.DuplicateUserName;
+            return null;
         }
         else
         {
@@ -158,10 +157,20 @@ public class CRMMembershipProvider : MembershipProvider
             newMember["rosetta_email"] = email;
             newMember["rosetta_securityquestion"] = passwordQuestion;
             newMember["rosetta_securityanswer"] = passwordAnswer;
+            newMember["rosetta_applicationname"] = _ApplicationName;
+            newMember["rosetta_deleteduser"] = false;
+            newMember["rosetta_lock"] = false;
+            newMember["rosetta_online"] = false;
+            newMember["rosetta_loginattempts"] = 0;
+            newMember["rosetta_accountcreation"] = DateTime.Now;
+            newMember["rosetta_firstfailed"] = DateTime.Now;
+            newMember["rosetta_lastlogin"] = DateTime.Now;
+            newMember["rosetta_timelocked"] = DateTime.Now;
 
-            Guid entityID = service.Create(newMember);
-            throw new Exception("Created new member!");
-            //return GetUser(username);
+            Guid _accountID = service.Create(newMember);
+            status = MembershipCreateStatus.Success;
+
+            return GetUser(username);
         }
         /*foreach (Entity act in ec.Entities)
         {
@@ -230,9 +239,6 @@ public class CRMMembershipProvider : MembershipProvider
         {
             throw new NotImplementedException();
         }
-
-
-        
     }
 
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
@@ -314,6 +320,56 @@ public class CRMMembershipProvider : MembershipProvider
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
     {
         throw new NotImplementedException();
+    }
+    //function to streamline getuser process
+    public MembershipUser GetUser(string username)
+    {//MAS
+        var service = OurConnect(); //intialize connection
+
+        ConditionExpression condition = new ConditionExpression(); //create new condition
+        condition.AttributeName = "rosetta_username"; //column we want to check against
+        condition.Operator = ConditionOperator.Equal; //checking against equal values
+        condition.Values.Add(username); //check username against rosetta_username in CRM
+
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.ColumnSet.AllColumns = true; 
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for username
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same username
+
+        if (ec.Entities.Count != 0){
+            return null;
+        }
+        else{
+           string _usernameN = (string)ec[0]["rosetta_username"];
+           string _securityQuestionN = (string)ec[0]["rosetta_securityquestion"];
+           string _emailN = (string)ec[0]["rosetta_email"];
+           DateTime _timeLockedN = (DateTime)ec[0]["rosetta_timelocked"];
+           DateTime _lastLoginTimeN = (DateTime)ec[0]["rosetta_lastlogin"];
+           DateTime _accountCreationN = (DateTime)ec[0]["rosetta_accountcreation"];
+           DateTime _lastPasswordChangedDate = DateTime.Now;
+           DateTime _lastAcivityDate = DateTime.Now;
+           bool _lockN = (bool)ec[0]["rosetta_lock"];
+           Guid _accountId = (Guid)ec[0]["rosetta_useraccountid"];
+            
+
+           MembershipUser user = new MembershipUser("CRMMembershipProvider",
+                                                     _usernameN,
+                                                     _accountId,
+                                                     _emailN,
+                                                     _securityQuestionN,
+                                                     "",
+                                                     true,
+                                                     _lockN,
+                                                     _accountCreationN,
+                                                     _lastLoginTimeN,
+                                                     _lastAcivityDate,
+                                                     _lastPasswordChangedDate,
+                                                     _timeLockedN);
+           return user;
+        }
     }
 
     public override string GetUserNameByEmail(string email)
