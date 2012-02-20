@@ -744,11 +744,93 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override void UpdateUser(MembershipUser user)
     {
-        throw new NotImplementedException();
+        var service = OurConnect();
+
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_useraccountid";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(user.ProviderUserKey);
+        
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+ 		
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AllColumns = true;
+        q.Criteria.AddFilter(f);
+       
+        EntityCollection ec = service.RetrieveMultiple(q);
+
+        if (ec.Entities.Count == 0)
+        {
+            return;
+        }
+        
+        ec.Entities[0]["rosetta_username"] = user.UserName;
+        ec.Entities[0]["rosetta_securityquestion"] = user.PasswordQuestion;
+        ec.Entities[0]["rosetta_email"] = user.Email;
+        ec.Entities[0]["rosetta_timelocked"] = user.LastLockoutDate;
+        ec.Entities[0]["rosetta_lastlogin"] = user.LastLoginDate;
+        ec.Entities[0]["rosetta_accountcreation"] = user.CreationDate;
+        ec.Entities[0]["rosetta_lock"] = user.IsLockedOut;
+
+        service.Update(ec.Entities[0]);
+
+        return;
     }
 
     public override bool ValidateUser(string username, string password)
     {
-        throw new NotImplementedException();
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_username";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(username);
+
+        FilterExpression filter = new FilterExpression();
+        filter.Conditions.Add(condition);
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount");
+        query.ColumnSet.AllColumns = true;
+        query.Criteria.AddFilter(filter);
+
+        EntityCollection ec = service.RetrieveMultiple(query);
+
+        if (ec.Entities.Count == 0)
+            return false;//the username does not exist
+
+        if ((bool)ec.Entities[0]["rosetta_lock"])
+            return false;//the account is locked
+
+        if (!ec.Entities[0]["rosetta_password"].Equals(EncryptPassword(StringToAsci(password))))//user exists, but pass is wrong
+        {
+            //need to log a failed login attempt
+            if (ec.Entities[0]["rosetta_firstfailed"] == null)//checking for first failed login
+                ec.Entities[0]["rosetta_firstfailed"] = DateTime.Now;
+
+            if ((DateTime.Now - (DateTime)ec.Entities[0]["rosetta_firstfailed"]).Minutes >= _PasswordAttemptWindow)//password window/login attempt reset
+            {
+                ec.Entities[0]["rosetta_loginattempts"] = 0;
+                ec.Entities[0]["rosetta_firstfailed"] = DateTime.Now;
+            }
+
+            ec.Entities[0]["rosetta_loginattempts"] = (int)ec.Entities[0]["rosetta_loginattempts"] + 1;//increment login attempts
+
+            if ((int)ec.Entities[0]["rosetta_loginattemps"] == _MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
+                ec.Entities[0]["rosetta_lock"] = 1;
+
+            service.Update(ec.Entities[0]);//update user information
+            return false;
+        }
+        else
+        {
+            //reset attributes of login stuff
+            ec.Entities[0]["rosetta_online"] = 1;
+            ec.Entities[0]["rosetta_firstfailed"] = null;
+            ec.Entities[0]["rosetta_loginattempts"] = 0;
+
+            service.Update(ec.Entities[0]);
+            return true;
+        }
     }    
 }
