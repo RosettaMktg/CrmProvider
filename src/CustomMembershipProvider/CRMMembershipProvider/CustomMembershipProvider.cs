@@ -504,20 +504,20 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
-         var service = OurConnect(); //intialize connection to CRM
-
+         var service = OurConnect();
+        
         ConditionExpression condition = new ConditionExpression();
         condition.AttributeName = "rosetta_username";
         condition.Operator = ConditionOperator.Equal;
         condition.Values.Add(username);
 
-        FilterExpression filter = new FilterExpression(); //create new filter for the condition
-        filter.Conditions.Add(condition); //add condition to the filter
-
-        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
-        query.Criteria.AddFilter(filter); //query CRM with the new filter for email
+        FilterExpression filter = new FilterExpression(); 
+        filter.Conditions.Add(condition); 
+        
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); 
+        query.Criteria.AddFilter(filter); 
         query.ColumnSet.AllColumns = true;
-        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+        EntityCollection ec = service.RetrieveMultiple(query); 
 
         if (ec.Entities.Count == 0)
             return null;
