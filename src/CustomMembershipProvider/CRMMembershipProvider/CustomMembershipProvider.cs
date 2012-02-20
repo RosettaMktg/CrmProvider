@@ -504,10 +504,35 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
+         var service = OurConnect(); //intialize connection to CRM
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_username";
+        condition.Operator = ConditionOperator.Equal;
+        condition.Values.Add(username);
+
+        FilterExpression filter = new FilterExpression(); //create new filter for the condition
+        filter.Conditions.Add(condition); //add condition to the filter
+
+        QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+        query.Criteria.AddFilter(filter); //query CRM with the new filter for email
+        query.ColumnSet.AllColumns = true;
+        EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
+
+        if (ec.Entities.Count == 0)
+            return null;
+        else
+        {
+            if (userIsOnline == (bool)ec.Entities[0]["rosetta_online"])
+                return GetUser((string)ec.Entities[0]["rosetta_username"]);
+            return null;
+        }
+        
+
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
-    {
+    {//MAS
         var service = OurConnect();
 
         ColumnSet attributes = new ColumnSet(new string[] { "rosetta_username", "rosetta_online" });
@@ -711,8 +736,33 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override void UpdateUser(MembershipUser user)
-    {
-        throw new NotImplementedException();
+    {//tc
+        var service = OurConnect();
+        //find user by username
+        //create condition for query
+        ConditionExpression c = new ConditionExpression();
+        c.AttributeName = "rosetta_useraccountid";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(user.ProviderUserKey);
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+
+        QueryExpression q = new QueryExpression("rosetta_useraccount");
+        q.ColumnSet.AllColumns = true;
+        q.Criteria.AddFilter(f);
+        EntityCollection result = service.RetrieveMultiple(q);
+        
+        result.Entities[0]["rosetta_username"] = user.UserName;
+        result.Entities[0]["rosetta_securityquestion"] = user.PasswordQuestion;
+        result.Entities[0]["rosetta_email"] = user.Email;
+        result.Entities[0]["rosetta_timelocked"] = user.LastLockoutDate;
+        result.Entities[0]["rosetta_lastlogin"] = user.LastLoginDate;
+        result.Entities[0]["rosetta_accountcreation"] = user.CreationDate;
+        result.Entities[0]["rosetta_lock"] = user.IsLockedOut;
+
+
+        service.Update(result[0]);
     }
 
     public override bool ValidateUser(string username, string password)
