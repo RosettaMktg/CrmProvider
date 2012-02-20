@@ -633,10 +633,10 @@ public class CRMMembershipProvider : MembershipProvider
                 return null;
             else
             {
-                string NewPass = "password"; //generate password function
+                string NewPass = Membership.GeneratePassword(_MinRequiredPasswordLength, 2);
                 collection.Entities[0]["rosetta_password"] = NewPass;
                 service.Update(collection.Entities[0]);
-                return "password";
+                return NewPass;
             }
             
         }
