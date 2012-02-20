@@ -311,12 +311,7 @@ public class CRMMembershipProvider : MembershipProvider
         condition2.AttributeName = "rosetta_deletedusers";
         condition2.Operator = ConditionOperator.Equal;
         condition2.Values.Add("No");
-        
-
-
-
-
-
+      
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
         filter.Conditions.Add(condition2); //add conditon 2 to the filter
