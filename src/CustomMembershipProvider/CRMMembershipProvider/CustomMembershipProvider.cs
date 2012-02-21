@@ -186,8 +186,21 @@ public class CRMMembershipProvider : MembershipProvider
             }*/
             else
             {
+                if (providerUserKey == null)
+                {
+                    providerUserKey = Guid.NewGuid();
+                }
+                else
+                {
+                    if (!(providerUserKey is Guid))
+                    {
+                        status = MembershipCreateStatus.InvalidProviderUserKey;
+                        return null;
+                    }
+                }
                 Entity newMember = new Entity("rosetta_useraccount");
 
+                newMember["rosetta_accountid"] = providerUserKey;
                 newMember["rosetta_name"] = username;
                 newMember["rosetta_username"] = username;
                 newMember["rosetta_password"] = EncryptPassword(StringToAsci(password));
@@ -458,7 +471,8 @@ public class CRMMembershipProvider : MembershipProvider
             {
                 if (_PasswordFormat == MembershipPasswordFormat.Hashed) //checks if passwords are hashed. Cannot retrieve hashed passwords
                 {
-                    throw new NotSupportedException("Cannot retrieve hashed passwords.");
+                    return null;
+                    //throw new NotSupportedException("Cannot retrieve hashed passwords.");
                 }
                 else
                 {
@@ -470,7 +484,8 @@ public class CRMMembershipProvider : MembershipProvider
                         }
                         else
                         {
-                            throw new Exception("Incorrect Answer to the security question."); //throw an exception that the answer doesn't match
+                            return null;
+                            //throw new Exception("Incorrect Answer to the security question."); //throw an exception that the answer doesn't match
                         }
                     }
                     else
@@ -481,19 +496,70 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-                throw new NotSupportedException("The current settings do not allow the password to be retrieved."); //throw exception that it is not supported to get password
+                return null;
+                //throw new NotSupportedException("The current settings do not allow the password to be retrieved."); //throw exception that it is not supported to get password
             }
         }
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
-        return GetUser(username);
+        var service = OurConnect();
+
+        ConditionExpression condition = new ConditionExpression();
+        condition.AttributeName = "rosetta_online";
+        condition.Operator = ConditionOperator.Equal;
+        if (userIsOnline)//this sets the filter according to the user online status.
+        {
+            condition.Values.Add("Yes");
+        }
+        else
+        {
+            condition.Values.Add("No");
+        }
+            ConditionExpression condition2 = new ConditionExpression();
+            condition2.AttributeName = "rosetta_username";
+            condition2.Operator = ConditionOperator.Equal;
+            condition2.Values.Add(username);
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(condition);
+            filter.Conditions.Add(condition2);
+
+            QueryExpression query = new QueryExpression("rosetta_useraccount"); 
+            query.ColumnSet.AddColumn("rosetta_username");
+            query.Criteria.AddFilter(filter); 
+            EntityCollection ec = service.RetrieveMultiple(query);
+            if (ec.TotalRecordCount != 0)
+            {
+                return GetUser(username);
+            }
+            else
+            {
+                return null;
+            }
+            
+        
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
     {
-        throw new NotImplementedException();
+        var service = OurConnect();
+
+        ColumnSet attributes = new ColumnSet(new string[] { "rosetta_username", "rosetta_online" });
+        Entity e = service.Retrieve("rosetta_useraccount", (Guid)providerUserKey, attributes);
+
+        if ((string)e["rosetta_username"]=="")
+        {
+            return null;
+        }
+        else
+        {
+            if(userIsOnline == (bool)e["rosetta_online"])
+                return GetUser((string)e["rosetta_username"]);
+            return null;
+        }
+
     }
     //function to streamline getuser process
     public MembershipUser GetUser(string username)
