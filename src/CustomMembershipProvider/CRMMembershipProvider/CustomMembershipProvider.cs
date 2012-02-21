@@ -306,9 +306,15 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_email"; //column we want to check against
         condition.Operator = ConditionOperator.Equal; //checking against equal values
         condition.Values.Add(emailToMatch); //checks email against rosetta_email in CRM
-        
+       
+        ConditionExpression condition2 = new ConditionExpression();// filters out soft deleted users.
+        condition2.AttributeName = "rosetta_deletedusers";
+        condition2.Operator = ConditionOperator.Equal;
+        condition2.Values.Add("No");
+      
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
+        filter.Conditions.Add(condition2); //add conditon 2 to the filter
         
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
         query.ColumnSet.AllColumns = true;
@@ -320,9 +326,11 @@ public class CRMMembershipProvider : MembershipProvider
         if (totalRecords != 0 && totalRecords >= ((pageSize*pageIndex)+1))
         {
             MembershipUserCollection usersToReturn = new MembershipUserCollection();
-            foreach (Entity act in ec.Entities)//gets all the records out of ec assigns them to userstoreturn.
+            var start = pageSize * pageSize;
+            var end = (pageSize * pageSize) + (pageSize-(totalRecords%pageSize));
+            for(int i=start;i<end;i++)
             {
-                MembershipUser TempUser = GetUser((string)act["rosetta_username"]);
+                MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
                 usersToReturn.Add(TempUser);
             
             }
@@ -479,13 +487,12 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
-
-    {
+    {//JH
         return GetUser(username);
     }
 
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
-    {//JH
+    {
         throw new NotImplementedException();
     }
     //function to streamline getuser process
