@@ -308,6 +308,7 @@ public class CRMMembershipProvider : MembershipProvider
     
     protected override byte[] DecryptPassword(byte[] encodedPassword)
     {
+        
         return base.DecryptPassword(encodedPassword);
     }
 
@@ -555,6 +556,7 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
+
                 return null;
             }
         }
@@ -686,7 +688,8 @@ public class CRMMembershipProvider : MembershipProvider
         
         if (!EnablePasswordReset)
         {
-            return null;
+            throw new NotSupportedException("Config file has been set to not allow password reset");
+            //return null;
         }
         else
         {//reset password based on assigned regular expresssion
@@ -704,7 +707,10 @@ public class CRMMembershipProvider : MembershipProvider
             EntityCollection ec = service.RetrieveMultiple(query);
 
             if (ec.Entities.Count == 0)
-                return null;
+            {
+                throw new MembershipPasswordException("The user's security answer is incorrect");
+                //return null;
+            }
             else
             {
                 string NewPass = Membership.GeneratePassword(_MinRequiredPasswordLength, _MinRequiredNonalphanumericCharacters); //changed to have MinRequireNonalphanumericCharacters (CC)
@@ -746,7 +752,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override void UpdateUser(MembershipUser user)
-    {
+    {//TC
         var service = OurConnect();
 
         ConditionExpression c = new ConditionExpression();
@@ -782,7 +788,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool ValidateUser(string username, string password)
-    {
+    {//bcd
         var service = OurConnect();
 
         ConditionExpression condition = new ConditionExpression();
@@ -831,6 +837,8 @@ public class CRMMembershipProvider : MembershipProvider
             ec.Entities[0]["rosetta_online"] = 1;
             ec.Entities[0]["rosetta_firstfailed"] = null;
             ec.Entities[0]["rosetta_loginattempts"] = 0;
+            //set last login date
+            ec.Entities[0]["rosetta_lastlogin"] = DateTime.Now;
 
             service.Update(ec.Entities[0]);
             return true;
