@@ -41,11 +41,10 @@ public class CRMMembershipProvider : MembershipProvider
             return defaultValue;
         return configValue;
     }
-
     public override void Initialize(string name, NameValueCollection config)
     {//MAS
         if (config == null)
-            throw new ArgumentNullException("config");
+            throw new ArgumentNullException("No configuration file found.");
 
         if (name == null || name.Length == 0)
             name = "CustomMembershipProvider";
@@ -73,7 +72,9 @@ public class CRMMembershipProvider : MembershipProvider
         _PasswordStrengthRegularExpression = Convert.ToString(
                        GetConfigValue(config["passwordStrengthRegularExpression"], ""));
         _ConnectionStringName = Convert.ToString(
-            GetConfigValue(config["connectionStringName"], "")); //todo: default to exception
+            GetConfigValue(config["connectionStringName"], "")); 
+        if (_ConnectionStringName == "")
+            throw new ConfigurationException("Must provide connection string name in configuration file.");
     }
 
     /*CONNECTION AND QUERY*/
@@ -545,7 +546,8 @@ public class CRMMembershipProvider : MembershipProvider
                         }
                         else
                         {
-                            return null;
+                            throw new MembershipPasswordException("Security answer given does not match that in CRM.");
+                           //return null;
                         }
                     }
                     else
@@ -556,8 +558,8 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-
-                return null;
+                throw new NotSupportedException("Config file is configured to not allow password retrieval.");
+                //return null;
             }
         }
     }
