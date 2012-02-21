@@ -156,6 +156,7 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override bool ChangePassword(string username, string oldPassword, string newPassword)
     {//tc
+
         var service = OurConnect();
   
         ConditionExpression c = new ConditionExpression();
@@ -237,6 +238,7 @@ public class CRMMembershipProvider : MembershipProvider
     
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
     {//MAS
+
         var service = OurConnect(); //intialize connection
 
         ConditionExpression condition = new ConditionExpression(); //create new condition
@@ -306,6 +308,7 @@ public class CRMMembershipProvider : MembershipProvider
     
     protected override byte[] DecryptPassword(byte[] encodedPassword)
     {
+        
         return base.DecryptPassword(encodedPassword);
     }
 
@@ -536,7 +539,7 @@ public class CRMMembershipProvider : MembershipProvider
                 {
                     if (_RequiresQuestionAndAnswer == true) //checks if the answer to the security question is needed
                     {
-                        if ((string)ec.Entities[0]["rosetta_securityanswer"] == answer) //for now, check the value of the first entity in the collection agasint the answer passed
+                        if ((string)ec.Entities[0]["rosetta_securityanswer"] == answer) //check the value of the first entity in the collection agasint the answer passed
                         {
                             return (string)ec.Entities[0]["rosetta_password"]; //return the password from the first entity in the collection from the query
                         }
@@ -553,6 +556,7 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
+
                 return null;
             }
         }
@@ -560,9 +564,8 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
-
-         var service = OurConnect();
-     
+        var service = OurConnect();
+    
         ConditionExpression condition = new ConditionExpression();
         condition.AttributeName = "rosetta_username";
         condition.Operator = ConditionOperator.Equal;
@@ -685,7 +688,8 @@ public class CRMMembershipProvider : MembershipProvider
         
         if (!EnablePasswordReset)
         {
-            return null;
+            throw new NotSupportedException("Config file has been set to not allow password reset");
+            //return null;
         }
         else
         {//reset password based on assigned regular expresssion
@@ -703,7 +707,10 @@ public class CRMMembershipProvider : MembershipProvider
             EntityCollection ec = service.RetrieveMultiple(query);
 
             if (ec.Entities.Count == 0)
-                return null;
+            {
+                throw new MembershipPasswordException("The user's security answer is incorrect");
+                //return null;
+            }
             else
             {
                 string NewPass = Membership.GeneratePassword(_MinRequiredPasswordLength, _MinRequiredNonalphanumericCharacters); //changed to have MinRequireNonalphanumericCharacters (CC)
@@ -745,7 +752,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override void UpdateUser(MembershipUser user)
-    {
+    {//TC
         var service = OurConnect();
 
         ConditionExpression c = new ConditionExpression();
@@ -781,7 +788,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     public override bool ValidateUser(string username, string password)
-    {
+    {//bcd
         var service = OurConnect();
 
         ConditionExpression condition = new ConditionExpression();
@@ -830,6 +837,8 @@ public class CRMMembershipProvider : MembershipProvider
             ec.Entities[0]["rosetta_online"] = 1;
             ec.Entities[0]["rosetta_firstfailed"] = null;
             ec.Entities[0]["rosetta_loginattempts"] = 0;
+            //set last login date
+            ec.Entities[0]["rosetta_lastlogin"] = DateTime.Now;
 
             service.Update(ec.Entities[0]);
             return true;
@@ -882,5 +891,31 @@ public class CRMMembershipProvider : MembershipProvider
 
             return 0; //return 0 because password passed all checks
         }
-    }    
+    }
+    
+    /*
+    protected virtual void passwordReq(string password)
+    {
+        int code = checkPasswordReq(password);
+
+        if(code == 0)
+        {
+            return;
+        }
+        else if(code == 1)
+        {
+            throw new Exception("The password did not meet the require length.");
+        }
+        else if(code == 2)
+        {
+            throw new Exception("The password did not meet the minimum number of Non-AlphaNumeric characters.");
+        }
+        else if(code == 3)
+        {
+            throw new Exception("The password did not meet the requirements of the Regular Expression.");
+        }
+
+        return;
+    }
+    */
 }
