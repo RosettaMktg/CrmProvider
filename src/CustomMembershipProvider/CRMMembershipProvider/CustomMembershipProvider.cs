@@ -560,13 +560,8 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
-<<<<<<< HEAD
          var service = OurConnect();
-        
-=======
-        var service = OurConnect(); //intialize connection to CRM
-
->>>>>>> 16f89929a7f04cf14076b89053bec1accf7cde54
+       
         ConditionExpression condition = new ConditionExpression();
         condition.AttributeName = "rosetta_username";
         condition.Operator = ConditionOperator.Equal;
