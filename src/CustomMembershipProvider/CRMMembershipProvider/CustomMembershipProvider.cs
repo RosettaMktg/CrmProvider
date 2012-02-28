@@ -229,8 +229,8 @@ public class CRMMembershipProvider : MembershipProvider
         }
         else
         {
-            ec.Entities[0]["rosetta_securityquestion"] = newPasswordQuestion;
-            ec.Entities[0]["rosetta_securityanswer"] = newPasswordAnswer;
+            ec.Entities[0]["rosetta_securityquestion"] = EncryptPassword(StringToAsci(newPasswordQuestion));
+            ec.Entities[0]["rosetta_securityanswer"] = EncryptPassword(StringToAsci(newPasswordAnswer));
 
             service.Update(ec.Entities[0]);//success
             return true;
@@ -285,10 +285,10 @@ public class CRMMembershipProvider : MembershipProvider
                 newMember["rosetta_useraccountid"] = providerUserKey;
                 newMember["rosetta_name"] = username;
                 newMember["rosetta_username"] = username;
-                newMember["rosetta_password"] = password;//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
+                newMember["rosetta_password"] = EncryptPassword(StringToAsci(password));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
                 newMember["rosetta_email"] = email;
-                newMember["rosetta_securityquestion"] = passwordQuestion;
-                newMember["rosetta_securityanswer"] = passwordAnswer;
+                newMember["rosetta_securityquestion"] = EncryptPassword(StringToAsci(passwordQuestion));
+                newMember["rosetta_securityanswer"] = EncryptPassword(StringToAsci(passwordAnswer));
                 newMember["rosetta_applicationname"] = _ApplicationName;
                 newMember["rosetta_deleteduser"] = false;
                 newMember["rosetta_lock"] = false;
