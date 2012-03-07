@@ -571,7 +571,8 @@ public class CRMMembershipProvider : MembershipProvider
             {
                 if (_PasswordFormat == MembershipPasswordFormat.Hashed) //checks if passwords are hashed. Cannot retrieve hashed passwords
                 {
-                    return null;
+                    throw new NotSupportedException("Cannot retrieve hashed passwords.");
+                    //return null;
                 }
                 else
                 {
