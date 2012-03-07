@@ -69,6 +69,39 @@ public class CRMMembershipProvider : MembershipProvider
                       GetConfigValue(config["minRequiredPasswordLength"], "6"));
         _EnablePasswordReset = Convert.ToBoolean(
                       GetConfigValue(config["enablePasswordReset"], "true"));
+     
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         _PasswordStrengthRegularExpression = Convert.ToString(
                        GetConfigValue(config["passwordStrengthRegularExpression"], ""));
         _ConnectionStringName = Convert.ToString(
@@ -157,6 +190,10 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override bool ChangePassword(string username, string oldPassword, string newPassword)
     {//tc
+        /*using ( OrganizationService service = new OrganizationService(OurConnect()))
+        {
+        //OurConnect()
+        }*/
 
         var service = OurConnect();
   
@@ -241,7 +278,7 @@ public class CRMMembershipProvider : MembershipProvider
     {//MAS
 
         var service = OurConnect(); //intialize connection
-
+   
         ConditionExpression condition = new ConditionExpression(); //create new condition
         condition.AttributeName = "rosetta_username"; //column we want to check against
         condition.Operator = ConditionOperator.Equal; //checking against equal values
@@ -249,7 +286,7 @@ public class CRMMembershipProvider : MembershipProvider
 
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
-
+        
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
         query.Criteria.AddFilter(filter); //query CRM with the new filter for username
         EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same username
