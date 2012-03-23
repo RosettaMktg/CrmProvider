@@ -205,58 +205,54 @@ public class CRMMembershipProvider : MembershipProvider
 
     public override bool ChangePassword(string username, string oldPassword, string newPassword)
     {//tc
-        /*using ( OrganizationService service = new OrganizationService(OurConnect()))
-        {
-        //OurConnect()
-        }*/
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        { //TODO: put in every function
+            ConditionExpression c = new ConditionExpression();
+            ConditionExpression c2 = new ConditionExpression();
+            ConditionExpression c3 = new ConditionExpression();//TODO: put into every condition
+            c.AttributeName = "rosetta_username";//TODO:add constants for col names
+            c.Operator = ConditionOperator.Equal;
+            c.Values.Add(username);
 
-        var service = OurConnect();
-  
-        ConditionExpression c = new ConditionExpression();
-        ConditionExpression c2 = new ConditionExpression();
-        ConditionExpression c3 = new ConditionExpression();
-        c.AttributeName = "rosetta_username";
-        c.Operator = ConditionOperator.Equal;
-        c.Values.Add(username);
+            c2.AttributeName = "rosetta_applicationname";
+            c2.Operator = ConditionOperator.Equal;
+            c2.Values.Add(_ApplicationName);
 
-        c2.AttributeName = "rosetta_applicationname";
-        c2.Operator = ConditionOperator.Equal;
-        c2.Values.Add(_ApplicationName);
+            c3.AttributeName = "rosetta_deleteduser";
+            c3.Operator = ConditionOperator.Equal;
+            c3.Values.Add(false);
 
-        c3.AttributeName = "rosetta_deleteduser";
-        c3.Operator = ConditionOperator.Equal;
-        c3.Values.Add(false);
+            FilterExpression f = new FilterExpression();
+            f.Conditions.Add(c);
+            f.Conditions.Add(c2);
+            f.Conditions.Add(c3);
 
-        FilterExpression f = new FilterExpression();
-        f.Conditions.Add(c);
-        f.Conditions.Add(c2);
-        f.Conditions.Add(c3);
+            QueryExpression q = new QueryExpression("rosetta_useraccount");
+            q.ColumnSet.AddColumn("rosetta_password");
+            q.ColumnSet.AddColumn("rosetta_username");
+            q.Criteria.AddFilter(f);
 
-        QueryExpression q = new QueryExpression("rosetta_useraccount");
-        q.ColumnSet.AddColumn("rosetta_password");
-        q.ColumnSet.AddColumn("rosetta_username");
-        q.Criteria.AddFilter(f);
+            EntityCollection ec = service.RetrieveMultiple(q);
 
-        EntityCollection ec = service.RetrieveMultiple(q); 
-      
-        if (ec.Entities.Count == 0)
-        {
-            //if username doesn't exist
-            return false;
-        }
-        else
-        {
-            if (EncryptPassword(StringToAsci(oldPassword)) != ec.Entities[0]["rosetta_password"])
+            if (ec.Entities.Count == 0)
             {
+                //if username doesn't exist
                 return false;
             }
-            //if the same overwrite with new password
             else
             {
-                ec.Entities[0]["rosetta_password"] = EncryptPassword(StringToAsci(oldPassword));
+                if (EncryptPassword(StringToAsci(oldPassword)) != ec.Entities[0]["rosetta_password"])
+                {
+                    return false;
+                }
+                //if the same overwrite with new password
+                else
+                {
+                    ec.Entities[0]["rosetta_password"] = EncryptPassword(StringToAsci(oldPassword));
 
-                service.Update(ec.Entities[0]);
-                return true;
+                    service.Update(ec.Entities[0]);
+                    return true;
+                }
             }
         }
     }
