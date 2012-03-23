@@ -119,11 +119,26 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*CONVERT STRING TP ASCI FOR ENCRYPT/DECRYPT*/
-    private byte[] StringToAsci(string password)
+    static private byte[] StringToAsci(string password)
     {
-        System.Text.ASCIIEncoding newEncoding = new System.Text.ASCIIEncoding();
-        byte[] newBytes = newEncoding.GetBytes(password);
-        return newBytes;
+        if (password != null)
+        {
+            byte[] newBytes = System.Text.ASCIIEncoding.ASCII.GetBytes(password);
+            return newBytes;
+        }
+        else
+        {
+            //byte[] newBytes = null;
+            return new byte[0];
+        }
+            
+    }
+
+    private string ByteToUnicode(byte[] encodedPassword)
+    {
+        string str = System.Text.Encoding.Unicode.GetString(encodedPassword);
+
+        return str;
     }
 
     /*STREAMLINE GETUSER PROCESS*/
@@ -322,10 +337,10 @@ public class CRMMembershipProvider : MembershipProvider
                 newMember["rosetta_useraccountid"] = providerUserKey;
                 newMember["rosetta_name"] = username;
                 newMember["rosetta_username"] = username;
-                newMember["rosetta_password"] = EncryptPassword(StringToAsci(password));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
+                newMember["rosetta_password"] = ByteToUnicode(EncryptPassword(StringToAsci(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
                 newMember["rosetta_email"] = email;
-                newMember["rosetta_securityquestion"] = EncryptPassword(StringToAsci(passwordQuestion));
-                newMember["rosetta_securityanswer"] = EncryptPassword(StringToAsci(passwordAnswer));
+                newMember["rosetta_securityquestion"] = ByteToUnicode(EncryptPassword(StringToAsci(passwordQuestion)));
+                newMember["rosetta_securityanswer"] = ByteToUnicode(EncryptPassword(StringToAsci(passwordAnswer)));
                 newMember["rosetta_applicationname"] = _ApplicationName;
                 newMember["rosetta_deleteduser"] = false;
                 newMember["rosetta_lock"] = false;
@@ -344,11 +359,11 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
     
-    protected override byte[] DecryptPassword(byte[] encodedPassword)
+    /*protected override byte[] DecryptPassword(byte[] encodedPassword)
     {
         
         return base.DecryptPassword(encodedPassword);
-    }
+    }*/
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
     {//tc
@@ -405,7 +420,7 @@ public class CRMMembershipProvider : MembershipProvider
         get { return _EnablePasswordRetrieval; }
     }
 
-    protected override byte[] EncryptPassword(byte[] password)
+    /*protected override byte[] EncryptPassword(byte[] password)
     {
         return base.EncryptPassword(password);
     }
@@ -413,7 +428,7 @@ public class CRMMembershipProvider : MembershipProvider
     protected override byte[] EncryptPassword(byte[] password, MembershipPasswordCompatibilityMode legacyPasswordCompatibilityMode)
     {
         return base.EncryptPassword(password, legacyPasswordCompatibilityMode);
-    }
+    }*/
     
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
     {//JH
