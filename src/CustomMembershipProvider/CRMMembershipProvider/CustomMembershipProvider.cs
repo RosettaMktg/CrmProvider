@@ -161,12 +161,24 @@ public class CRMMembershipProvider : MembershipProvider
         var service = OurConnect();
   
         ConditionExpression c = new ConditionExpression();
+        ConditionExpression c2 = new ConditionExpression();
+        ConditionExpression c3 = new ConditionExpression();
         c.AttributeName = "rosetta_username";
         c.Operator = ConditionOperator.Equal;
         c.Values.Add(username);
 
+        c2.AttributeName = "rosetta_applicationname";
+        c2.Operator = ConditionOperator.Equal;
+        c2.Values.Add(_ApplicationName);
+
+        c3.AttributeName = "rosetta_deleteduser";
+        c3.Operator = ConditionOperator.Equal;
+        c3.Values.Add(false);
+
         FilterExpression f = new FilterExpression();
         f.Conditions.Add(c);
+        f.Conditions.Add(c2);
+        f.Conditions.Add(c3);
 
         QueryExpression q = new QueryExpression("rosetta_useraccount");
         q.ColumnSet.AddColumn("rosetta_password");
@@ -201,24 +213,36 @@ public class CRMMembershipProvider : MembershipProvider
     {//bcd
         var service = OurConnect();
 
-        ConditionExpression condition = new ConditionExpression();
-        condition.AttributeName = "rosetta_username";
-        condition.Operator = ConditionOperator.Equal;
-        condition.Values.Add(username);
+        ConditionExpression c = new ConditionExpression();
+        ConditionExpression c2 = new ConditionExpression();
+        ConditionExpression c3 = new ConditionExpression();
+        ConditionExpression c4 = new ConditionExpression();
+        c.AttributeName = "rosetta_username";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(username);
 
-        ConditionExpression condition2 = new ConditionExpression();
-        condition2.AttributeName = "rosetta_password";
-        condition2.Operator = ConditionOperator.Equal;
-        condition2.Values.Add(EncryptPassword(StringToAsci(password)));
+        c2.AttributeName = "rosetta_applicationname";
+        c2.Operator = ConditionOperator.Equal;
+        c2.Values.Add(_ApplicationName);
 
-        FilterExpression filter = new FilterExpression();
-        filter.Conditions.Add(condition);
-        filter.Conditions.Add(condition2);
+        c3.AttributeName = "rosetta_deleteduser";
+        c3.Operator = ConditionOperator.Equal;
+        c3.Values.Add(false);
+
+        c4.AttributeName = "rosetta_password";
+        c4.Operator = ConditionOperator.Equal;
+        c4.Values.Add(EncryptPassword(StringToAsci(password)));
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+        f.Conditions.Add(c2);
+        f.Conditions.Add(c3);
+        f.Conditions.Add(c4);
 
         QueryExpression query = new QueryExpression("rosetta_useraccount");
         query.ColumnSet.AddColumns("rosetta_securityquestion");
         query.ColumnSet.AddColumns("rosetta_securitypassword");
-        query.Criteria.AddFilter(filter);
+        query.Criteria.AddFilter(f);
 
         EntityCollection ec = service.RetrieveMultiple(query);
 
@@ -242,13 +266,32 @@ public class CRMMembershipProvider : MembershipProvider
 
         var service = OurConnect(); //intialize connection
 
-        ConditionExpression condition = new ConditionExpression(); //create new condition
-        condition.AttributeName = "rosetta_username"; //column we want to check against
-        condition.Operator = ConditionOperator.Equal; //checking against equal values
-        condition.Values.Add(username); //check username against rosetta_username in CRM
+        ConditionExpression c = new ConditionExpression();
+        ConditionExpression c2 = new ConditionExpression();
+        ConditionExpression c3 = new ConditionExpression();
+        ConditionExpression c4 = new ConditionExpression();
+        c.AttributeName = "rosetta_username";
+        c.Operator = ConditionOperator.Equal;
+        c.Values.Add(username);
 
-        FilterExpression filter = new FilterExpression(); //create new filter for the condition
-        filter.Conditions.Add(condition); //add condition to the filter
+        c2.AttributeName = "rosetta_applicationname";
+        c2.Operator = ConditionOperator.Equal;
+        c2.Values.Add(_ApplicationName);
+
+        c3.AttributeName = "rosetta_deleteduser";
+        c3.Operator = ConditionOperator.Equal;
+        c3.Values.Add(false);
+
+        c4.AttributeName = "rosetta_password";
+        c4.Operator = ConditionOperator.Equal;
+        c4.Values.Add(EncryptPassword(StringToAsci(password)));
+
+        FilterExpression f = new FilterExpression();
+        f.Conditions.Add(c);
+        f.Conditions.Add(c2);
+        f.Conditions.Add(c3);
+        f.Conditions.Add(c4);
+
 
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
         query.Criteria.AddFilter(filter); //query CRM with the new filter for username
