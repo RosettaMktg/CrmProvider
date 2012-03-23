@@ -22,7 +22,7 @@ using Microsoft.Xrm.Sdk.Metadata;
 public class CRMMembershipProvider : MembershipProvider
 {
     /*BEGINNING OF INITIALIZE FUNCTION*/
-    private string _ApplicationName;
+    private string _ApplicationName;//TODO: mark as protected
     private bool _EnablePasswordReset;
     private bool _EnablePasswordRetrieval = false;
     private bool _RequiresQuestionAndAnswer = false;
@@ -35,7 +35,7 @@ public class CRMMembershipProvider : MembershipProvider
     private MembershipPasswordFormat _PasswordFormat = MembershipPasswordFormat.Hashed;
     private string _ConnectionStringName;
 
-    private string GetConfigValue(string configValue, string defaultValue)
+    protected string GetConfigValue(string configValue, string defaultValue)
     {
         if (string.IsNullOrEmpty(configValue))
             return defaultValue;
@@ -60,7 +60,7 @@ public class CRMMembershipProvider : MembershipProvider
         _ApplicationName = GetConfigValue(config["applicationName"],
                       System.Web.Hosting.HostingEnvironment.ApplicationVirtualPath);
         _MaxInvalidPasswordAttempts = Convert.ToInt32(
-                      GetConfigValue(config["maxInvalidPasswordAttempts"], "5"));
+                      GetConfigValue(config["maxInvalidPasswordAttempts"], "5"));//TODO:negative integer values
         _PasswordAttemptWindow = Convert.ToInt32(
                       GetConfigValue(config["passwordAttemptWindow"], "10"));
         _MinRequiredNonalphanumericCharacters = Convert.ToInt32(
@@ -69,39 +69,6 @@ public class CRMMembershipProvider : MembershipProvider
                       GetConfigValue(config["minRequiredPasswordLength"], "6"));
         _EnablePasswordReset = Convert.ToBoolean(
                       GetConfigValue(config["enablePasswordReset"], "true"));
-     
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
         _PasswordStrengthRegularExpression = Convert.ToString(
                        GetConfigValue(config["passwordStrengthRegularExpression"], ""));
         _ConnectionStringName = Convert.ToString(
@@ -128,7 +95,6 @@ public class CRMMembershipProvider : MembershipProvider
         }
         else
         {
-            //byte[] newBytes = null;
             return new byte[0];
         }
             
@@ -142,7 +108,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*STREAMLINE GETUSER PROCESS*/
-    public MembershipUser GetUser(string username)
+    protected MembershipUser GetUser(string username)
     {//MAS
         var service = OurConnect(); //intialize connection
 
@@ -169,7 +135,7 @@ public class CRMMembershipProvider : MembershipProvider
            DateTime _timeLockedN = (DateTime)ec[0]["rosetta_timelocked"];
            DateTime _lastLoginTimeN = (DateTime)ec[0]["rosetta_lastlogin"];
            DateTime _accountCreationN = (DateTime)ec[0]["rosetta_accountcreation"];
-           DateTime _lastPasswordChangedDate = DateTime.Now;
+           DateTime _lastPasswordChangedDate = DateTime.Now;//TODO: change to activities, seperate entity
            DateTime _lastAcivityDate = DateTime.Now;
            bool _lockN = (bool)ec[0]["rosetta_lock"];
            Guid _accountId = (Guid)ec[0]["rosetta_useraccountid"];
@@ -180,7 +146,7 @@ public class CRMMembershipProvider : MembershipProvider
                                                      _accountId,
                                                      _emailN,
                                                      _securityQuestionN,
-                                                     "",
+                                                     String.Empty,
                                                      true,
                                                      _lockN,
                                                      _accountCreationN,
@@ -242,7 +208,7 @@ public class CRMMembershipProvider : MembershipProvider
             else
             {
                 if (EncryptPassword(StringToAsci(oldPassword)) != ec.Entities[0]["rosetta_password"])
-                {
+                {//TODO: do as part of query
                     return false;
                 }
                 //if the same overwrite with new password
@@ -412,7 +378,7 @@ public class CRMMembershipProvider : MembershipProvider
         c.AttributeName = "rosetta_username";
         c.Operator = ConditionOperator.Equal;
         c.Values.Add(username);
-
+        //TODO: check for app name
         FilterExpression f = new FilterExpression();
         f.Conditions.Add(c);
 
@@ -478,7 +444,7 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_email"; //column we want to check against
         condition.Operator = ConditionOperator.Equal; //checking against equal values
         condition.Values.Add(emailToMatch); //checks email against rosetta_email in CRM
-       
+       //TODO: app name and soft delete
         ConditionExpression condition2 = new ConditionExpression();// filters out soft deleted users.
         condition2.AttributeName = "rosetta_deletedusers";
         condition2.Operator = ConditionOperator.Equal;
@@ -521,7 +487,7 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_username"; //column we want to check against
         condition.Operator = ConditionOperator.Equal; //checking against equal values
         condition.Values.Add(usernameToMatch); //checks email against rosetta_email in CRM
-
+        //TODO: app name and soft delete
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to the filter
 
@@ -553,7 +519,7 @@ public class CRMMembershipProvider : MembershipProvider
     public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
     {//MAS
         var service = OurConnect();
-
+        //TODO: app name and soft delete, reduce to one function
         QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
         EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
 
@@ -581,7 +547,7 @@ public class CRMMembershipProvider : MembershipProvider
     public override int GetNumberOfUsersOnline()
     {//JH
         var service = OurConnect(); //intialize connectio
-
+        //TODO: app name and soft delete
         ConditionExpression condition = new ConditionExpression(); //creates a new condition.
         condition.AttributeName = "rosetta_online"; //column we want to check against.
         condition.Operator = ConditionOperator.Equal;//sets the comparing. 
@@ -606,7 +572,7 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_username"; //column to check against (trying to find username)
         condition.Operator = ConditionOperator.Equal; //checking agasint equal values
         condition.Values.Add(username); //check passed username value to password field in CRM
-
+        //TODO: app name, soft delete, and lock
         FilterExpression filter = new FilterExpression(); //create new filter for the condition
         filter.Conditions.Add(condition); //add condition to filter
 
@@ -623,18 +589,12 @@ public class CRMMembershipProvider : MembershipProvider
         {
             if (EnablePasswordRetrieval) //if allowed to get password
             {
-                if (_PasswordFormat == MembershipPasswordFormat.Hashed) //checks if passwords are hashed. Cannot retrieve hashed passwords
-                {
-                    throw new NotSupportedException("Cannot retrieve hashed passwords.");
-                    //return null;
-                }
-                else
-                {
+                //hashed will return password
                     if (_RequiresQuestionAndAnswer == true) //checks if the answer to the security question is needed
                     {
-                        if ((string)ec.Entities[0]["rosetta_securityanswer"] == answer) //check the value of the first entity in the collection agasint the answer passed
+                        if ((string)ec.Entities[0]["rosetta_securityanswer"] == answer) //TODO: encrypt
                         {
-                            return (string)ec.Entities[0]["rosetta_password"]; //return the password from the first entity in the collection from the query
+                            return (string)ec.Entities[0]["rosetta_password"]; //TODO: decrypt if not hashed
                         }
                         else
                         {
@@ -644,9 +604,8 @@ public class CRMMembershipProvider : MembershipProvider
                     }
                     else
                     {
-                        return (string)ec.Entities[0]["rosetta_password"]; //return the password from the first entity in the collection from the query
+                        return (string)ec.Entities[0]["rosetta_password"]; //TODO: decrypt if not hashed
                     }
-                }
             }
             else
             {
@@ -664,7 +623,7 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_username";
         condition.Operator = ConditionOperator.Equal;
         condition.Values.Add(username);
-
+        //TODO: app name and soft delete
         FilterExpression filter = new FilterExpression(); 
         filter.Conditions.Add(condition); 
         
@@ -692,18 +651,10 @@ public class CRMMembershipProvider : MembershipProvider
 
         ColumnSet attributes = new ColumnSet(new string[] { "rosetta_username", "rosetta_online" });
         Entity e = service.Retrieve("rosetta_useraccount", (Guid)providerUserKey, attributes);
-
-        if ((string)e["rosetta_username"]=="")
-        {
-            return null;
-        }
-        else
-        {
-            if(userIsOnline == (bool)e["rosetta_online"])
-                return GetUser((string)e["rosetta_username"]);
-            return null;
-        }
-
+        //TODO: app name and soft delete
+        if(userIsOnline == (bool)e["rosetta_online"])//TODO: make sure bool is casted
+            return GetUser((string)e["rosetta_username"]);
+        return null;
     }
     
     public override string GetUserNameByEmail(string email)
@@ -714,7 +665,7 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_email";
         condition.Operator = ConditionOperator.Equal;
         condition.Values.Add(email);
-
+        //TODO: app name and soft delete
         FilterExpression filter = new FilterExpression();
         filter.Conditions.Add(condition);
        
@@ -791,7 +742,7 @@ public class CRMMembershipProvider : MembershipProvider
             condition.AttributeName = "rosetta_username";
             condition.Operator = ConditionOperator.Equal;
             condition.Values.Add(username);
-
+            //TODO: app name and soft delete
             FilterExpression filter = new FilterExpression();
             filter.Conditions.Add(condition);
 
@@ -823,7 +774,7 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_username";
         condition.Operator = ConditionOperator.Equal;
         condition.Values.Add(userName);
-
+        //TODO: app name and soft delete
         FilterExpression filter = new FilterExpression();
         filter.Conditions.Add(condition);
 
@@ -853,7 +804,7 @@ public class CRMMembershipProvider : MembershipProvider
         c.AttributeName = "rosetta_useraccountid";
         c.Operator = ConditionOperator.Equal;
         c.Values.Add(user.ProviderUserKey);
-        
+        //TODO: app name and soft delete
         FilterExpression f = new FilterExpression();
         f.Conditions.Add(c);
  		
@@ -874,7 +825,7 @@ public class CRMMembershipProvider : MembershipProvider
         ec.Entities[0]["rosetta_timelocked"] = user.LastLockoutDate;
         ec.Entities[0]["rosetta_lastlogin"] = user.LastLoginDate;
         ec.Entities[0]["rosetta_accountcreation"] = user.CreationDate;
-        ec.Entities[0]["rosetta_lock"] = user.IsLockedOut;
+        ec.Entities[0]["rosetta_lock"] = user.IsLockedOut;//TODO: account for acivities last password change and last activity
 
         service.Update(ec.Entities[0]);
 
@@ -889,7 +840,7 @@ public class CRMMembershipProvider : MembershipProvider
         condition.AttributeName = "rosetta_username";
         condition.Operator = ConditionOperator.Equal;
         condition.Values.Add(username);
-
+        //TODO: app name, soft delete
         FilterExpression filter = new FilterExpression();
         filter.Conditions.Add(condition);
 
@@ -919,7 +870,7 @@ public class CRMMembershipProvider : MembershipProvider
 
             ec.Entities[0]["rosetta_loginattempts"] = (int)ec.Entities[0]["rosetta_loginattempts"] + 1;//increment login attempts
 
-            if ((int)ec.Entities[0]["rosetta_loginattempts"] == _MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
+            if ((int)ec.Entities[0]["rosetta_loginattempts"] >= _MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
                 ec.Entities[0]["rosetta_lock"] = true;
 
             service.Update(ec.Entities[0]);//update user information
@@ -928,11 +879,12 @@ public class CRMMembershipProvider : MembershipProvider
         else
         {
             //reset attributes of login stuff
-            ec.Entities[0]["rosetta_online"] = 1;
+            ec.Entities[0]["rosetta_online"] = true;
             ec.Entities[0]["rosetta_firstfailed"] = null;
             ec.Entities[0]["rosetta_loginattempts"] = 0;
             //set last login date
             ec.Entities[0]["rosetta_lastlogin"] = DateTime.Now;
+            //TODO: mark last activity
 
             service.Update(ec.Entities[0]);
             return true;
