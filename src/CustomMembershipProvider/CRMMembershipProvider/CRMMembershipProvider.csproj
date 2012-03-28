@@ -38,6 +38,7 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CustomProfileProvider.cs" />
     <Compile Include="CustomMembershipProvider.cs" />
   </ItemGroup>
   <ItemGroup>
