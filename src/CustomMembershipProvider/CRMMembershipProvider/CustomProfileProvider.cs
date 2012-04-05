@@ -10,6 +10,18 @@ using Microsoft.Xrm.Sdk;
 
 public class CRMProfileProvider : ProfileProvider
 {
+    /*CONSTANTS*/
+    public class consts{
+        private consts() {}
+        //TODO: put these in CRM along with entity userprofile
+        public const string userprofile = "rosetta_userprofile";
+        public const string appname = "rosetta_applicationname";
+        public const string username = "rosetta_username";
+        public const string lastactivity = "rosetta_lastactivity";
+        public const string lastupdated = "rosetta_lastupdated";
+        public const string isanonymous = "rosetta_isanonymous";
+    }
+    
     /*BEGINNING OF INITIALIZE FUNCTION*/
     protected string _ApplicationName;
     protected string _ConnectionStringName;
@@ -65,7 +77,7 @@ public class CRMProfileProvider : ProfileProvider
     } 
 
     public override int  DeleteInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate)
-    {
+    {//MAS
         using (OrganizationService service = new OrganizationService(OurConnect()))
         {
            
@@ -73,25 +85,25 @@ public class CRMProfileProvider : ProfileProvider
             ConditionExpression lastActivityCondition = new ConditionExpression();
             ConditionExpression authenticationCondition = new ConditionExpression();
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.appname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
-            lastActivityCondition.AttributeName = "rosetta_lastactivity";
+            lastActivityCondition.AttributeName = consts.lastactivity;
             lastActivityCondition.Operator = ConditionOperator.OnOrBefore;
             lastActivityCondition.Values.Add(userInactiveSinceDate);
 
             switch (authenticationOption)
             {
                 case ProfileAuthenticationOption.Anonymous:
-                    authenticationCondition.AttributeName = "rosetta_isauthenticated";
-                    authenticationCondition.Operator = ConditionOperator.Equal;
-                    authenticationCondition.Values.Add(false);
-                    break;
-                case ProfileAuthenticationOption.Authenticated:
-                    authenticationCondition.AttributeName = "rosetta_isauthenticated";
+                    authenticationCondition.AttributeName = consts.isanonymous;
                     authenticationCondition.Operator = ConditionOperator.Equal;
                     authenticationCondition.Values.Add(true);
+                    break;
+                case ProfileAuthenticationOption.Authenticated:
+                    authenticationCondition.AttributeName = consts.isanonymous;
+                    authenticationCondition.Operator = ConditionOperator.Equal;
+                    authenticationCondition.Values.Add(false);
                     break;
                 default:
                     break;
@@ -102,14 +114,14 @@ public class CRMProfileProvider : ProfileProvider
             filter.Conditions.Add(lastActivityCondition);
             filter.Conditions.Add(authenticationCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_userprofile");
-            query.ColumnSet.AddColumn("rosetta_username");
+            QueryExpression query = new QueryExpression(consts.userprofile);
+            query.ColumnSet.AddColumn(consts.username);
             query.Criteria.AddFilter(filter);
             EntityCollection collection = service.RetrieveMultiple(query);
 
             string[] usersToDelete=null;
             for(int i=0; i<collection.TotalRecordCount; i++){
-                usersToDelete[i]=(string)collection.Entities[i]["rosetta_username"];
+                usersToDelete[i]=(string)collection.Entities[i][consts.username];
             }
 
             return DeleteProfiles(usersToDelete);
@@ -125,21 +137,21 @@ public class CRMProfileProvider : ProfileProvider
            foreach(string user in usernames){
                 ConditionExpression usernameCondition = new ConditionExpression();
 
-                usernameCondition.AttributeName = "rosetta_username";
+                usernameCondition.AttributeName = consts.username;
                 usernameCondition.Operator = ConditionOperator.Equal;
                 usernameCondition.Values.Add(user);
 
                 FilterExpression filter = new FilterExpression();
                 filter.Conditions.Add(usernameCondition);
 
-                QueryExpression query = new QueryExpression("rosetta_userprofile");
-                query.ColumnSet.AddColumn("rosetta_username");
+                QueryExpression query = new QueryExpression(consts.userprofile);
+                query.ColumnSet.AddColumn(consts.username);
                 query.Criteria.AddFilter(filter);
                 EntityCollection collection = service.RetrieveMultiple(query);
 
                //TODO: throw exception if profile not found?
 
-                service.Delete("rosetta_userprofile", collection.Entities[0].Id);
+                service.Delete(consts.userprofile, collection.Entities[0].Id);
                 deletedProfiles++;
            }
            return deletedProfiles;
@@ -151,29 +163,177 @@ public class CRMProfileProvider : ProfileProvider
  	    throw new NotImplementedException();
     }
 
+    //user made function for the next five functions to use
+    private ProfileInfoCollection GetProfile(ProfileAuthenticationOption authenticationOption,
+    string usernameToMatch, object userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
+    {//MAS
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+            //Retrieve all profiles.
+
+            ConditionExpression appCondition = new ConditionExpression();
+
+            appCondition.AttributeName = consts.appname;
+            appCondition.Operator = ConditionOperator.Equal;
+            appCondition.Values.Add(_ApplicationName);
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(appCondition);
+
+            // If searching for a user name to match, add the command text and parameters.
+
+            if (usernameToMatch != null)
+            {
+                ConditionExpression usernameCondition = new ConditionExpression();
+                
+                usernameCondition.AttributeName = consts.username;
+                usernameCondition.Operator = ConditionOperator.Equal;
+                usernameCondition.Values.Add(usernameToMatch);
+
+                filter.Conditions.Add(usernameCondition);
+            }
+
+
+            // If searching for inactive profiles, 
+            // add the command text and parameters.
+
+            if (userInactiveSinceDate != null)
+            {
+                ConditionExpression lastActivityCondition = new ConditionExpression();
+
+                lastActivityCondition.AttributeName = consts.lastactivity;
+                lastActivityCondition.Operator = ConditionOperator.OnOrBefore;
+                lastActivityCondition.Values.Add(userInactiveSinceDate);
+
+                filter.Conditions.Add(lastActivityCondition);
+            }
+
+
+            // If searching for a anonymous or authenticated profiles,    
+            // add the command text and parameters.
+            ConditionExpression authenticationCondition = new ConditionExpression();
+
+            switch (authenticationOption)
+            {
+              case ProfileAuthenticationOption.Anonymous:
+                authenticationCondition.AttributeName = consts.isanonymous;
+                authenticationCondition.Operator = ConditionOperator.Equal;
+                authenticationCondition.Values.Add(true);
+                break;
+              case ProfileAuthenticationOption.Authenticated:
+                authenticationCondition.AttributeName = consts.isanonymous;
+                authenticationCondition.Operator = ConditionOperator.Equal;
+                authenticationCondition.Values.Add(false);
+                break;
+              default:
+                break;
+            }
+
+
+            // Get the data.
+
+            ProfileInfoCollection profiles = new ProfileInfoCollection();
+
+            try
+            {
+                QueryExpression query = new QueryExpression(consts.userprofile);
+
+                query.ColumnSet.AddColumn(consts.username);
+                query.ColumnSet.AddColumn(consts.isanonymous);
+                query.ColumnSet.AddColumn(consts.lastactivity);
+                query.ColumnSet.AddColumn(consts.lastupdated);
+                query.Criteria.AddFilter(filter);
+
+                EntityCollection collection = service.RetrieveMultiple(query);
+
+                totalRecords = collection.Entities.Count;
+
+                if (totalRecords == 0) //No profiles
+                    return null;
+                else if (pageSize == 0)
+                { //Count all profiles
+                    for (int i = 0; i < totalRecords; i++)
+                    {
+                        ProfileInfo p = new ProfileInfo((string)collection.Entities[i][consts.username],
+                                                        (bool)collection.Entities[i][consts.isanonymous],
+                                                        (DateTime)collection.Entities[i][consts.lastactivity],
+                                                        (DateTime)collection.Entities[i][consts.lastupdated],
+                                                        0);
+                        profiles.Add(p);
+                    }
+                    return profiles;
+                }
+                else
+                { //All other functions
+                    var start = pageSize * pageSize;
+                    var end = (pageSize * pageSize) + (pageSize - (totalRecords % pageSize));
+                    for (int i = start; i < end; i++)
+                    {
+                        ProfileInfo p = new ProfileInfo((string)collection.Entities[i][consts.username],
+                                                        (bool)collection.Entities[i][consts.isanonymous],
+                                                        (DateTime)collection.Entities[i][consts.lastactivity],
+                                                        (DateTime)collection.Entities[i][consts.lastupdated],
+                                                        0);
+                        profiles.Add(p);
+                    }
+                    return profiles;
+                }
+            }
+
+            catch (Exception e)
+            {
+                throw new Exception("Error in grabbing profiles.", e);//TODO: change exception type
+            }
+        }
+    }
+
+    private void CheckParameters(int pageIndex, int pageSize)
+    {//MAS
+        if (pageIndex < 0)
+            throw new ArgumentException("Page index must 0 or greater.");
+        if (pageSize < 1)
+            throw new ArgumentException("Page size must be greater than 0.");
+    }
+
     public override ProfileInfoCollection  FindInactiveProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
-    {
- 	    throw new NotImplementedException();
+    {//MAC
+        CheckParameters(pageIndex, pageSize);
+        return GetProfile(authenticationOption, usernameToMatch, userInactiveSinceDate,
+          pageIndex, pageSize, out totalRecords);
     }
 
     public override ProfileInfoCollection  FindProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
     {
- 	    throw new NotImplementedException();
+        CheckParameters(pageIndex, pageSize);
+
+        return GetProfile(authenticationOption, usernameToMatch,
+            null, pageIndex, pageSize, out totalRecords);
     }
 
     public override ProfileInfoCollection  GetAllInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
     {
- 	    throw new NotImplementedException();
+        CheckParameters(pageIndex, pageSize);
+
+        return GetProfile(authenticationOption, null, userInactiveSinceDate,
+              pageIndex, pageSize, out totalRecords);
     }
 
     public override ProfileInfoCollection  GetAllProfiles(ProfileAuthenticationOption authenticationOption, int pageIndex, int pageSize, out int totalRecords)
-    {
- 	    throw new NotImplementedException();
+    {//MAS
+        CheckParameters(pageIndex, pageSize);
+        return GetProfile(authenticationOption, null, null,
+          pageIndex, pageSize, out totalRecords);
     }
 
     public override int  GetNumberOfInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate)
     {
- 	    throw new NotImplementedException();
+        int inactiveProfiles = 0;
+
+        ProfileInfoCollection profiles =
+          GetProfile(authenticationOption, null, userInactiveSinceDate,
+              0, 0, out inactiveProfiles);
+
+        return inactiveProfiles;
     }
 
     public override System.Configuration.SettingsPropertyValueCollection  GetPropertyValues(System.Configuration.SettingsContext context, System.Configuration.SettingsPropertyCollection collection)
