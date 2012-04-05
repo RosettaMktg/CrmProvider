@@ -147,8 +147,35 @@ public class CRMProfileProvider : ProfileProvider
     }
 
     public override int  DeleteProfiles(ProfileInfoCollection profiles)
-    {
- 	    throw new NotImplementedException();
+    {//JH
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+            int deletedProfiles = 0;
+
+            foreach (ProfileInfo p in profiles)
+            {
+               
+                ConditionExpression usernameCondition = new ConditionExpression();
+
+                usernameCondition.AttributeName = "rosetta_username";
+                usernameCondition.Operator = ConditionOperator.Equal;
+                usernameCondition.Values.Add(p.UserName);
+
+                FilterExpression filter = new FilterExpression();
+                filter.Conditions.Add(usernameCondition);
+
+                QueryExpression query = new QueryExpression("rosetta_userprofile");
+                query.ColumnSet.AddColumn("rosetta_username");
+                query.Criteria.AddFilter(filter);
+                EntityCollection collection = service.RetrieveMultiple(query);
+
+                //TODO: throw exception if profile not found?
+
+                service.Delete("rosetta_userprofile", collection.Entities[0].Id);
+                deletedProfiles++;
+            }
+            return deletedProfiles;
+        }
     }
 
     public override ProfileInfoCollection  FindInactiveProfilesByUserName(ProfileAuthenticationOption authenticationOption, string usernameToMatch, DateTime userInactiveSinceDate, int pageIndex, int pageSize, out int totalRecords)
@@ -177,12 +204,32 @@ public class CRMProfileProvider : ProfileProvider
     }
 
     public override System.Configuration.SettingsPropertyValueCollection  GetPropertyValues(System.Configuration.SettingsContext context, System.Configuration.SettingsPropertyCollection collection)
-    {
- 	    throw new NotImplementedException();
+    {//JH
+
+        SettingsPropertyValueCollection values = new SettingsPropertyValueCollection();
+
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+            foreach (SettingsProperty property in collection)
+            {
+            
+           
+            
+            }
+        
+        
+        }
+        
+        
+        
+        
+        
+        
+        throw new NotImplementedException();
     }
 
     public override void  SetPropertyValues(System.Configuration.SettingsContext context, System.Configuration.SettingsPropertyValueCollection collection)
-    {
+    {//JH
  	    throw new NotImplementedException();
     }
 }
