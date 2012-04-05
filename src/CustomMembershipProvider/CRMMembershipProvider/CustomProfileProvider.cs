@@ -118,18 +118,16 @@ public class CRMProfileProvider : ProfileProvider
 
     public override int  DeleteProfiles(string[] usernames)
     {
-        int deleteCount = 0;
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+           foreach(string user in usernames){
+                ConditionExpression usernameCondition = new ConditionExpression();
 
-        var connection = new CrmConnection(_ConnectionStringName);
-        var service = new OrganizationService(connection);
-        
-        ConditionExpression condition = new ConditionExpression(); //creates a new condition.
-        ConditionExpression deleteCondition = new ConditionExpression();
-        ConditionExpression appCondition = new ConditionExpression();
+                usernameCondition.AttributeName;
 
-
-       
-        throw new NotImplementedException();
+                service.Delete("rosetta_userprofile", ec.Entities[0].Id);
+           }        
+        }
     }
 
     public override int  DeleteProfiles(ProfileInfoCollection profiles)
