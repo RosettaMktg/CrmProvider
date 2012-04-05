@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D07DAED6-89ED-4799-99BC-FD178C12CD97}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{BAB615D8-5447-472A-AB44-0999A6B05D1A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CRMMembershipProvider</RootNamespace>
-    <AssemblyName>CRMMembershipProvider</AssemblyName>
+    <RootNamespace>CRMProfileProvider</RootNamespace>
+    <AssemblyName>CRMProfileProvider</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
@@ -34,28 +33,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
-  <ItemGroup>
-    <Compile Include="CustomMembershipProvider.cs" />
-    <Compile Include="CustomProfileProvider.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="microsoft.xrm.client">
-      <HintPath>..\..\..\..\sdk\bin\microsoft.xrm.client.dll</HintPath>
-    </Reference>
-    <Reference Include="microsoft.xrm.sdk, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\sdk\bin\microsoft.xrm.sdk.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.configuration" />
-    <Reference Include="System.Data.Services" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.ApplicationServices" />
-  </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
