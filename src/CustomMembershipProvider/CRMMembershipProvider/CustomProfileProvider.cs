@@ -117,16 +117,32 @@ public class CRMProfileProvider : ProfileProvider
     }
 
     public override int  DeleteProfiles(string[] usernames)
-    {
+    {//JH
         using (OrganizationService service = new OrganizationService(OurConnect()))
         {
+           int deletedProfiles = 0;
+
            foreach(string user in usernames){
                 ConditionExpression usernameCondition = new ConditionExpression();
 
-                usernameCondition.AttributeName;
+                usernameCondition.AttributeName = "rosetta_username";
+                usernameCondition.Operator = ConditionOperator.Equal;
+                usernameCondition.Values.Add(user);
 
-                service.Delete("rosetta_userprofile", ec.Entities[0].Id);
-           }        
+                FilterExpression filter = new FilterExpression();
+                filter.Conditions.Add(usernameCondition);
+
+                QueryExpression query = new QueryExpression("rosetta_userprofile");
+                query.ColumnSet.AddColumn("rosetta_username");
+                query.Criteria.AddFilter(filter);
+                EntityCollection collection = service.RetrieveMultiple(query);
+
+               //TODO: throw exception if profile not found?
+
+                service.Delete("rosetta_userprofile", collection.Entities[0].Id);
+                deletedProfiles++;
+           }
+           return deletedProfiles;
         }
     }
 
