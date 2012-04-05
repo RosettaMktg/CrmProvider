@@ -69,7 +69,18 @@ public class CRMProfileProvider : ProfileProvider
 
     public override int  DeleteProfiles(string[] usernames)
     {
- 	    throw new NotImplementedException();
+        int deleteCount = 0;
+
+        var connection = new CrmConnection(_ConnectionStringName);
+        var service = new OrganizationService(connection);
+        
+        ConditionExpression condition = new ConditionExpression(); //creates a new condition.
+        ConditionExpression deleteCondition = new ConditionExpression();
+        ConditionExpression appCondition = new ConditionExpression();
+
+
+       
+        throw new NotImplementedException();
     }
 
     public override int  DeleteProfiles(ProfileInfoCollection profiles)
