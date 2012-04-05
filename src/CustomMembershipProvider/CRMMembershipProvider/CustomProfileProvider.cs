@@ -169,21 +169,21 @@ public class CRMProfileProvider : ProfileProvider
                
                 ConditionExpression usernameCondition = new ConditionExpression();
 
-                usernameCondition.AttributeName = "rosetta_username";
+                usernameCondition.AttributeName = consts.username;
                 usernameCondition.Operator = ConditionOperator.Equal;
                 usernameCondition.Values.Add(p.UserName);
 
                 FilterExpression filter = new FilterExpression();
                 filter.Conditions.Add(usernameCondition);
 
-                QueryExpression query = new QueryExpression("rosetta_userprofile");
-                query.ColumnSet.AddColumn("rosetta_username");
+                QueryExpression query = new QueryExpression(consts.userprofile);
+                query.ColumnSet.AddColumn(consts.username);
                 query.Criteria.AddFilter(filter);
                 EntityCollection collection = service.RetrieveMultiple(query);
 
                 //TODO: throw exception if profile not found?
 
-                service.Delete("rosetta_userprofile", collection.Entities[0].Id);
+                service.Delete(consts.username, collection.Entities[0].Id);
                 deletedProfiles++;
             }
             return deletedProfiles;
