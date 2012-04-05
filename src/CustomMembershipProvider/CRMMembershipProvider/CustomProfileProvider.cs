@@ -5,6 +5,8 @@ using System.Collections.Specialized;
 using System.Configuration;
 using Microsoft.Xrm.Client.Services;
 using Microsoft.Xrm.Client;
+using Microsoft.Xrm.Sdk.Query;
+using Microsoft.Xrm.Sdk;
 
 public class CRMProfileProvider : ProfileProvider
 {
@@ -39,7 +41,7 @@ public class CRMProfileProvider : ProfileProvider
         _ConnectionStringName = Convert.ToString(
             GetConfigValue(config["connectionStringName"], ""));
         if (_ConnectionStringName == "")
-            throw new ConfigurationException("Must provide connection string name in configuration file.");
+            throw new ConfigurationErrorsException("Must provide connection string name in configuration file.");
     }
 
     /*CONNECTION AND QUERY*/
@@ -64,7 +66,54 @@ public class CRMProfileProvider : ProfileProvider
 
     public override int  DeleteInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate)
     {
- 	    throw new NotImplementedException();
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+           
+            ConditionExpression appCondition = new ConditionExpression();
+            ConditionExpression lastActivityCondition = new ConditionExpression();
+            ConditionExpression authenticationCondition = new ConditionExpression();
+
+            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.Operator = ConditionOperator.Equal;
+            appCondition.Values.Add(_ApplicationName);
+
+            lastActivityCondition.AttributeName = "rosetta_lastactivity";
+            lastActivityCondition.Operator = ConditionOperator.OnOrBefore;
+            lastActivityCondition.Values.Add(userInactiveSinceDate);
+
+            switch (authenticationOption)
+            {
+                case ProfileAuthenticationOption.Anonymous:
+                    authenticationCondition.AttributeName = "rosetta_isauthenticated";
+                    authenticationCondition.Operator = ConditionOperator.Equal;
+                    authenticationCondition.Values.Add(false);
+                    break;
+                case ProfileAuthenticationOption.Authenticated:
+                    authenticationCondition.AttributeName = "rosetta_isauthenticated";
+                    authenticationCondition.Operator = ConditionOperator.Equal;
+                    authenticationCondition.Values.Add(true);
+                    break;
+                default:
+                    break;
+            }
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(appCondition);
+            filter.Conditions.Add(lastActivityCondition);
+            filter.Conditions.Add(authenticationCondition);
+
+            QueryExpression query = new QueryExpression("rosetta_userprofile");
+            query.ColumnSet.AddColumn("rosetta_username");
+            query.Criteria.AddFilter(filter);
+            EntityCollection collection = service.RetrieveMultiple(query);
+
+            string[] usersToDelete=null;
+            for(int i=0; i<collection.TotalRecordCount; i++){
+                usersToDelete[i]=(string)collection.Entities[i]["rosetta_username"];
+            }
+
+            return DeleteProfiles(usersToDelete);
+        }
     }
 
     public override int  DeleteProfiles(string[] usernames)

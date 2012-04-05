@@ -74,9 +74,9 @@ public class CRMMembershipProvider : MembershipProvider
         _ConnectionStringName = Convert.ToString(
             GetConfigValue(config["connectionStringName"], "")); 
         if (_MaxInvalidPasswordAttempts < 0)
-            throw new ConfigurationException("Must provide greater than 0 for max invalid password attempts in configuration file.");
+            throw new ConfigurationErrorsException("Must provide greater than 0 for max invalid password attempts in configuration file.");
         if (_ConnectionStringName == "")
-            throw new ConfigurationException("Must provide connection string name in configuration file.");
+            throw new ConfigurationErrorsException("Must provide connection string name in configuration file.");
     }
 
     /*CONNECTION AND QUERY*/
@@ -763,7 +763,7 @@ public class CRMMembershipProvider : MembershipProvider
             ColumnSet attributes = new ColumnSet(new string[] { "rosetta_username", "rosetta_online", "rosetta_applicationname", "rosetta_deleteduser" });
             Entity e = service.Retrieve("rosetta_useraccount", (Guid)providerUserKey, attributes);
 
-            if (userIsOnline == (bool)e["rosetta_online"] && e["rosetta_applicationname"] == _ApplicationName && (bool)e["rosetta_deleteduser"] == false)//TODO: make sure bool is casted
+            if (userIsOnline == (bool)e["rosetta_online"] && (string)e["rosetta_applicationname"] == _ApplicationName && (bool)e["rosetta_deleteduser"] == false)//TODO: make sure bool is casted
                 return GetUser((string)e["rosetta_username"]);
             return null;
         }
