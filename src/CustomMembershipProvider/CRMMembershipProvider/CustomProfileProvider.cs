@@ -181,8 +181,6 @@ public class CRMProfileProvider : ProfileProvider
                 query.Criteria.AddFilter(filter);
                 EntityCollection collection = service.RetrieveMultiple(query);
 
-                //TODO: throw exception if profile not found?
-
                 service.Delete(consts.username, collection.Entities[0].Id);
                 deletedProfiles++;
             }
