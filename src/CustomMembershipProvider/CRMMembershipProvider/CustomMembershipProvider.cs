@@ -184,7 +184,7 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression c3 = new ConditionExpression();
             ConditionExpression c4 = new ConditionExpression();
 
-            c.AttributeName = "rosetta_username";//TODO:add constants for col names
+            c.AttributeName = "rosetta_username";
             c.Operator = ConditionOperator.Equal;
             c.Values.Add(username);
 
