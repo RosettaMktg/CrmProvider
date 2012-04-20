@@ -247,11 +247,8 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             { 
-<<<<<<< HEAD
                 ec.Entities[0]["rosetta_password"] = EncryptPassword(StringToAscii(oldPassword));
-=======
                 ec.Entities[0][consts.password] = EncryptPassword(StringToAscii(oldPassword));
->>>>>>> 93da8e23aea4c95e81340455bb743e0eca46ac34
 
                 service.Update(ec.Entities[0]);
                 return true;
@@ -305,13 +302,11 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-<<<<<<< HEAD
                 ec.Entities[0]["rosetta_securityquestion"] = EncryptPassword(StringToAscii(newPasswordQuestion));
                 ec.Entities[0]["rosetta_securityanswer"] = EncryptPassword(StringToAscii(newPasswordAnswer));
-=======
+
                 ec.Entities[0][consts.securityquestion] = EncryptPassword(StringToAscii(newPasswordQuestion));
                 ec.Entities[0][consts.securityanswer] = EncryptPassword(StringToAscii(newPasswordAnswer));
->>>>>>> 93da8e23aea4c95e81340455bb743e0eca46ac34
 
                 service.Update(ec.Entities[0]);//success
                 return true;
@@ -385,7 +380,6 @@ public class CRMMembershipProvider : MembershipProvider
 
                     newMember[consts.accountid] = providerUserKey;
                     newMember["rosetta_name"] = username;
-<<<<<<< HEAD
                     newMember["rosetta_username"] = username;
                     newMember["rosetta_password"] = ByteToUnicode(EncryptPassword(StringToAscii(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
                     newMember["rosetta_email"] = email;
@@ -400,7 +394,6 @@ public class CRMMembershipProvider : MembershipProvider
                     newMember["rosetta_firstfailed"] = DateTime.Now;
                     newMember["rosetta_lastlogin"] = DateTime.Now;
                     newMember["rosetta_timelocked"] = DateTime.Now;
-=======
                     newMember[consts.username] = username;
                     newMember[consts.password] = ByteToUnicode(EncryptPassword(StringToAscii(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
                     newMember[consts.email] = email;
@@ -415,7 +408,6 @@ public class CRMMembershipProvider : MembershipProvider
                     newMember[consts.firstfailed] = DateTime.Now;
                     newMember[consts.lastlogin] = DateTime.Now;
                     newMember[consts.timelocked] = DateTime.Now;
->>>>>>> 93da8e23aea4c95e81340455bb743e0eca46ac34
 
                     Guid _accountID = service.Create(newMember);
                     status = MembershipCreateStatus.Success;
