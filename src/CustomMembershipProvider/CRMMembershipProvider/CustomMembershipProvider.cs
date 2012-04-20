@@ -10,6 +10,8 @@ using System.Web.Configuration;
 using System.Collections.Specialized;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.IO;
 
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Client;
@@ -88,7 +90,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*CONVERT STRING TP ASCI FOR ENCRYPT/DECRYPT*/
-    static private byte[] StringToAsci(string password)
+    static private byte[] StringToAscii(string password)
     {
         if (password != null)
         {
@@ -198,7 +200,7 @@ public class CRMMembershipProvider : MembershipProvider
 
             c4.AttributeName = "rosetta_password";
             c4.Operator = ConditionOperator.Equal;
-            c4.Values.Add(EncryptPassword(StringToAsci(oldPassword)));
+            c4.Values.Add(EncryptPassword(StringToAscii(oldPassword)));
 
             FilterExpression f = new FilterExpression();
             f.Conditions.Add(c);
@@ -220,7 +222,7 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             { 
-                ec.Entities[0]["rosetta_password"] = EncryptPassword(StringToAsci(oldPassword));
+                ec.Entities[0]["rosetta_password"] = EncryptPassword(StringToAscii(oldPassword));
 
                 service.Update(ec.Entities[0]);
                 return true;
@@ -252,7 +254,7 @@ public class CRMMembershipProvider : MembershipProvider
 
             c4.AttributeName = "rosetta_password";
             c4.Operator = ConditionOperator.Equal;
-            c4.Values.Add(EncryptPassword(StringToAsci(password)));
+            c4.Values.Add(EncryptPassword(StringToAscii(password)));
 
             FilterExpression f = new FilterExpression();
             f.Conditions.Add(c);
@@ -274,8 +276,8 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-                ec.Entities[0]["rosetta_securityquestion"] = EncryptPassword(StringToAsci(newPasswordQuestion));
-                ec.Entities[0]["rosetta_securityanswer"] = EncryptPassword(StringToAsci(newPasswordAnswer));
+                ec.Entities[0]["rosetta_securityquestion"] = EncryptPassword(StringToAscii(newPasswordQuestion));
+                ec.Entities[0]["rosetta_securityanswer"] = EncryptPassword(StringToAscii(newPasswordAnswer));
 
                 service.Update(ec.Entities[0]);//success
                 return true;
@@ -306,7 +308,7 @@ public class CRMMembershipProvider : MembershipProvider
 
             c4.AttributeName = "rosetta_password";
             c4.Operator = ConditionOperator.Equal;
-            c4.Values.Add(EncryptPassword(StringToAsci(password)));
+            c4.Values.Add(EncryptPassword(StringToAscii(password)));
 
             FilterExpression f = new FilterExpression();
             f.Conditions.Add(c);
@@ -350,10 +352,10 @@ public class CRMMembershipProvider : MembershipProvider
                     newMember["rosetta_useraccountid"] = providerUserKey;
                     newMember["rosetta_name"] = username;
                     newMember["rosetta_username"] = username;
-                    newMember["rosetta_password"] = ByteToUnicode(EncryptPassword(StringToAsci(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
+                    newMember["rosetta_password"] = ByteToUnicode(EncryptPassword(StringToAscii(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
                     newMember["rosetta_email"] = email;
-                    newMember["rosetta_securityquestion"] = ByteToUnicode(EncryptPassword(StringToAsci(passwordQuestion)));
-                    newMember["rosetta_securityanswer"] = ByteToUnicode(EncryptPassword(StringToAsci(passwordAnswer)));
+                    newMember["rosetta_securityquestion"] = ByteToUnicode(EncryptPassword(StringToAscii(passwordQuestion)));
+                    newMember["rosetta_securityanswer"] = ByteToUnicode(EncryptPassword(StringToAscii(passwordAnswer)));
                     newMember["rosetta_applicationname"] = _ApplicationName;
                     newMember["rosetta_deleteduser"] = false;
                     newMember["rosetta_lock"] = false;
@@ -373,11 +375,32 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
     
-    /*protected override byte[] DecryptPassword(byte[] encodedPassword)
-    {
-        
-        return base.DecryptPassword(encodedPassword);
-    }*/
+    protected override byte[] DecryptPassword(byte[] encodedPassword)
+    {//cc
+        MachineKeySection MCsection;
+
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
+
+        MCsection = config.GetSection("system.web/machineKey") as MachineKeySection;
+
+        if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+        {
+            byte[] temp = MachineKey.Decode(ByteToUnicode(encodedPassword), MachineKeyProtection.Validation);
+            
+            return temp;
+        }
+            
+        else if (_PasswordFormat == MembershipPasswordFormat.Encrypted)
+        {
+            byte[] temp = MachineKey.Decode(ByteToUnicode(encodedPassword), MachineKeyProtection.Encryption);
+
+            return temp;
+        }
+        else
+        {
+            return encodedPassword;
+        }
+    }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
     {//tc
@@ -443,15 +466,92 @@ public class CRMMembershipProvider : MembershipProvider
         get { return _EnablePasswordRetrieval; }
     }
 
-    /*protected override byte[] EncryptPassword(byte[] password)
-    {
-        return base.EncryptPassword(password);
+    protected override byte[] EncryptPassword(byte[] password)
+    {//cc
+        
+        MachineKeySection MCsection;
+
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
+
+        MCsection = config.GetSection("system.web/machineKey") as MachineKeySection;
+
+        if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+        {
+            string temp = MachineKey.Encode(password, MachineKeyProtection.Validation);
+            temp = MachineKey.Encode(StringToAscii(temp + MCsection.ValidationKey), MachineKeyProtection.Validation);
+            temp = MachineKey.Encode(StringToAscii(MCsection.DecryptionKey + temp), MachineKeyProtection.Validation);
+
+            return (StringToAscii(temp));
+        }
+
+        else if (_PasswordFormat == MembershipPasswordFormat.Encrypted)
+        {
+            string temp = MachineKey.Encode(password, MachineKeyProtection.Encryption);
+
+            return (StringToAscii(temp));
+        }
+        else
+        {
+            return password;
+        }
     }
 
     protected override byte[] EncryptPassword(byte[] password, MembershipPasswordCompatibilityMode legacyPasswordCompatibilityMode)
-    {
-        return base.EncryptPassword(password, legacyPasswordCompatibilityMode);
-    }*/
+    {//cc
+        MachineKeySection MCsection;
+
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
+
+        MCsection = config.GetSection("system.web/machineKey") as MachineKeySection;
+
+        if (legacyPasswordCompatibilityMode == MembershipPasswordCompatibilityMode.Framework40)
+        {
+            if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+            {
+                string temp = MachineKey.Encode(password, MachineKeyProtection.Validation);
+                temp = MachineKey.Encode(StringToAscii(temp + MCsection.ValidationKey), MachineKeyProtection.Validation);
+                temp = MachineKey.Encode(StringToAscii(MCsection.DecryptionKey + temp), MachineKeyProtection.Validation);
+
+                return (StringToAscii(temp));
+            }
+
+            else if (_PasswordFormat == MembershipPasswordFormat.Encrypted)
+            {
+                string temp = MachineKey.Encode(password, MachineKeyProtection.Encryption);
+
+                return (StringToAscii(temp));
+            }
+            else
+            {
+                return password;
+            }
+        }
+        else
+        {
+            MCsection.CompatibilityMode = MachineKeyCompatibilityMode.Framework20SP2;
+            
+            if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+            {
+                string temp = MachineKey.Encode(password, MachineKeyProtection.Validation);
+                temp = MachineKey.Encode(StringToAscii(temp + MCsection.ValidationKey), MachineKeyProtection.Validation);
+                temp = MachineKey.Encode(StringToAscii(MCsection.DecryptionKey + temp), MachineKeyProtection.Validation);
+
+                return (StringToAscii(temp));
+            }
+
+            else if (_PasswordFormat == MembershipPasswordFormat.Encrypted)
+            {
+                string temp = MachineKey.Encode(password, MachineKeyProtection.Encryption);
+
+                return (StringToAscii(temp));
+            }
+            else
+            {
+                return password;
+            }
+        }
+        
+    }
     
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
     {//JH
@@ -1151,3 +1251,75 @@ public class CRMMembershipProvider : MembershipProvider
     }
     */
 }
+
+/*public sealed class MachineKeySection : ConfigurationSection
+{
+
+    public MachineKeySection()
+    {
+
+    }
+
+
+    [ConfigurationProperty("validationKey",
+     DefaultValue = "",
+     IsRequired = true,
+     IsKey = true)]
+    public string ValidationKey
+    {
+        get
+        {
+            return (string)this["validationKey"];
+        }
+        set
+        {
+            this["validationKey"] = value;
+        }
+    }
+
+    [ConfigurationProperty("decryptionKey",
+        DefaultValue = "",
+        IsRequired = true,
+        IsKey = true)]
+    public string DecryptionKey
+    {
+        get
+        {
+            return (string)this["decryptionKey"];
+        }
+        set
+        {
+            this["decryptionKey"] = value;
+        }
+    }
+
+    [ConfigurationProperty("validation",
+        DefaultValue = "HMACSHA256",
+        IsRequired = false)]
+    public string Validation
+    {
+        get
+        {
+            return (int)this["validation"];
+        }
+        set
+        {
+            this["validation"] = value;
+        }
+    }
+
+    [ConfigurationProperty("decryption",
+        DefaultValue = "AES",
+        IsRequired = false)]
+    public string Decryption
+    {
+        get
+        {
+            return (int)this["decryption"];
+        }
+        set
+        {
+            this["decryption"] = value;
+        }
+    }
+}*/
