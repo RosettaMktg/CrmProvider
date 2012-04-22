@@ -10,6 +10,8 @@ using System.Web.Configuration;
 using System.Collections.Specialized;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Security.Cryptography;
+using System.IO;
 
 using Microsoft.Xrm.Sdk;
 using Microsoft.Xrm.Client;
@@ -19,8 +21,33 @@ using Microsoft.Xrm.Sdk.Discovery;
 using Microsoft.Xrm.Client.Services;
 using Microsoft.Xrm.Sdk.Metadata;
 
+
+
 public class CRMMembershipProvider : MembershipProvider
 {
+    public class consts
+    {
+        private consts() { }
+        public const string username = "rosetta_username";
+        public const string useraccount = "rosetta_useraccount";
+        public const string securityquestion = "rosetta_securityquestion";
+        public const string email = "rosetta_email";
+        public const string timelocked = "rosetta_timelocked";
+        public const string lastlogin = "rosetta_lastlogin";
+        public const string accountcreation = "rosetta_accountcreation";
+        public const string lockn = "rosetta_lock";
+        public const string accountid = "rosetta_useraccountid";
+        public const string applicationname = "rosetta_applicationname";
+        public const string deleteduser = "rosetta_deleteduser";
+        public const string password = "rosetta_password";
+        public const string securitypassword = "rosetta_securitypassword";
+        public const string securityanswer = "rosetta_securityanswer";
+        public const string online = "rosetta_online";
+        public const string loginattempts = "rosetta_loginattempts";
+        public const string firstfailed = "rosetta_firstfailed";
+
+    }
+    
     /*BEGINNING OF INITIALIZE FUNCTION*/
     protected string _ApplicationName;
     protected bool _EnablePasswordReset;
@@ -88,7 +115,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*CONVERT STRING TP ASCI FOR ENCRYPT/DECRYPT*/
-    static private byte[] StringToAsci(string password)
+    static private byte[] StringToAscii(string password)
     {
         if (password != null)
         {
@@ -116,14 +143,14 @@ public class CRMMembershipProvider : MembershipProvider
         {
 
             ConditionExpression condition = new ConditionExpression(); //create new condition
-            condition.AttributeName = "rosetta_username"; //column we want to check against
+            condition.AttributeName = consts.username; //column we want to check against
             condition.Operator = ConditionOperator.Equal; //checking against equal values
             condition.Values.Add(username); //check username against rosetta_username in CRM
 
             FilterExpression filter = new FilterExpression(); //create new filter for the condition
             filter.Conditions.Add(condition); //add condition to the filter
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+            QueryExpression query = new QueryExpression(consts.useraccount); //create new query
             query.ColumnSet.AllColumns = true;
             query.Criteria.AddFilter(filter); //query CRM with the new filter for username
             EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same username
@@ -134,16 +161,16 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-                string _usernameN = (string)ec[0]["rosetta_username"];
-                string _securityQuestionN = (string)ec[0]["rosetta_securityquestion"];
-                string _emailN = (string)ec[0]["rosetta_email"];
-                DateTime _timeLockedN = (DateTime)ec[0]["rosetta_timelocked"];
-                DateTime _lastLoginTimeN = (DateTime)ec[0]["rosetta_lastlogin"];
-                DateTime _accountCreationN = (DateTime)ec[0]["rosetta_accountcreation"];
+                string _usernameN = (string)ec[0][consts.username];
+                string _securityQuestionN = (string)ec[0][consts.securityquestion];
+                string _emailN = (string)ec[0][consts.email];
+                DateTime _timeLockedN = (DateTime)ec[0][consts.timelocked];
+                DateTime _lastLoginTimeN = (DateTime)ec[0][consts.lastlogin];
+                DateTime _accountCreationN = (DateTime)ec[0][consts.accountcreation];
                 DateTime _lastPasswordChangedDate = DateTime.Now;//TODO: change to activities, seperate entity
                 DateTime _lastAcivityDate = DateTime.Now;
-                bool _lockN = (bool)ec[0]["rosetta_lock"];
-                Guid _accountId = (Guid)ec[0]["rosetta_useraccountid"];
+                bool _lockN = (bool)ec[0][consts.lockn];
+                Guid _accountId = (Guid)ec[0][consts.accountid];
 
 
                 MembershipUser user = new MembershipUser("CRMMembershipProvider",
@@ -184,21 +211,21 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression c3 = new ConditionExpression();
             ConditionExpression c4 = new ConditionExpression();
 
-            c.AttributeName = "rosetta_username";
+            c.AttributeName = consts.username;
             c.Operator = ConditionOperator.Equal;
             c.Values.Add(username);
 
-            c2.AttributeName = "rosetta_applicationname";
+            c2.AttributeName = consts.applicationname;
             c2.Operator = ConditionOperator.Equal;
             c2.Values.Add(_ApplicationName);
 
-            c3.AttributeName = "rosetta_deleteduser";
+            c3.AttributeName = consts.deleteduser;
             c3.Operator = ConditionOperator.Equal;
             c3.Values.Add(false);
 
-            c4.AttributeName = "rosetta_password";
+            c4.AttributeName = consts.password;
             c4.Operator = ConditionOperator.Equal;
-            c4.Values.Add(EncryptPassword(StringToAsci(oldPassword)));
+            c4.Values.Add(EncryptPassword(StringToAscii(oldPassword)));
 
             FilterExpression f = new FilterExpression();
             f.Conditions.Add(c);
@@ -206,9 +233,9 @@ public class CRMMembershipProvider : MembershipProvider
             f.Conditions.Add(c3);
             f.Conditions.Add(c4);
 
-            QueryExpression q = new QueryExpression("rosetta_useraccount");
-            q.ColumnSet.AddColumn("rosetta_password");
-            q.ColumnSet.AddColumn("rosetta_username");
+            QueryExpression q = new QueryExpression(consts.useraccount);
+            q.ColumnSet.AddColumn(consts.password);
+            q.ColumnSet.AddColumn(consts.username);
             q.Criteria.AddFilter(f);
 
             EntityCollection ec = service.RetrieveMultiple(q);
@@ -220,7 +247,8 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             { 
-                ec.Entities[0]["rosetta_password"] = EncryptPassword(StringToAsci(oldPassword));
+                ec.Entities[0]["rosetta_password"] = EncryptPassword(StringToAscii(oldPassword));
+                ec.Entities[0][consts.password] = EncryptPassword(StringToAscii(oldPassword));
 
                 service.Update(ec.Entities[0]);
                 return true;
@@ -238,21 +266,21 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression c3 = new ConditionExpression();
             ConditionExpression c4 = new ConditionExpression();
 
-            c.AttributeName = "rosetta_username";
+            c.AttributeName = consts.username;
             c.Operator = ConditionOperator.Equal;
             c.Values.Add(username);
 
-            c2.AttributeName = "rosetta_applicationname";
+            c2.AttributeName = consts.applicationname;
             c2.Operator = ConditionOperator.Equal;
             c2.Values.Add(_ApplicationName);
 
-            c3.AttributeName = "rosetta_deleteduser";
+            c3.AttributeName = consts.deleteduser;
             c3.Operator = ConditionOperator.Equal;
             c3.Values.Add(false);
 
-            c4.AttributeName = "rosetta_password";
+            c4.AttributeName = consts.password;
             c4.Operator = ConditionOperator.Equal;
-            c4.Values.Add(EncryptPassword(StringToAsci(password)));
+            c4.Values.Add(EncryptPassword(StringToAscii(password)));
 
             FilterExpression f = new FilterExpression();
             f.Conditions.Add(c);
@@ -260,9 +288,9 @@ public class CRMMembershipProvider : MembershipProvider
             f.Conditions.Add(c3);
             f.Conditions.Add(c4);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount");
-            query.ColumnSet.AddColumns("rosetta_securityquestion");
-            query.ColumnSet.AddColumns("rosetta_securitypassword");
+            QueryExpression query = new QueryExpression(consts.useraccount);
+            query.ColumnSet.AddColumns(consts.securityquestion);
+            query.ColumnSet.AddColumns(consts.securitypassword);
             query.Criteria.AddFilter(f);
 
             EntityCollection ec = service.RetrieveMultiple(query);
@@ -274,8 +302,11 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-                ec.Entities[0]["rosetta_securityquestion"] = EncryptPassword(StringToAsci(newPasswordQuestion));
-                ec.Entities[0]["rosetta_securityanswer"] = EncryptPassword(StringToAsci(newPasswordAnswer));
+                ec.Entities[0]["rosetta_securityquestion"] = EncryptPassword(StringToAscii(newPasswordQuestion));
+                ec.Entities[0]["rosetta_securityanswer"] = EncryptPassword(StringToAscii(newPasswordAnswer));
+
+                ec.Entities[0][consts.securityquestion] = EncryptPassword(StringToAscii(newPasswordQuestion));
+                ec.Entities[0][consts.securityanswer] = EncryptPassword(StringToAscii(newPasswordAnswer));
 
                 service.Update(ec.Entities[0]);//success
                 return true;
@@ -292,21 +323,21 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression c2 = new ConditionExpression();
             ConditionExpression c3 = new ConditionExpression();
             ConditionExpression c4 = new ConditionExpression();
-            c.AttributeName = "rosetta_username";
+            c.AttributeName = consts.username;
             c.Operator = ConditionOperator.Equal;
             c.Values.Add(username);
 
-            c2.AttributeName = "rosetta_applicationname";
+            c2.AttributeName = consts.applicationname;
             c2.Operator = ConditionOperator.Equal;
             c2.Values.Add(_ApplicationName);
 
-            c3.AttributeName = "rosetta_deleteduser";
+            c3.AttributeName = consts.deleteduser;
             c3.Operator = ConditionOperator.Equal;
             c3.Values.Add(false);
 
-            c4.AttributeName = "rosetta_password";
+            c4.AttributeName = consts.password;
             c4.Operator = ConditionOperator.Equal;
-            c4.Values.Add(EncryptPassword(StringToAsci(password)));
+            c4.Values.Add(EncryptPassword(StringToAscii(password)));
 
             FilterExpression f = new FilterExpression();
             f.Conditions.Add(c);
@@ -315,7 +346,7 @@ public class CRMMembershipProvider : MembershipProvider
             f.Conditions.Add(c4);
 
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+            QueryExpression query = new QueryExpression(consts.useraccount); //create new query
             query.Criteria.AddFilter(f); //query CRM with the new filter for username
             EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same username
 
@@ -345,15 +376,15 @@ public class CRMMembershipProvider : MembershipProvider
                             return null;
                         }
                     }
-                    Entity newMember = new Entity("rosetta_useraccount");
+                    Entity newMember = new Entity(consts.useraccount);
 
-                    newMember["rosetta_useraccountid"] = providerUserKey;
+                    newMember[consts.accountid] = providerUserKey;
                     newMember["rosetta_name"] = username;
                     newMember["rosetta_username"] = username;
-                    newMember["rosetta_password"] = ByteToUnicode(EncryptPassword(StringToAsci(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
+                    newMember["rosetta_password"] = ByteToUnicode(EncryptPassword(StringToAscii(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
                     newMember["rosetta_email"] = email;
-                    newMember["rosetta_securityquestion"] = ByteToUnicode(EncryptPassword(StringToAsci(passwordQuestion)));
-                    newMember["rosetta_securityanswer"] = ByteToUnicode(EncryptPassword(StringToAsci(passwordAnswer)));
+                    newMember["rosetta_securityquestion"] = ByteToUnicode(EncryptPassword(StringToAscii(passwordQuestion)));
+                    newMember["rosetta_securityanswer"] = ByteToUnicode(EncryptPassword(StringToAscii(passwordAnswer)));
                     newMember["rosetta_applicationname"] = _ApplicationName;
                     newMember["rosetta_deleteduser"] = false;
                     newMember["rosetta_lock"] = false;
@@ -363,6 +394,20 @@ public class CRMMembershipProvider : MembershipProvider
                     newMember["rosetta_firstfailed"] = DateTime.Now;
                     newMember["rosetta_lastlogin"] = DateTime.Now;
                     newMember["rosetta_timelocked"] = DateTime.Now;
+                    newMember[consts.username] = username;
+                    newMember[consts.password] = ByteToUnicode(EncryptPassword(StringToAscii(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
+                    newMember[consts.email] = email;
+                    newMember[consts.securityquestion] = ByteToUnicode(EncryptPassword(StringToAscii(passwordQuestion)));
+                    newMember[consts.securityanswer] = ByteToUnicode(EncryptPassword(StringToAscii(passwordAnswer)));
+                    newMember[consts.applicationname] = _ApplicationName;
+                    newMember[consts.deleteduser] = false;
+                    newMember[consts.lockn] = false;
+                    newMember[consts.online] = false;
+                    newMember[consts.loginattempts] = 0;
+                    newMember[consts.accountcreation] = DateTime.Now;
+                    newMember[consts.firstfailed] = DateTime.Now;
+                    newMember[consts.lastlogin] = DateTime.Now;
+                    newMember[consts.timelocked] = DateTime.Now;
 
                     Guid _accountID = service.Create(newMember);
                     status = MembershipCreateStatus.Success;
@@ -373,11 +418,32 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
     
-    /*protected override byte[] DecryptPassword(byte[] encodedPassword)
-    {
-        
-        return base.DecryptPassword(encodedPassword);
-    }*/
+    protected override byte[] DecryptPassword(byte[] encodedPassword)
+    {//cc
+        MachineKeySection MCsection;
+
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
+
+        MCsection = config.GetSection("system.web/machineKey") as MachineKeySection;
+
+        if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+        {
+            byte[] temp = MachineKey.Decode(ByteToUnicode(encodedPassword), MachineKeyProtection.Validation);
+            
+            return temp;
+        }
+            
+        else if (_PasswordFormat == MembershipPasswordFormat.Encrypted)
+        {
+            byte[] temp = MachineKey.Decode(ByteToUnicode(encodedPassword), MachineKeyProtection.Encryption);
+
+            return temp;
+        }
+        else
+        {
+            return encodedPassword;
+        }
+    }
 
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
     {//tc
@@ -387,11 +453,11 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression c = new ConditionExpression();
             ConditionExpression c2 = new ConditionExpression();
 
-            c.AttributeName = "rosetta_username";
+            c.AttributeName = consts.username;
             c.Operator = ConditionOperator.Equal;
             c.Values.Add(username);
 
-            c2.AttributeName = "rosetta_applicationname";
+            c2.AttributeName = consts.applicationname;
             c2.Operator = ConditionOperator.Equal;
             c2.Values.Add(_ApplicationName);
 
@@ -399,9 +465,9 @@ public class CRMMembershipProvider : MembershipProvider
             f.Conditions.Add(c);
             f.Conditions.Add(c2);
 
-            QueryExpression q = new QueryExpression("rosetta_useraccount");
-            q.ColumnSet.AddColumn("rosetta_username");
-            q.ColumnSet.AddColumn("rosetta_deleteduser");
+            QueryExpression q = new QueryExpression(consts.useraccount);
+            q.ColumnSet.AddColumn(consts.username);
+            q.ColumnSet.AddColumn(consts.deleteduser);
             q.Criteria.AddFilter(f);
 
             EntityCollection ec = service.RetrieveMultiple(q);
@@ -413,20 +479,20 @@ public class CRMMembershipProvider : MembershipProvider
             {
                 if (deleteAllRelatedData == false)
                 {
-                    if ((bool)ec.Entities[0]["rosetta_deleteduser"])
+                    if ((bool)ec.Entities[0][consts.deleteduser])
                     {
                         return false;
                     }
                     else
                     {//soft delete
-                        ec.Entities[0]["rosetta_deleteduser"] = true;
+                        ec.Entities[0][consts.deleteduser] = true;
                         service.Update(ec.Entities[0]);
                         return true;
                     }
                 }
                 else
                 {//hard delete
-                    service.Delete("rosetta_useraccount", ec.Entities[0].Id);
+                    service.Delete(consts.useraccount, ec.Entities[0].Id);
                     return true;
                 }
             }
@@ -443,15 +509,92 @@ public class CRMMembershipProvider : MembershipProvider
         get { return _EnablePasswordRetrieval; }
     }
 
-    /*protected override byte[] EncryptPassword(byte[] password)
-    {
-        return base.EncryptPassword(password);
+    protected override byte[] EncryptPassword(byte[] password)
+    {//cc
+        
+        MachineKeySection MCsection;
+
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
+
+        MCsection = config.GetSection("system.web/machineKey") as MachineKeySection;
+
+        if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+        {
+            string temp = MachineKey.Encode(password, MachineKeyProtection.Validation);
+            temp = MachineKey.Encode(StringToAscii(temp + MCsection.ValidationKey), MachineKeyProtection.Validation);
+            temp = MachineKey.Encode(StringToAscii(MCsection.DecryptionKey + temp), MachineKeyProtection.Validation);
+
+            return (StringToAscii(temp));
+        }
+
+        else if (_PasswordFormat == MembershipPasswordFormat.Encrypted)
+        {
+            string temp = MachineKey.Encode(password, MachineKeyProtection.Encryption);
+
+            return (StringToAscii(temp));
+        }
+        else
+        {
+            return password;
+        }
     }
 
     protected override byte[] EncryptPassword(byte[] password, MembershipPasswordCompatibilityMode legacyPasswordCompatibilityMode)
-    {
-        return base.EncryptPassword(password, legacyPasswordCompatibilityMode);
-    }*/
+    {//cc
+        MachineKeySection MCsection;
+
+        Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None) as Configuration;
+
+        MCsection = config.GetSection("system.web/machineKey") as MachineKeySection;
+
+        if (legacyPasswordCompatibilityMode == MembershipPasswordCompatibilityMode.Framework40)
+        {
+            if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+            {
+                string temp = MachineKey.Encode(password, MachineKeyProtection.Validation);
+                temp = MachineKey.Encode(StringToAscii(temp + MCsection.ValidationKey), MachineKeyProtection.Validation);
+                temp = MachineKey.Encode(StringToAscii(MCsection.DecryptionKey + temp), MachineKeyProtection.Validation);
+
+                return (StringToAscii(temp));
+            }
+
+            else if (_PasswordFormat == MembershipPasswordFormat.Encrypted)
+            {
+                string temp = MachineKey.Encode(password, MachineKeyProtection.Encryption);
+
+                return (StringToAscii(temp));
+            }
+            else
+            {
+                return password;
+            }
+        }
+        else
+        {
+            MCsection.CompatibilityMode = MachineKeyCompatibilityMode.Framework20SP2;
+            
+            if (_PasswordFormat == MembershipPasswordFormat.Hashed)
+            {
+                string temp = MachineKey.Encode(password, MachineKeyProtection.Validation);
+                temp = MachineKey.Encode(StringToAscii(temp + MCsection.ValidationKey), MachineKeyProtection.Validation);
+                temp = MachineKey.Encode(StringToAscii(MCsection.DecryptionKey + temp), MachineKeyProtection.Validation);
+
+                return (StringToAscii(temp));
+            }
+
+            else if (_PasswordFormat == MembershipPasswordFormat.Encrypted)
+            {
+                string temp = MachineKey.Encode(password, MachineKeyProtection.Encryption);
+
+                return (StringToAscii(temp));
+            }
+            else
+            {
+                return password;
+            }
+        }
+        
+    }
     
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
     {//JH
@@ -462,15 +605,15 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();
 
-            condition.AttributeName = "rosetta_email"; //column we want to check against
+            condition.AttributeName = consts.email; //column we want to check against
             condition.Operator = ConditionOperator.Equal; //checking against equal values
             condition.Values.Add(emailToMatch); //checks email against rosetta_email in CRM
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -479,7 +622,7 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(deleteCondition); //add conditon 2 to the filter
             filter.Conditions.Add(appCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+            QueryExpression query = new QueryExpression(consts.useraccount); //create new query
             query.ColumnSet.AllColumns = true;
             query.Criteria.AddFilter(filter); //query CRM with the new filter for email
             EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
@@ -493,7 +636,7 @@ public class CRMMembershipProvider : MembershipProvider
                 var end = (pageSize * pageSize) + (pageSize - (totalRecords % pageSize));
                 for (int i = start; i < end; i++)
                 {
-                    MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
+                    MembershipUser TempUser = GetUser((string)ec.Entities[i][consts.username]);
                     usersToReturn.Add(TempUser);
                 }
                 return usersToReturn;
@@ -513,15 +656,15 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression condition = new ConditionExpression();
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();//creates a new condition.
-            condition.AttributeName = "rosetta_username"; //column we want to check against
+            condition.AttributeName = consts.username; //column we want to check against
             condition.Operator = ConditionOperator.Equal; //checking against equal values
             condition.Values.Add(usernameToMatch); //checks email against rosetta_email in CRM
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -530,7 +673,7 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(condition);
             filter.Conditions.Add(condition);//add condition to the filter
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+            QueryExpression query = new QueryExpression(consts.useraccount); //create new query
             query.Criteria.AddFilter(filter); //query CRM with the new filter for email
             EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
 
@@ -543,7 +686,7 @@ public class CRMMembershipProvider : MembershipProvider
                 var end = (pageSize * pageIndex) + pageSize;
                 for (int i = start; i < end; i++)//gets all the records out of ec assigns them to userstoreturn.
                 {
-                    MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
+                    MembershipUser TempUser = GetUser((string)ec.Entities[i][consts.username]);
                     usersToReturn.Add(TempUser);
 
                 }
@@ -565,11 +708,11 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();//creates a new condition.
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -577,7 +720,7 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(deleteCondition);
             filter.Conditions.Add(appCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+            QueryExpression query = new QueryExpression(consts.useraccount); //create new query
             query.Criteria.AddFilter(filter);
             EntityCollection ec = service.RetrieveMultiple(query); //retrieve all records with same email
 
@@ -590,7 +733,7 @@ public class CRMMembershipProvider : MembershipProvider
                 var end = (pageSize * pageIndex) + pageSize;
                 for (int i = start; i < end; i++)
                 {
-                    MembershipUser TempUser = GetUser((string)ec.Entities[i]["rosetta_username"]);
+                    MembershipUser TempUser = GetUser((string)ec.Entities[i][consts.username]);
                     usersToReturn.Add(TempUser);
 
                 }
@@ -613,15 +756,15 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression appCondition = new ConditionExpression();
 
             //creates a new condition.
-            condition.AttributeName = "rosetta_online"; //column we want to check against.
+            condition.AttributeName = consts.online; //column we want to check against.
             condition.Operator = ConditionOperator.Equal;//sets the comparing. 
             condition.Values.Add(true);//check to see if users are online.
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -630,8 +773,8 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(deleteCondition); //add conditon 2 to the filter
             filter.Conditions.Add(appCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
-            query.ColumnSet.AddColumn("rosetta_username");
+            QueryExpression query = new QueryExpression(consts.useraccount); //create new query
+            query.ColumnSet.AddColumn(consts.username);
             query.Criteria.AddFilter(filter); //query CRM with the new filter for users online 
             EntityCollection ec = service.RetrieveMultiple(query);
 
@@ -649,19 +792,19 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression appCondition = new ConditionExpression();
             ConditionExpression lockCondition = new ConditionExpression();
             //creates a new condition
-            condition.AttributeName = "rosetta_username"; //column to check against (trying to find username)
+            condition.AttributeName = consts.username; //column to check against (trying to find username)
             condition.Operator = ConditionOperator.Equal; //checking agasint equal values
             condition.Values.Add(username); //check passed username value to password field in CRM
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
-            lockCondition.AttributeName = "rosetta_lock";
+            lockCondition.AttributeName = consts.lockn;
             lockCondition.Operator = ConditionOperator.Equal;
             lockCondition.Values.Add(false);
 
@@ -671,7 +814,7 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(appCondition);
             filter.Conditions.Add(lockCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount"); //create new query
+            QueryExpression query = new QueryExpression(consts.useraccount); //create new query
             query.ColumnSet.AllColumns = true;
             query.Criteria.AddFilter(filter); //query CRM with the new filter for username
             EntityCollection ec = service.RetrieveMultiple(query); //retireve all records with same username
@@ -687,9 +830,9 @@ public class CRMMembershipProvider : MembershipProvider
                     //hashed will return password
                     if (_RequiresQuestionAndAnswer == true) //checks if the answer to the security question is needed
                     {
-                        if ((string)ec.Entities[0]["rosetta_securityanswer"] == answer) //TODO: (Curt) encrypt
+                        if ((string)ec.Entities[0][consts.securityanswer] == answer) //TODO: (Curt) encrypt
                         {
-                            return (string)ec.Entities[0]["rosetta_password"]; //TODO: (Curt) decrypt if not hashed
+                            return (string)ec.Entities[0][consts.password]; //TODO: (Curt) decrypt if not hashed
                         }
                         else
                         {
@@ -699,7 +842,7 @@ public class CRMMembershipProvider : MembershipProvider
                     }
                     else
                     {
-                        return (string)ec.Entities[0]["rosetta_password"]; //TODO: (Curt) decrypt if not hashed
+                        return (string)ec.Entities[0][consts.password]; //TODO: (Curt) decrypt if not hashed
                     }
                 }
                 else
@@ -720,15 +863,15 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();
 
-            condition.AttributeName = "rosetta_username";
+            condition.AttributeName = consts.username;
             condition.Operator = ConditionOperator.Equal;
             condition.Values.Add(username);
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -737,7 +880,7 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(deleteCondition);
             filter.Conditions.Add(appCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount");
+            QueryExpression query = new QueryExpression(consts.useraccount);
             query.Criteria.AddFilter(filter);
             query.ColumnSet.AllColumns = true;
             EntityCollection ec = service.RetrieveMultiple(query);
@@ -748,8 +891,8 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
-                if (userIsOnline == (bool)ec.Entities[0]["rosetta_online"])
-                    return GetUser((string)ec.Entities[0]["rosetta_username"]);
+                if (userIsOnline == (bool)ec.Entities[0][consts.online])
+                    return GetUser((string)ec.Entities[0][consts.username]);
                 return null;
             }
         }
@@ -760,11 +903,11 @@ public class CRMMembershipProvider : MembershipProvider
         using (OrganizationService service = new OrganizationService(OurConnect()))
         {
 
-            ColumnSet attributes = new ColumnSet(new string[] { "rosetta_username", "rosetta_online", "rosetta_applicationname", "rosetta_deleteduser" });
-            Entity e = service.Retrieve("rosetta_useraccount", (Guid)providerUserKey, attributes);
+            ColumnSet attributes = new ColumnSet(new string[] { consts.username, consts.online, consts.applicationname, consts.deleteduser });
+            Entity e = service.Retrieve(consts.useraccount, (Guid)providerUserKey, attributes);
 
-            if (userIsOnline == (bool)e["rosetta_online"] && (string)e["rosetta_applicationname"] == _ApplicationName && (bool)e["rosetta_deleteduser"] == false)//TODO: make sure bool is casted
-                return GetUser((string)e["rosetta_username"]);
+            if (userIsOnline == (bool)e[consts.online] && (string)e[consts.applicationname] == _ApplicationName && (bool)e[consts.deleteduser] == false)//TODO: make sure bool is casted
+                return GetUser((string)e[consts.username]);
             return null;
         }
     }
@@ -778,15 +921,15 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();
 
-            condition.AttributeName = "rosetta_email";
+            condition.AttributeName = consts.email;
             condition.Operator = ConditionOperator.Equal;
             condition.Values.Add(email);
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -795,8 +938,8 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(deleteCondition);
             filter.Conditions.Add(appCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount");
-            query.ColumnSet.AddColumn("rosetta_username");
+            QueryExpression query = new QueryExpression(consts.useraccount);
+            query.ColumnSet.AddColumn(consts.username);
             query.Criteria.AddFilter(filter);
             EntityCollection collection = service.RetrieveMultiple(query);
 
@@ -805,10 +948,10 @@ public class CRMMembershipProvider : MembershipProvider
             else//return username
             {
                 Guid Retrieve_ID = collection[0].Id;
-                ColumnSet attributies = new ColumnSet(new string[] { "rosetta_username" });
-                Entity retrievedEntity = service.Retrieve("rosetta_useraccount", Retrieve_ID, attributies);
+                ColumnSet attributies = new ColumnSet(new string[] { consts.username });
+                Entity retrievedEntity = service.Retrieve(consts.useraccount, Retrieve_ID, attributies);
 
-                return retrievedEntity["rosetta_username"].ToString();
+                return retrievedEntity[consts.username].ToString();
             }
         }     
     }
@@ -869,15 +1012,15 @@ public class CRMMembershipProvider : MembershipProvider
                 ConditionExpression deleteCondition = new ConditionExpression();
                 ConditionExpression appCondition = new ConditionExpression();
 
-                condition.AttributeName = "rosetta_username";
+                condition.AttributeName = consts.username;
                 condition.Operator = ConditionOperator.Equal;
                 condition.Values.Add(username);
 
-                deleteCondition.AttributeName = "rosetta_deleteduser";
+                deleteCondition.AttributeName = consts.deleteduser;
                 deleteCondition.Operator = ConditionOperator.Equal;
                 deleteCondition.Values.Add(false);
 
-                appCondition.AttributeName = "rosetta_applicationname";
+                appCondition.AttributeName = consts.applicationname;
                 appCondition.Operator = ConditionOperator.Equal;
                 appCondition.Values.Add(_ApplicationName);
 
@@ -886,8 +1029,8 @@ public class CRMMembershipProvider : MembershipProvider
                 filter.Conditions.Add(deleteCondition);
                 filter.Conditions.Add(appCondition);
 
-                QueryExpression query = new QueryExpression("rosetta_useraccount");
-                query.ColumnSet.AddColumn("rosetta_securityanswer");
+                QueryExpression query = new QueryExpression(consts.useraccount);
+                query.ColumnSet.AddColumn(consts.securityanswer);
                 query.Criteria.AddFilter(filter);
                 EntityCollection ec = service.RetrieveMultiple(query);
 
@@ -899,7 +1042,7 @@ public class CRMMembershipProvider : MembershipProvider
                 else
                 {
                     string NewPass = Membership.GeneratePassword(_MinRequiredPasswordLength, _MinRequiredNonalphanumericCharacters); //changed to have MinRequireNonalphanumericCharacters (CC)
-                    ec.Entities[0]["rosetta_password"] = NewPass;
+                    ec.Entities[0][consts.password] = NewPass;
                     service.Update(ec.Entities[0]);
                     return NewPass;
                 }
@@ -916,15 +1059,15 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();
 
-            condition.AttributeName = "rosetta_username";
+            condition.AttributeName = consts.username;
             condition.Operator = ConditionOperator.Equal;
             condition.Values.Add(userName);
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -933,19 +1076,19 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(deleteCondition);
             filter.Conditions.Add(appCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount");
-            query.ColumnSet.AddColumns("rosetta_lock");
+            QueryExpression query = new QueryExpression(consts.useraccount);
+            query.ColumnSet.AddColumns(consts.lockn);
             query.Criteria.AddFilter(filter);
 
             EntityCollection ec = service.RetrieveMultiple(query);
 
-            if (ec.Entities.Count == 0 || !(bool)ec.Entities[0]["rosetta_lock"])
+            if (ec.Entities.Count == 0 || !(bool)ec.Entities[0][consts.lockn])
             {
                 return false; //no user or already unlocked
             }
             else
             {
-                ec.Entities[0]["rosetta_lock"] = false;
+                ec.Entities[0][consts.lockn] = false;
                 service.Update(ec.Entities[0]);
                 return true;
             }
@@ -961,15 +1104,15 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();
 
-            c.AttributeName = "rosetta_useraccountid";
+            c.AttributeName = consts.accountid;
             c.Operator = ConditionOperator.Equal;
             c.Values.Add(user.ProviderUserKey);
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -978,7 +1121,7 @@ public class CRMMembershipProvider : MembershipProvider
             f.Conditions.Add(deleteCondition);
             f.Conditions.Add(appCondition);
 
-            QueryExpression q = new QueryExpression("rosetta_useraccount");
+            QueryExpression q = new QueryExpression(consts.useraccount);
             q.ColumnSet.AllColumns = true;
             q.Criteria.AddFilter(f);
 
@@ -989,13 +1132,13 @@ public class CRMMembershipProvider : MembershipProvider
                 return;
             }
 
-            ec.Entities[0]["rosetta_username"] = user.UserName;
-            ec.Entities[0]["rosetta_securityquestion"] = user.PasswordQuestion;
-            ec.Entities[0]["rosetta_email"] = user.Email;
-            ec.Entities[0]["rosetta_timelocked"] = user.LastLockoutDate;
-            ec.Entities[0]["rosetta_lastlogin"] = user.LastLoginDate;
-            ec.Entities[0]["rosetta_accountcreation"] = user.CreationDate;
-            ec.Entities[0]["rosetta_lock"] = user.IsLockedOut;//TODO: account for acivities last password change and last activity
+            ec.Entities[0][consts.username] = user.UserName;
+            ec.Entities[0][consts.securityquestion] = user.PasswordQuestion;
+            ec.Entities[0][consts.email] = user.Email;
+            ec.Entities[0][consts.timelocked] = user.LastLockoutDate;
+            ec.Entities[0][consts.lastlogin] = user.LastLoginDate;
+            ec.Entities[0][consts.accountcreation] = user.CreationDate;
+            ec.Entities[0][consts.lockn] = user.IsLockedOut;//TODO: account for acivities last password change and last activity
 
             service.Update(ec.Entities[0]);
 
@@ -1012,15 +1155,15 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();
 
-            condition.AttributeName = "rosetta_username";
+            condition.AttributeName = consts.username;
             condition.Operator = ConditionOperator.Equal;
             condition.Values.Add(username);
 
-            deleteCondition.AttributeName = "rosetta_deleteduser";
+            deleteCondition.AttributeName = consts.deleteduser;
             deleteCondition.Operator = ConditionOperator.Equal;
             deleteCondition.Values.Add(false);
 
-            appCondition.AttributeName = "rosetta_applicationname";
+            appCondition.AttributeName = consts.applicationname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
@@ -1029,7 +1172,7 @@ public class CRMMembershipProvider : MembershipProvider
             filter.Conditions.Add(deleteCondition);
             filter.Conditions.Add(appCondition);
 
-            QueryExpression query = new QueryExpression("rosetta_useraccount");
+            QueryExpression query = new QueryExpression(consts.useraccount);
             query.ColumnSet.AllColumns = true;
             query.Criteria.AddFilter(filter);
 
@@ -1038,25 +1181,25 @@ public class CRMMembershipProvider : MembershipProvider
             if (ec.Entities.Count == 0)
                 return false;//the username does not exist
 
-            if ((bool)ec.Entities[0]["rosetta_lock"])
+            if ((bool)ec.Entities[0][consts.lockn])
                 return false;//the account is locked
 
-            if (!ec.Entities[0]["rosetta_password"].Equals(password)) //(EncryptPassword(StringToAsci(password))))//user exists, but pass is wrong
+            if (!ec.Entities[0][consts.password].Equals(password)) //(EncryptPassword(StringToAsci(password))))//user exists, but pass is wrong
             {
                 //need to log a failed login attempt
-                if (ec.Entities[0]["rosetta_firstfailed"] == null)//checking for first failed login
-                    ec.Entities[0]["rosetta_firstfailed"] = DateTime.Now;
+                if (ec.Entities[0][consts.firstfailed] == null)//checking for first failed login
+                    ec.Entities[0][consts.firstfailed] = DateTime.Now;
 
-                if ((DateTime.Now - (DateTime)ec.Entities[0]["rosetta_firstfailed"]).Minutes >= _PasswordAttemptWindow)//password window/login attempt reset
+                if ((DateTime.Now - (DateTime)ec.Entities[0][consts.firstfailed]).Minutes >= _PasswordAttemptWindow)//password window/login attempt reset
                 {
-                    ec.Entities[0]["rosetta_loginattempts"] = 0;
-                    ec.Entities[0]["rosetta_firstfailed"] = DateTime.Now;
+                    ec.Entities[0][consts.loginattempts] = 0;
+                    ec.Entities[0][consts.firstfailed] = DateTime.Now;
                 }
 
-                ec.Entities[0]["rosetta_loginattempts"] = (int)ec.Entities[0]["rosetta_loginattempts"] + 1;//increment login attempts
+                ec.Entities[0][consts.loginattempts] = (int)ec.Entities[0][consts.loginattempts] + 1;//increment login attempts
 
-                if ((int)ec.Entities[0]["rosetta_loginattempts"] >= _MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
-                    ec.Entities[0]["rosetta_lock"] = true;
+                if ((int)ec.Entities[0][consts.loginattempts] >= _MaxInvalidPasswordAttempts)//check if user has exceed max login attempts
+                    ec.Entities[0][consts.lockn] = true;
 
                 service.Update(ec.Entities[0]);//update user information
                 return false;
@@ -1064,11 +1207,11 @@ public class CRMMembershipProvider : MembershipProvider
             else
             {
                 //reset attributes of login stuff
-                ec.Entities[0]["rosetta_online"] = true;
-                ec.Entities[0]["rosetta_firstfailed"] = null;
-                ec.Entities[0]["rosetta_loginattempts"] = 0;
+                ec.Entities[0][consts.online] = true;
+                ec.Entities[0][consts.firstfailed] = null;
+                ec.Entities[0][consts.loginattempts] = 0;
                 //set last login date
-                ec.Entities[0]["rosetta_lastlogin"] = DateTime.Now;
+                ec.Entities[0][consts.lastlogin] = DateTime.Now;
                 //TODO: mark last activity
 
                 service.Update(ec.Entities[0]);
@@ -1151,3 +1294,75 @@ public class CRMMembershipProvider : MembershipProvider
     }
     */
 }
+
+/*public sealed class MachineKeySection : ConfigurationSection
+{
+
+    public MachineKeySection()
+    {
+
+    }
+
+
+    [ConfigurationProperty("validationKey",
+     DefaultValue = "",
+     IsRequired = true,
+     IsKey = true)]
+    public string ValidationKey
+    {
+        get
+        {
+            return (string)this["validationKey"];
+        }
+        set
+        {
+            this["validationKey"] = value;
+        }
+    }
+
+    [ConfigurationProperty("decryptionKey",
+        DefaultValue = "",
+        IsRequired = true,
+        IsKey = true)]
+    public string DecryptionKey
+    {
+        get
+        {
+            return (string)this["decryptionKey"];
+        }
+        set
+        {
+            this["decryptionKey"] = value;
+        }
+    }
+
+    [ConfigurationProperty("validation",
+        DefaultValue = "HMACSHA256",
+        IsRequired = false)]
+    public string Validation
+    {
+        get
+        {
+            return (int)this["validation"];
+        }
+        set
+        {
+            this["validation"] = value;
+        }
+    }
+
+    [ConfigurationProperty("decryption",
+        DefaultValue = "AES",
+        IsRequired = false)]
+    public string Decryption
+    {
+        get
+        {
+            return (int)this["decryption"];
+        }
+        set
+        {
+            this["decryption"] = value;
+        }
+    }
+}*/
