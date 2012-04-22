@@ -13,13 +13,43 @@ public class CRMProfileProvider : ProfileProvider
     /*CONSTANTS*/
     public class consts{
         private consts() {}
-        //TODO: put these in CRM along with entity userprofile
         public const string userprofile = "rosetta_userprofile";
         public const string appname = "rosetta_applicationname";
         public const string username = "rosetta_username";
-        public const string lastactivity = "rosetta_lastactivity";
-        public const string lastupdated = "rosetta_lastupdated";
         public const string isanonymous = "rosetta_isanonymous";
+
+        public const string activities = "rosetta_activities";
+        public const string activitytime = "rosetta_activitytime";
+        public const string activityid = "activityid";
+        public const string to = "to";
+        public const string from = "from";
+        public const string subject = "subject"; 
+    }
+
+    /*ACTIVITIES*/
+    protected void activity(string username, string message, bool isUpdate)
+    {
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+            Entity newActivity = new Entity(consts.activities);
+
+            newActivity[consts.activitytime] = DateTime.Now;
+            newActivity[consts.activityid] = Guid.NewGuid();
+            newActivity[consts.to] = username;
+            newActivity[consts.from] = _ApplicationName;
+            newActivity[consts.subject] = message;
+
+            if (message != "")
+                service.Create(newActivity);
+
+            if (isUpdate)
+            {
+                newActivity[consts.subject] = "Modified";
+                service.Create(newActivity);
+            }
+
+            return;
+        }
     }
     
     /*BEGINNING OF INITIALIZE FUNCTION*/
@@ -79,19 +109,13 @@ public class CRMProfileProvider : ProfileProvider
     public override int  DeleteInactiveProfiles(ProfileAuthenticationOption authenticationOption, DateTime userInactiveSinceDate)
     {//MAS
         using (OrganizationService service = new OrganizationService(OurConnect()))
-        {
-           
+        {           
             ConditionExpression appCondition = new ConditionExpression();
-            ConditionExpression lastActivityCondition = new ConditionExpression();
             ConditionExpression authenticationCondition = new ConditionExpression();
 
             appCondition.AttributeName = consts.appname;
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
-
-            lastActivityCondition.AttributeName = consts.lastactivity;
-            lastActivityCondition.Operator = ConditionOperator.OnOrBefore;
-            lastActivityCondition.Values.Add(userInactiveSinceDate);
 
             switch (authenticationOption)
             {
@@ -111,7 +135,6 @@ public class CRMProfileProvider : ProfileProvider
 
             FilterExpression filter = new FilterExpression();
             filter.Conditions.Add(appCondition);
-            filter.Conditions.Add(lastActivityCondition);
             filter.Conditions.Add(authenticationCondition);
 
             QueryExpression query = new QueryExpression(consts.userprofile);
@@ -119,9 +142,36 @@ public class CRMProfileProvider : ProfileProvider
             query.Criteria.AddFilter(filter);
             EntityCollection collection = service.RetrieveMultiple(query);
 
-            string[] usersToDelete=null;
-            for(int i=0; i<collection.TotalRecordCount; i++){
-                usersToDelete[i]=(string)collection.Entities[i][consts.username];
+            string[] usersToDelete = null;
+            int j = 0;
+            for(int i=0;i<collection.TotalRecordCount;i++)
+            {
+                ConditionExpression lastactivityCondition = new ConditionExpression();
+                ConditionExpression usernameCondition = new ConditionExpression();
+
+                lastactivityCondition.AttributeName = consts.activitytime;
+                lastactivityCondition.Operator = ConditionOperator.NotBetween;
+                lastactivityCondition.Values.Add(DateTime.Now);
+                lastactivityCondition.Values.Add(userInactiveSinceDate);
+
+                usernameCondition.AttributeName = consts.username;
+                usernameCondition.Operator = ConditionOperator.Equal;
+                usernameCondition.Values.Add(collection.Entities[0][consts.username]);
+
+                FilterExpression filter2 = new FilterExpression();
+                filter2.Conditions.Add(lastactivityCondition);
+                filter2.Conditions.Add(usernameCondition);
+
+                QueryExpression query2 = new QueryExpression(consts.userprofile);
+                query2.ColumnSet.AddColumn(consts.username);
+                query2.Criteria.AddFilter(filter);
+                EntityCollection collection2 = service.RetrieveMultiple(query);
+
+                if (collection2.Entities.Count != 0)
+                {
+                    usersToDelete[j] = (string)collection.Entities[i][consts.username];
+                    j++;
+                }
             }
 
             return DeleteProfiles(usersToDelete);
@@ -165,8 +215,7 @@ public class CRMProfileProvider : ProfileProvider
             int deletedProfiles = 0;
 
             foreach (ProfileInfo p in profiles)
-            {
-               
+            {     
                 ConditionExpression usernameCondition = new ConditionExpression();
 
                 usernameCondition.AttributeName = consts.username;
