@@ -142,6 +142,84 @@ public class CRMMembershipProvider : MembershipProvider
         return str;
     }
 
+    /*ACTIVITIES*/
+    protected void activity(string username, string message, bool isUpdate)
+    {
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+
+            Entity newActivity = new Entity(consts.activities);
+
+            newActivity[consts.activitytime] = DateTime.Now;
+            newActivity[consts.activityid] = Guid.NewGuid();
+            newActivity[consts.to] = username;
+            newActivity[consts.from] = _ApplicationName;
+            newActivity[consts.subject] = message;
+
+            if (message != "")
+                service.Create(newActivity);
+
+            if (isUpdate)
+            {
+                newActivity[consts.subject] = "Modified";
+                service.Create(newActivity);
+            }
+
+            return;
+        }
+    }
+
+    protected DateTime lastActivity(string username, string subject)
+    {
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+            ConditionExpression toCondition = new ConditionExpression();
+            ConditionExpression fromCondition = new ConditionExpression();
+            ConditionExpression subjectCondition = new ConditionExpression();
+
+            toCondition.AttributeName = consts.to;
+            toCondition.Operator = ConditionOperator.Equal;
+            toCondition.Values.Add(username);
+
+            fromCondition.AttributeName = consts.from;
+            fromCondition.Operator = ConditionOperator.Equal;
+            fromCondition.Values.Add(_ApplicationName);
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(toCondition);
+            filter.Conditions.Add(fromCondition);
+
+
+            if (subject != String.Empty)
+            {
+                subjectCondition.AttributeName = consts.subject;
+                subjectCondition.Operator = ConditionOperator.Equal;
+                subjectCondition.Values.Add(subject);
+
+                filter.Conditions.Add(subjectCondition);
+            }
+            else if (subject == "Locked")
+            {
+                ConditionExpression lockCondition = new ConditionExpression();
+
+                lockCondition.AttributeName = consts.lockn;
+                lockCondition.Operator = ConditionOperator.Equal;
+                lockCondition.Values.Add(true);
+
+                filter.Conditions.Add(lockCondition);
+            }
+
+            QueryExpression query = new QueryExpression(consts.activities);
+
+            query.ColumnSet.AddColumn(consts.activitytime);
+            query.AddOrder(consts.activitytime, OrderType.Descending);
+            query.Criteria.AddFilter(filter);
+
+            EntityCollection collection = service.RetrieveMultiple(query);
+            return (DateTime)collection.Entities[0][consts.activitytime];
+        }
+    }
+
     /*STREAMLINE GETUSER PROCESS*/
     protected MembershipUser GetUser(string username)
     {
@@ -170,11 +248,11 @@ public class CRMMembershipProvider : MembershipProvider
                 string _usernameN = (string)ec[0][consts.username];
                 string _securityQuestionN = (string)ec[0][consts.securityquestion];
                 string _emailN = (string)ec[0][consts.email];
-                DateTime _timeLockedN = (DateTime)ec[0][consts.timelocked];
-                DateTime _lastLoginTimeN = (DateTime)ec[0][consts.lastlogin];
-                DateTime _accountCreationN = (DateTime)ec[0][consts.accountcreation];
-                DateTime _lastPasswordChangedDate = DateTime.Now;//TODO: change to activities, seperate entity
-                DateTime _lastAcivityDate = DateTime.Now;
+                DateTime _timeLockedN = lastActivity(username, "Locked");
+                DateTime _lastLoginTimeN = lastActivity(username, "Login");
+                DateTime _accountCreationN = lastActivity(username, "Created On");
+                DateTime _lastPasswordChangedDate = lastActivity(username, "Password Change");
+                DateTime _lastAcivityDate = lastActivity(username, String.Empty);
                 bool _lockN = (bool)ec[0][consts.lockn];
                 Guid _accountId = (Guid)ec[0][consts.accountid];
 
@@ -194,33 +272,6 @@ public class CRMMembershipProvider : MembershipProvider
                                                           _timeLockedN);
                 return user;
             }
-        }
-    }
-    
-    /*ACTIVITIES*/
-    protected void activity(string username, string message, bool isUpdate)
-    {
-        using (OrganizationService service = new OrganizationService(OurConnect()))
-        {
-            
-            Entity newActivity = new Entity(consts.activities);
-
-            newActivity[consts.activitytime] = DateTime.Now;
-            newActivity[consts.activityid] = Guid.NewGuid();
-            newActivity[consts.to] = username;
-            newActivity[consts.from] = _ApplicationName;
-            newActivity[consts.subject] = message;
-
-            if (message != "")
-                service.Create(newActivity);
-            
-            if (isUpdate)
-            {
-                newActivity[consts.subject] = "Modified";
-                service.Create(newActivity);
-            }
-  
-            return;
         }
     }
 
@@ -281,6 +332,7 @@ public class CRMMembershipProvider : MembershipProvider
             { 
                 collection.Entities[0]["rosetta_password"] = EncryptPassword(StringToAscii(oldPassword));
                 collection.Entities[0][consts.password] = EncryptPassword(StringToAscii(oldPassword));
+                activity(username, "Password Change", true);
 
                 service.Update(collection.Entities[0]);
                 return true;
@@ -1195,7 +1247,7 @@ public class CRMMembershipProvider : MembershipProvider
 
                 activitytimeCondition.AttributeName = consts.activitytime;
                 activitytimeCondition.Operator = ConditionOperator.OnOrAfter;
-                activitytimeCondition.Values.Add(DateTime.Now - DateTime.Now.AddMinutes(-(_PasswordAttemptWindow));
+                activitytimeCondition.Values.Add(DateTime.Now - DateTime.Now.AddMinutes(-(_PasswordAttemptWindow)));
 
                 FilterExpression filter2 = new FilterExpression();
                 filter2.Conditions.Add(activitytimeCondition);
@@ -1213,7 +1265,7 @@ public class CRMMembershipProvider : MembershipProvider
                 }
                 else if(collection2.Entities.Count ==  _MaxInvalidPasswordAttempts)
                 {
-                    activity(username, "User Locked", true);
+                    activity(username, "Locked", true);
                     collection.Entities[0][consts.lockn] = true;
                     collection.Entities[0][consts.loginattempts] = 0;
                 }

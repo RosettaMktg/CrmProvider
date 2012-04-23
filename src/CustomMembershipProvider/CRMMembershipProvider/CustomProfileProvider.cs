@@ -51,7 +51,47 @@ public class CRMProfileProvider : ProfileProvider
             return;
         }
     }
-    
+
+    protected DateTime lastActivity(string username, string subject)
+    {
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+            ConditionExpression toCondition = new ConditionExpression();
+            ConditionExpression fromCondition = new ConditionExpression();
+            ConditionExpression subjectCondition = new ConditionExpression();
+
+            toCondition.AttributeName = consts.to;
+            toCondition.Operator = ConditionOperator.Equal;
+            toCondition.Values.Add(username);
+
+            fromCondition.AttributeName = consts.from;
+            fromCondition.Operator = ConditionOperator.Equal;
+            fromCondition.Values.Add(_ApplicationName);
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(toCondition);
+            filter.Conditions.Add(fromCondition);
+            
+
+            if (subject != String.Empty)
+            {
+                subjectCondition.AttributeName = consts.subject;
+                subjectCondition.Operator = ConditionOperator.Equal;
+                subjectCondition.Values.Add(subject);
+            }
+            
+            QueryExpression query = new QueryExpression(consts.activities);
+
+            query.ColumnSet.AddColumn(consts.activitytime);
+            query.AddOrder(consts.activitytime, OrderType.Descending);
+            query.Criteria.AddFilter(filter);
+
+            EntityCollection collection = service.RetrieveMultiple(query);
+            return (DateTime)collection.Entities[0][consts.activitytime];
+        }
+    }
+
+
     /*BEGINNING OF INITIALIZE FUNCTION*/
     protected string _ApplicationName;
     protected string _ConnectionStringName;
@@ -146,28 +186,7 @@ public class CRMProfileProvider : ProfileProvider
             int j = 0;
             for(int i=0;i<collection.TotalRecordCount;i++)
             {
-                ConditionExpression lastactivityCondition = new ConditionExpression();
-                ConditionExpression usernameCondition = new ConditionExpression();
-
-                lastactivityCondition.AttributeName = consts.activitytime;
-                lastactivityCondition.Operator = ConditionOperator.NotBetween;
-                lastactivityCondition.Values.Add(DateTime.Now);
-                lastactivityCondition.Values.Add(userInactiveSinceDate);
-
-                usernameCondition.AttributeName = consts.username;
-                usernameCondition.Operator = ConditionOperator.Equal;
-                usernameCondition.Values.Add(collection.Entities[0][consts.username]);
-
-                FilterExpression filter2 = new FilterExpression();
-                filter2.Conditions.Add(lastactivityCondition);
-                filter2.Conditions.Add(usernameCondition);
-
-                QueryExpression query2 = new QueryExpression(consts.userprofile);
-                query2.ColumnSet.AddColumn(consts.username);
-                query2.Criteria.AddFilter(filter);
-                EntityCollection collection2 = service.RetrieveMultiple(query);
-
-                if (collection2.Entities.Count != 0)
+                if (DateTime.Compare(lastActivity((string)collection.Entities[i][consts.username], String.Empty), userInactiveSinceDate) < 0)
                 {
                     usersToDelete[j] = (string)collection.Entities[i][consts.username];
                     j++;
@@ -275,9 +294,10 @@ public class CRMProfileProvider : ProfileProvider
             {
                 ConditionExpression lastActivityCondition = new ConditionExpression();
 
-                lastActivityCondition.AttributeName = consts.lastactivity;
-                lastActivityCondition.Operator = ConditionOperator.OnOrBefore;
+                lastActivityCondition.AttributeName = consts.subject;
+                lastActivityCondition.Operator = ConditionOperator.NotBetween;
                 lastActivityCondition.Values.Add(userInactiveSinceDate);
+                lastActivityCondition.Values.Add(DateTime.Now);
 
                 filter.Conditions.Add(lastActivityCondition);
             }
@@ -303,9 +323,6 @@ public class CRMProfileProvider : ProfileProvider
                 break;
             }
 
-
-            // Get the data.
-
             ProfileInfoCollection profiles = new ProfileInfoCollection();
 
             try
@@ -314,8 +331,6 @@ public class CRMProfileProvider : ProfileProvider
 
                 query.ColumnSet.AddColumn(consts.username);
                 query.ColumnSet.AddColumn(consts.isanonymous);
-                query.ColumnSet.AddColumn(consts.lastactivity);
-                query.ColumnSet.AddColumn(consts.lastupdated);
                 query.Criteria.AddFilter(filter);
 
                 EntityCollection collection = service.RetrieveMultiple(query);
@@ -330,8 +345,8 @@ public class CRMProfileProvider : ProfileProvider
                     {
                         ProfileInfo p = new ProfileInfo((string)collection.Entities[i][consts.username],
                                                         (bool)collection.Entities[i][consts.isanonymous],
-                                                        (DateTime)collection.Entities[i][consts.lastactivity],
-                                                        (DateTime)collection.Entities[i][consts.lastupdated],
+                                                        lastActivity((string)collection.Entities[i][consts.username], String.Empty),
+                                                        lastActivity((string)collection.Entities[i][consts.username], "Modified"),
                                                         0);
                         profiles.Add(p);
                     }
@@ -345,8 +360,8 @@ public class CRMProfileProvider : ProfileProvider
                     {
                         ProfileInfo p = new ProfileInfo((string)collection.Entities[i][consts.username],
                                                         (bool)collection.Entities[i][consts.isanonymous],
-                                                        (DateTime)collection.Entities[i][consts.lastactivity],
-                                                        (DateTime)collection.Entities[i][consts.lastupdated],
+                                                        lastActivity((string)collection.Entities[i][consts.username], String.Empty),
+                                                        lastActivity((string)collection.Entities[i][consts.username], "Modified"),
                                                         0);
                         profiles.Add(p);
                     }
