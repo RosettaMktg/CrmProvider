@@ -113,6 +113,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*CONNECTION AND QUERY*/
+    //Used to establish a connection to CRM database
     protected OrganizationService OurConnect()
     {
         var connection = new CrmConnection(_ConnectionStringName);
@@ -121,6 +122,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*CONVERT STRING TP ASCI FOR ENCRYPT/DECRYPT*/
+    //Takes a string as input, encodes string to byte and returns type byte
     static private byte[] StringToAscii(string password)
     {
         if (password != null)
@@ -135,6 +137,7 @@ public class CRMMembershipProvider : MembershipProvider
             
     }
 
+    //Receives input of type byte, encodes to and returns a string
     private string ByteToUnicode(byte[] encodedPassword)
     {
         string str = System.Text.Encoding.Unicode.GetString(encodedPassword);
@@ -143,6 +146,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*ACTIVITIES*/
+    //Reads a username of type string, a message of type string, and a boolean value to record activities associated with the username received
     protected void activity(string username, string message, bool isUpdate)
     {
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -169,6 +173,7 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //Receives a username string and a subject string, returning the time of the last activity associated with the specfied subject and user
     protected DateTime lastActivity(string username, string subject)
     {
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -221,6 +226,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*STREAMLINE GETUSER PROCESS*/
+    //receives a username string and returns a MembershipUser based on the specified username
     protected MembershipUser GetUser(string username)
     {
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -276,6 +282,7 @@ public class CRMMembershipProvider : MembershipProvider
     }
 
     /*MEMBERSHIP FUNCTIONS*/
+    //retrieves and sets the application name of type string
     public override string ApplicationName
     {
         get{
@@ -286,6 +293,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //CHANGE PASSWORD
+    //reads in a username string, an old password strng, and a new password. If the old password is correct 
+    //the password is changed to the new password and returns true, otherwise returns false
     public override bool ChangePassword(string username, string oldPassword, string newPassword)
     {
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -340,6 +350,10 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //CHANGE SECURITY QUESTION AND ANSWER
+    //Requires a username, password, a new Password Question, and new Password Answer string
+    //Returns a boolean value of true if the username and password match and modifies the password question and answer in the user account
+    //Returns false if password is incorrect
     public override bool ChangePasswordQuestionAndAnswer(string username, string password, string newPasswordQuestion, string newPasswordAnswer)
     {
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -393,6 +407,8 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
     
+    //Takes as input a username, password, email, password question and answer of type string; a boolean value for approval, a provider user key object, and a status variable of type Membership Create Status
+    //Returns a Membership user after creating a new user account in CRM with the specified input (userame, password, email, password question and answer)
     public override MembershipUser CreateUser(string username, string password, string email, string passwordQuestion, string passwordAnswer, bool isApproved, object providerUserKey, out MembershipCreateStatus status)
     {
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -467,6 +483,7 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
     
+    //receives and encoded password of type byte, decrypts it and reterns the decrypted password of type byte
     protected override byte[] DecryptPassword(byte[] encodedPassword)
     {//cc
         MachineKeySection MCsection;
@@ -494,6 +511,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receives a username string and a "delete all related data" boolean
+    //returns false if the user does not exist
+    //returns true if user data was deleted(soft delete, hard delete optional)
     public override bool DeleteUser(string username, bool deleteAllRelatedData)
     {//tc
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -547,16 +567,19 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //returns the boolean value for password resetting permissions
     public override bool EnablePasswordReset
     {
         get { return _EnablePasswordReset; }
     }
 
+    //returns the boolean value for password retrieval permissions
     public override bool EnablePasswordRetrieval
     {
         get { return _EnablePasswordRetrieval; }
     }
 
+    //receives a password of type byte, encrypts it and returns type byte
     protected override byte[] EncryptPassword(byte[] password)
     {//cc
         
@@ -587,6 +610,7 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receives a password of type byte, Legacy Password Compatibility settings
     protected override byte[] EncryptPassword(byte[] password, MembershipPasswordCompatibilityMode legacyPasswordCompatibilityMode)
     {//cc
         MachineKeySection MCsection;
@@ -644,6 +668,9 @@ public class CRMMembershipProvider : MembershipProvider
         
     }
     
+    //receives an email address of type string, an index and page size of type integer and total records of out integer
+    //returns a collection of usernames that match the email string received as input
+    //returns NULL if no users with given email address were found
     public override MembershipUserCollection FindUsersByEmail(string emailToMatch, int pageIndex, int pageSize, out int totalRecords)
     {//JH
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -696,6 +723,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receives a username of type string, and page index and page size of type integer and total records of type out integer
+    //returns a collection of users that match the given username
+    //returns NULL if no users match the given username
     public override MembershipUserCollection FindUsersByName(string usernameToMatch, int pageIndex, int pageSize, out int totalRecords)
     {//MAS
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -748,6 +778,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receives as input a page index and page size of type integer and the total records of type out integer
+    //returns a collection containing all the users in the CRM account
+    //returns NULL if there are no users to return
     public override MembershipUserCollection GetAllUsers(int pageIndex, int pageSize, out int totalRecords)
     {//MAS
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -795,6 +828,7 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //returns an integer of the number of users currently online
     public override int GetNumberOfUsersOnline()
     {//JH
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -831,6 +865,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receives a username and a security answer of type string
+    //returns a NULL string if the answer does not match the users security answer or if user does not exist
+    //returns a string containing the user's password if all is correct
     public override string GetPassword(string username, string answer)
     {//CC
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -903,6 +940,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receives a username of type string and a boolean value of the user's online status
+    //returns NULL if user is not online or if user does not exist
+    //returns user data of type MembershipUser if user is online
     public override MembershipUser GetUser(string username, bool userIsOnline)
     {//JH
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -947,6 +987,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receives a provider use key object and user online status boolean value
+    //returns NULL if user is not online
+    //returns Membership user type of user specified by provider user key object
     public override MembershipUser GetUser(object providerUserKey, bool userIsOnline)
     {//MAS
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -960,6 +1003,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
     
+    //receives a email of type string
+    //returns NULL if you users with specified email exist
+    //returns a string containing the first user with specified email
     public override string GetUserNameByEmail(string email)
     {//bcd
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -1003,46 +1049,58 @@ public class CRMMembershipProvider : MembershipProvider
         }     
     }
 
+
+    //returns an integer representing the number of Invalid Password Attempts allowed
     public override int MaxInvalidPasswordAttempts
     {
         get { return _MaxInvalidPasswordAttempts; }
     }
 
+    //returns an integer representing the minimum number of non alpha-numeric characters required in a password
     public override int MinRequiredNonAlphanumericCharacters
     {
         get { return _MinRequiredNonalphanumericCharacters; }
     }
    
+    //returns an integer representing the mininum password length permitted
     public override int MinRequiredPasswordLength
     {
         get { return _MinRequiredPasswordLength; } 
     }
 
+    //returns an integer representing the password attempt windwon in minutes
     public override int PasswordAttemptWindow
     {
         get { return _PasswordAttemptWindow; }
     }
 
+    //returns the password format settings for user accounts of type MembershipPasswordFormat
     public override MembershipPasswordFormat PasswordFormat
     {
         get { return _PasswordFormat; }
     }
 
+    //returns a string that is the regular expression used to determine password strength
     public override string PasswordStrengthRegularExpression
     {
         get { return _PasswordStrengthRegularExpression; }
     }
 
+    //returns the boolean value for Security Question and Answer requirements
     public override bool RequiresQuestionAndAnswer
     {
         get { return _RequiresQuestionAndAnswer; }
     }
 
+    //returns the boolean value for unique email address requirements
     public override bool RequiresUniqueEmail
     {
         get { return _RequireUniqueEmail; }
     }
 
+    //receives the username and security answer strings
+    //returns null if the security answer is incorrect
+    //returns a reset password string if security answer is correct
     public override string ResetPassword(string username, string answer)
     {//bcd
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -1102,6 +1160,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //recevies a username string
+    //returns false if user does not exist or is already unlocked
+    //returns true if user was locked, and unlocks the user account
     public override bool UnlockUser(string userName)
     {
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -1148,6 +1209,8 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receieves user data in the form of a MembershipUser type
+    //overides any existing data with data in user
     public override void UpdateUser(MembershipUser user)
     {//TC
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -1196,6 +1259,9 @@ public class CRMMembershipProvider : MembershipProvider
         }
     }
 
+    //receives username and password strings
+    //returns true if password is correct
+    //returns false is password is incorrect or user does not exist
     public override bool ValidateUser(string username, string password)
     {//bcd
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -1285,7 +1351,7 @@ public class CRMMembershipProvider : MembershipProvider
             }
         }
     }   
- 
+    
     private int checkPasswordReq(string password) //private function used to check that the passwords follow the requirements from the web.config
     {//CC
         //This function will return either 0, 1, 2, or 3. 
