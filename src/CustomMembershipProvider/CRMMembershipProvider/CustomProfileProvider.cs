@@ -13,11 +13,14 @@ public class CRMProfileProvider : ProfileProvider
     /*CONSTANTS*/
     public class consts{
         private consts() {}
+        /*Profile Variables*/
         public const string userprofile = "rosetta_userprofile";
         public const string appname = "rosetta_applicationname";
         public const string username = "rosetta_username";
         public const string isanonymous = "rosetta_isanonymous";
+        public const string profileid = "rosetta_userprofileId";
 
+        /*Activity Variables*/
         public const string activities = "rosetta_activities";
         public const string activitytime = "rosetta_activitytime";
         public const string activityid = "activityid";
@@ -91,6 +94,63 @@ public class CRMProfileProvider : ProfileProvider
         }
     }
 
+    private Guid GetUniqueID(string username, bool isAuthenticated, bool ignoreAuthenticationType)
+    {
+        if (username == null)
+            throw new ArgumentNullException("User name cannot be null.");
+        using (OrganizationService service = new OrganizationService(OurConnect()))
+        {
+            ConditionExpression usernameCondition = new ConditionExpression();
+            ConditionExpression appCondition = new ConditionExpression();
+
+            usernameCondition.AttributeName = consts.username;
+            usernameCondition.Operator = ConditionOperator.Equal;
+            usernameCondition.Values.Add(username);
+
+            appCondition.AttributeName = consts.appname;
+            appCondition.Operator = ConditionOperator.Equal;
+            appCondition.Values.Add(_ApplicationName);
+
+            FilterExpression filter = new FilterExpression();
+            filter.Conditions.Add(usernameCondition);
+            filter.Conditions.Add(appCondition);
+
+            if (!ignoreAuthenticationType)
+            {
+                ConditionExpression isanonymousCondition = new ConditionExpression();
+
+                isanonymousCondition.AttributeName = consts.isanonymous;
+                isanonymousCondition.Operator = ConditionOperator.Equal;
+                isanonymousCondition.Values.Add(!isAuthenticated);
+
+                filter.Conditions.Add(isanonymousCondition);
+
+            }
+
+            QueryExpression query = new QueryExpression(consts.userprofile);
+            query.ColumnSet.AddColumn(consts.profileid);
+            query.Criteria.AddFilter(filter);
+            EntityCollection collection = service.RetrieveMultiple(query);
+
+            Guid uniqueID;
+            if (collection.Entities.Count != 0)
+                uniqueID = (Guid)collection.Entities[0][consts.profileid];
+            else
+            {
+                Entity newProfile = new Entity(consts.userprofile);
+
+                newProfile[consts.username] = username;
+                newProfile[consts.appname] = _ApplicationName;
+                newProfile[consts.isanonymous] = !isAuthenticated;
+
+                uniqueID = (Guid)service.Create(newProfile);
+
+                activity(username, "Profile Created", true);
+            }
+
+            return uniqueID;
+        }
+    }
 
     /*BEGINNING OF INITIALIZE FUNCTION*/
     protected string _ApplicationName;
@@ -108,7 +168,7 @@ public class CRMProfileProvider : ProfileProvider
             throw new ArgumentNullException("No configuration file found.");
 
         if (name == null || name.Length == 0)
-            name = "CustomMembershipProvider";
+            name = "CustomProfileProvider";
 
         if (String.IsNullOrEmpty(config["description"]))
         {
@@ -427,31 +487,35 @@ public class CRMProfileProvider : ProfileProvider
 
     public override System.Configuration.SettingsPropertyValueCollection  GetPropertyValues(System.Configuration.SettingsContext context, System.Configuration.SettingsPropertyCollection collection)
     {//JH
+        string username = (string)context["UserName"];
 
-        SettingsPropertyValueCollection values = new SettingsPropertyValueCollection();
+        SettingsPropertyValueCollection svc = new SettingsPropertyValueCollection();
 
-        using (OrganizationService service = new OrganizationService(OurConnect()))
+        foreach (SettingsProperty prop in collection)
         {
-            foreach (SettingsProperty property in collection)
-            {
-            
-           
-            
-            }
-        
-        
+            SettingsPropertyValue pv = new SettingsPropertyValue(prop);
+            svc.Add(pv);
         }
-        
-        
-        
-        
-        
-        
-        throw new NotImplementedException();
+
+        activity(username, "Got Property Values", false);
+
+        return svc;
     }
 
     public override void  SetPropertyValues(System.Configuration.SettingsContext context, System.Configuration.SettingsPropertyValueCollection collection)
     {//JH
- 	    throw new NotImplementedException();
+        string username = (string)context["UserName"];
+        bool isAuthenticated = (bool)context["IsAuthenticated"];
+        Guid uniqueID = GetUniqueID(username, isAuthenticated, false);
+
+        SettingsPropertyValueCollection svc = new SettingsPropertyValueCollection();
+
+        foreach (SettingsProperty prop in collection)
+        {
+            SettingsPropertyValue pv = new SettingsPropertyValue(prop);
+            svc.Add(pv);
+        }
+
+        activity(username, "Set property values", false);
     }
 }
