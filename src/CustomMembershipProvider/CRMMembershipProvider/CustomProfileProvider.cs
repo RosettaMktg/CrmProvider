@@ -22,10 +22,10 @@ public class CRMProfileProvider : ProfileProvider
 
         /*Activity Variables*/
         public const string activities = "rosetta_activities";
-        public const string activitytime = "rosetta_activitytime";
+        public const string to = "rosetta_receivedby";
+        public const string from = "rosetta_givenby";
+        public const string activitytime = "createdon";
         public const string activityid = "activityid";
-        public const string to = "to";
-        public const string from = "from";
         public const string subject = "subject"; 
     }
 
@@ -277,8 +277,6 @@ public class CRMProfileProvider : ProfileProvider
                 query.ColumnSet.AddColumn(consts.username);
                 query.Criteria.AddFilter(filter);
                 EntityCollection collection = service.RetrieveMultiple(query);
-
-               //TODO: throw exception if profile not found?
 
                 service.Delete(consts.userprofile, collection.Entities[0].Id);
                 deletedProfiles++;

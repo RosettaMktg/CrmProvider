@@ -112,9 +112,9 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CRMMembershipProvider\CRMMembershipProvider.csproj">
+    <ProjectReference Include="..\CRMMembershipProvider\CRMProvider.csproj">
       <Project>{D07DAED6-89ED-4799-99BC-FD178C12CD97}</Project>
-      <Name>CRMMembershipProvider</Name>
+      <Name>CRMProvider</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

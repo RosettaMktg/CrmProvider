@@ -21,8 +21,6 @@ using Microsoft.Xrm.Sdk.Discovery;
 using Microsoft.Xrm.Client.Services;
 using Microsoft.Xrm.Sdk.Metadata;
 
-
-
 public class CRMMembershipProvider : MembershipProvider
 {
     /*CONSTANTS*/
@@ -47,10 +45,10 @@ public class CRMMembershipProvider : MembershipProvider
 
         /*Activity variables*/
         public const string activities = "rosetta_activities";
-        public const string activitytime = "rosetta_activitytime";
+        public const string to = "rosetta_receivedby";
+        public const string from = "rosetta_givenby";
+        public const string activitytime = "createdon";
         public const string activityid = "activityid";
-        public const string to = "to";
-        public const string from= "from";
         public const string subject = "subject";
     }
     
@@ -165,6 +163,8 @@ public class CRMMembershipProvider : MembershipProvider
 
             if (isUpdate)
             {
+                newActivity[consts.activitytime] = DateTime.Now;
+                newActivity[consts.activityid] = Guid.NewGuid();
                 newActivity[consts.subject] = "Modified";
                 service.Create(newActivity);
             }
@@ -439,11 +439,26 @@ public class CRMMembershipProvider : MembershipProvider
             }
             else
             {
+                if (_RequiresQuestionAndAnswer)
+                {
+                    if (passwordAnswer == null)
+                    {
+                        status = MembershipCreateStatus.InvalidAnswer;
+                        return null;
+                    }
+                    if (passwordQuestion == null)
+                    {
+                        status = MembershipCreateStatus.InvalidQuestion;
+                        return null;
+                    }
+                }
+
                 if (_RequireUniqueEmail && GetUserNameByEmail(email) != null)
                 {
                     status = MembershipCreateStatus.DuplicateEmail;
                     return null;
                 }
+                
                 else
                 {
                     if (providerUserKey == null)
@@ -463,14 +478,14 @@ public class CRMMembershipProvider : MembershipProvider
                     newMember[consts.accountid] = providerUserKey;
                     newMember[consts.name] = "";
                     newMember[consts.username] = username;
-                    newMember[consts.password] = ByteToUnicode(EncryptPassword(StringToAscii(password)));//Encoding.ASCII.GetString(EncryptPassword(StringToAsci(password)));
+                    newMember[consts.password] = password;
                     newMember[consts.email] = email;
                     newMember[consts.securityquestion] = passwordQuestion;
-                    newMember[consts.securityanswer] = ByteToUnicode(EncryptPassword(StringToAscii(passwordAnswer)));
+                    newMember[consts.securityanswer] = passwordAnswer;
                     newMember[consts.appname] = _ApplicationName;
                     newMember[consts.deleteduser] = false;
                     newMember[consts.lockn] = false;
-                    newMember[consts.online] = false;
+                    newMember[consts.online] = true;
                     newMember[consts.loginattempts] = 0;
 
                     Guid _accountID = service.Create(newMember);
@@ -785,7 +800,7 @@ public class CRMMembershipProvider : MembershipProvider
     {//MAS
         using (OrganizationService service = new OrganizationService(OurConnect()))
         {
-            //TODO: reduce to one function?
+        
 
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();//creates a new condition.
@@ -1261,7 +1276,7 @@ public class CRMMembershipProvider : MembershipProvider
 
     //receives username and password strings
     //returns true if password is correct
-    //returns false is password is incorrect or user does not exist
+    //returns false if password is incorrect or user does not exist
     public override bool ValidateUser(string username, string password)
     {//bcd
         using (OrganizationService service = new OrganizationService(OurConnect()))
@@ -1269,7 +1284,6 @@ public class CRMMembershipProvider : MembershipProvider
             ConditionExpression usernameCondition = new ConditionExpression();
             ConditionExpression deleteCondition = new ConditionExpression();
             ConditionExpression appCondition = new ConditionExpression();
-            ConditionExpression lockCondition = new ConditionExpression();
 
             usernameCondition.AttributeName = consts.username;
             usernameCondition.Operator = ConditionOperator.Equal;
@@ -1283,15 +1297,10 @@ public class CRMMembershipProvider : MembershipProvider
             appCondition.Operator = ConditionOperator.Equal;
             appCondition.Values.Add(_ApplicationName);
 
-            lockCondition.AttributeName = consts.lockn;
-            lockCondition.Operator = ConditionOperator.Equal;
-            lockCondition.Values.Add(false);
-
             FilterExpression filter = new FilterExpression();
             filter.Conditions.Add(usernameCondition);
             filter.Conditions.Add(deleteCondition);
             filter.Conditions.Add(appCondition);
-            filter.Conditions.Add(lockCondition);
 
             QueryExpression query = new QueryExpression(consts.useraccount);
             query.ColumnSet.AllColumns = true;
@@ -1300,8 +1309,10 @@ public class CRMMembershipProvider : MembershipProvider
             EntityCollection collection = service.RetrieveMultiple(query);
 
             if (collection.Entities.Count == 0)
-                return false;//the username does not exist
-
+                return false;
+            if ((bool)collection.Entities[0][consts.lockn])
+                return false;
+           
             if (!collection.Entities[0][consts.password].Equals(password)) //TODO: (Curt) encrypt(EncryptPassword(StringToAsci(password))))//user exists, but pass is wrong
             {
                 ConditionExpression failedCondition = new ConditionExpression();
@@ -1313,16 +1324,17 @@ public class CRMMembershipProvider : MembershipProvider
 
                 activitytimeCondition.AttributeName = consts.activitytime;
                 activitytimeCondition.Operator = ConditionOperator.OnOrAfter;
-                activitytimeCondition.Values.Add(DateTime.Now - DateTime.Now.AddMinutes(-(_PasswordAttemptWindow)));
+                activitytimeCondition.Values.Add(DateTime.Now.AddMinutes((double)(-_PasswordAttemptWindow)));
 
                 FilterExpression filter2 = new FilterExpression();
+                filter2.Conditions.Add(failedCondition);
                 filter2.Conditions.Add(activitytimeCondition);
                
-                QueryExpression query2 = new QueryExpression(consts.useraccount);
+                QueryExpression query2 = new QueryExpression(consts.activities);
                 query2.ColumnSet.AllColumns = true;
-                query2.Criteria.AddFilter(filter);
+                query2.Criteria.AddFilter(filter2);
 
-                EntityCollection collection2 = service.RetrieveMultiple(query);
+                EntityCollection collection2 = service.RetrieveMultiple(query2);
 
                 if(collection2.Entities.Count < _MaxInvalidPasswordAttempts)
                 {

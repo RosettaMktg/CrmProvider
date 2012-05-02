@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMembershipProvider", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CustomMembershipProvider.Tests", "CustomMembershipProvider.Tests\CustomMembershipProvider.Tests.csproj", "{0F5350C5-F919-4821-9E2D-23C39EBAC513}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMMembershipProvider", "CRMMembershipProvider\CRMMembershipProvider.csproj", "{D07DAED6-89ED-4799-99BC-FD178C12CD97}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMProvider", "CRMMembershipProvider\CRMProvider.csproj", "{D07DAED6-89ED-4799-99BC-FD178C12CD97}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
